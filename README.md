@@ -1,5 +1,6 @@
 ## Hello Spring Server
 - 개인 서버입니다~
+- 개발자들의 겨울은 끝났고 봄이 왔다...
 
 ## 서버 스펙
 - Spring Boot 3.2.0
