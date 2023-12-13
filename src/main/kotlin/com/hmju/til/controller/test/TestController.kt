@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/test")
+@Suppress("unused")
 class TestController {
 
     @GetMapping
