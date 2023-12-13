@@ -40,4 +40,4 @@ out/
 .java-version
 
 ### LOG
-.log
+/logs/
