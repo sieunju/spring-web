@@ -41,3 +41,5 @@ out/
 
 ### LOG
 /logs/
+application.properties
+/release/
