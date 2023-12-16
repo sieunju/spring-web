@@ -40,3 +40,11 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.register("releaseJar",Copy::class.java) {
+    delete("release/")
+    from("build/libs/")
+    into("release/")
+    include("${rootProject.name}-${rootProject.version}.jar")
+    rename("${rootProject.name}-${rootProject.version}.jar","til-api-server.jar")
+}
