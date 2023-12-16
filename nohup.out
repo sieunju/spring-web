@@ -1,0 +1,51 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2023-12-16T10:40:50.225+09:00  INFO 33297 --- [           main] com.hmju.til.TilApplicationKt            : Starting TilApplicationKt v0.0.1 using Java 17.0.7 with PID 33297 (/Users/juhongmin/Documents/workStudio-server/til/release/server.jar started by juhongmin in /Users/juhongmin/Documents/workStudio-server/til)
+2023-12-16T10:40:50.230+09:00  INFO 33297 --- [           main] com.hmju.til.TilApplicationKt            : The following 1 profile is active: "hello it's me"
+2023-12-16T10:40:50.739+09:00  WARN 33297 --- [           main] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2023-12-16T10:40:50.750+09:00  INFO 33297 --- [           main] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2023-12-16T10:40:50.750+09:00  INFO 33297 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 458 ms
+2023-12-16T10:40:51.071+09:00  INFO 33297 --- [           main] org.xnio                                 : XNIO version 3.8.8.Final
+2023-12-16T10:40:51.075+09:00  INFO 33297 --- [           main] org.xnio.nio                             : XNIO NIO Implementation Version 3.8.8.Final
+2023-12-16T10:40:51.112+09:00  INFO 33297 --- [           main] org.jboss.threads                        : JBoss Threads version 3.5.0.Final
+2023-12-16T10:40:51.137+09:00  INFO 33297 --- [           main] io.undertow                              : starting server: Undertow - 2.3.10.Final
+2023-12-16T10:40:51.161+09:00  INFO 33297 --- [           main] o.s.b.w.e.undertow.UndertowWebServer     : Undertow started on port 10772 (http)
+2023-12-16T10:40:51.165+09:00  INFO 33297 --- [           main] com.hmju.til.TilApplicationKt            : Started TilApplicationKt in 1.19 seconds (process running for 1.438)
+2023-12-16T10:40:56.963+09:00  INFO 33297 --- [  XNIO-2 task-2] io.undertow.servlet                      : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-16T10:40:56.963+09:00  INFO 33297 --- [  XNIO-2 task-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-12-16T10:40:56.964+09:00  INFO 33297 --- [  XNIO-2 task-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-12-16T11:23:07.779+09:00  INFO 33297 --- [ionShutdownHook] io.undertow                              : stopping server: Undertow - 2.3.10.Final
+Exception in thread "XNIO-2 task-2" java.lang.NoClassDefFoundError: org/jboss/threads/ContextClassLoaderSavingRunnable
+	at org.jboss.threads.JBossExecutors.classLoaderPreservingTaskUnchecked(JBossExecutors.java:311)
+	at org.jboss.threads.JBossExecutors.classLoaderPreservingTask(JBossExecutors.java:292)
+	at org.jboss.threads.EnhancedQueueExecutor.completeTermination(EnhancedQueueExecutor.java:1906)
+	at org.jboss.threads.EnhancedQueueExecutor.tryDeallocateThread(EnhancedQueueExecutor.java:1738)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1557)
+	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1282)
+2023-12-16T11:23:07.790+09:00  INFO 33297 --- [ionShutdownHook] io.undertow.servlet                      : Destroying Spring FrameworkServlet 'dispatcherServlet'
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.ClassNotFoundException: org.jboss.threads.ContextClassLoaderSavingRunnable
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:445)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:587)
+	at org.springframework.boot.loader.net.protocol.jar.JarUrlClassLoader.loadClass(JarUrlClassLoader.java:104)
+	at org.springframework.boot.loader.launch.LaunchedClassLoader.loadClass(LaunchedClassLoader.java:91)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520)
+	... 7 more
+Exception in thread "XNIO-1 task-2" java.lang.NoClassDefFoundError: org/jboss/threads/ContextClassLoaderSavingRunnable
+	at org.jboss.threads.JBossExecutors.classLoaderPreservingTaskUnchecked(JBossExecutors.java:311)
+	at org.jboss.threads.JBossExecutors.classLoaderPreservingTask(JBossExecutors.java:292)
+	at org.jboss.threads.EnhancedQueueExecutor.completeTermination(EnhancedQueueExecutor.java:1906)
+	at org.jboss.threads.EnhancedQueueExecutor.tryDeallocateThread(EnhancedQueueExecutor.java:1738)
+	at org.jboss.threads.EnhancedQueueExecutor.deallocateThread(EnhancedQueueExecutor.java:1715)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1597)
+	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1282)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.ClassNotFoundException: org.jboss.threads.ContextClassLoaderSavingRunnable
+	... 8 more
