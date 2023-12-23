@@ -1,4 +1,4 @@
-package com.hmju.til.model.base
+package com.hmju.til.core.model
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -78,18 +78,20 @@ class JSendResponse<T, M : JSendMeta> private constructor(
          * @see JSendList
          * @see JSendEmpty
          */
-        fun getBody(): Any {
-            return if (payloadObj != null) {
+        internal fun getBody(): Any {
+            val obj = payloadObj
+            val list = payloadList
+            return if (obj != null) {
                 JSendObj(
                     status = this.status == HttpStatus.OK,
                     message = this.message,
-                    data = PayloadObj(this.payloadObj!!, this.meta)
+                    data = PayloadObj(obj, this.meta)
                 )
-            } else if (payloadList != null) {
+            } else if (list != null) {
                 JSendList(
                     status = this.status == HttpStatus.OK,
                     message = this.message,
-                    data = PayloadList(this.payloadList!!, this.meta)
+                    data = PayloadList(list, this.meta)
                 )
             } else {
                 JSendEmpty(

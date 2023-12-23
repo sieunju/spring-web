@@ -1,16 +1,15 @@
-package com.hmju.til.repository
+package com.hmju.til.memo
 
-import com.hmju.til.model.entity.MemoEntity
+import com.hmju.til.memo.model.entity.Memo
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
-import org.springframework.data.repository.query.Param
 
 /**
  * Description : Memo Repository
  *
  * Created by juhongmin on 12/22/23
  */
-interface MemoRepository : CrudRepository<MemoEntity, Long> {
+interface MemoRepository : CrudRepository<Memo, Long> {
 
     /**
      * 범위로 메모 리스트 가져오는 함수
@@ -34,5 +33,5 @@ interface MemoRepository : CrudRepository<MemoEntity, Long> {
     fun findRange(
         offset: Int,
         limit: Int
-    ): List<MemoEntity>
+    ): List<Memo>
 }

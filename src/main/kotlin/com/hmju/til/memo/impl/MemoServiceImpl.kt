@@ -1,31 +1,32 @@
-package com.hmju.til.service
+package com.hmju.til.memo.impl
 
-import com.hmju.til.model.base.PaginationMeta
-import com.hmju.til.model.entity.MemoEntity
-import com.hmju.til.repository.MemoRepository
+import com.hmju.til.core.model.PaginationMeta
+import com.hmju.til.memo.MemoRepository
+import com.hmju.til.memo.MemoService
+import com.hmju.til.memo.model.entity.Memo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 /**
- * Description :
+ * Description : Memo Service Impl Class
  *
  * Created by juhongmin on 12/22/23
  */
-
 @Service
+@Suppress("unused")
 class MemoServiceImpl @Autowired constructor(
     private val repository: MemoRepository
-) {
+) : MemoService {
 
     /**
      * 메모 데이터 조회
      * @param pageNo 페이지 번호 (1부터 시작)
      * @param pageSize 페이지 사이즈
      */
-    fun fetch(
+    override fun fetch(
         pageNo: Int,
         pageSize: Int
-    ): List<MemoEntity> {
+    ): List<Memo> {
         // Start Index 계산
         var offset = Math.max(pageNo.minus(1), 0)
         offset *= pageSize
@@ -37,7 +38,7 @@ class MemoServiceImpl @Autowired constructor(
      * @param pageNo 페이지 번호 (1부터 시작)
      * @param pageSize 페이지 사이즈
      */
-    fun fetchMeta(
+    override fun fetchMeta(
         pageNo: Int,
         pageSize: Int
     ): PaginationMeta {

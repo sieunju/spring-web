@@ -1,6 +1,6 @@
-package com.hmju.til.model.dto
+package com.hmju.til.memo.model.dto
 
-import com.hmju.til.model.entity.MemoEntity
+import com.hmju.til.memo.model.entity.Memo
 
 /**
  * Description : 메몰 DTO
@@ -14,7 +14,7 @@ data class MemoDTO(
     val contents: String
 ) {
     constructor(
-        entity: MemoEntity
+        entity: Memo
     ) : this(
         id = entity.id,
         tag = entity.tag ?: 0,

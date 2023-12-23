@@ -1,4 +1,4 @@
-package com.hmju.til.model.entity
+package com.hmju.til.memo.model.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -10,7 +10,7 @@ import java.time.LocalDateTime
  */
 @Entity
 @Table(name = "MEMO_TB")
-data class MemoEntity(
+data class Memo(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMO_ID", nullable = false)

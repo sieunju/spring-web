@@ -1,6 +1,6 @@
 package com.hmju.til
 
-import com.hmju.til.model.base.PaginationMeta
+import com.hmju.til.core.model.PaginationMeta
 import org.junit.jupiter.api.Test
 
 /**

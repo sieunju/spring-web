@@ -1,9 +1,8 @@
-package com.hmju.til.controller.memo
+package com.hmju.til.memo
 
-import com.hmju.til.model.base.JSendResponse
-import com.hmju.til.model.base.PaginationMeta
-import com.hmju.til.model.dto.MemoDTO
-import com.hmju.til.service.MemoServiceImpl
+import com.hmju.til.core.model.JSendResponse
+import com.hmju.til.core.model.PaginationMeta
+import com.hmju.til.memo.model.dto.MemoDTO
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/memo")
 @Suppress("unused")
 class MemoController @Autowired constructor(
-    private val service: MemoServiceImpl
+    private val service: MemoService
 ) {
 
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }

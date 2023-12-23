@@ -1,4 +1,4 @@
-package com.hmju.til.model.base
+package com.hmju.til.core.model
 
 /**
  * Description : BaseMeta Class

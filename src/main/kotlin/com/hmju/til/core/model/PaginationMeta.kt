@@ -1,4 +1,4 @@
-package com.hmju.til.model.base
+package com.hmju.til.core.model
 
 /**
  * Description : 페이징 네이션 메타 공통 데이터 모델
