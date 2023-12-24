@@ -4,7 +4,7 @@ import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.memo.model.dto.MemoDTO
-import com.hmju.til.memo.model.vo.MemoVo
+import com.hmju.til.memo.model.vo.MemoListVo
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,16 +41,15 @@ class MemoController @Autowired constructor(
     }
 
     /**
-     * 메모 추가
+     * 메모 추가 bulk 형식
      * @param body 추가할 메모 데이터
      */
     @PostMapping
     fun post(
-        @RequestBody body: MemoVo
+        @RequestBody body: MemoListVo
     ): JSendResponse<MemoDTO, JSendMeta> {
-        val memo = service.post(MemoDTO(body))
         return JSendResponse.Builder<MemoDTO, JSendMeta>()
-            .setPayload(MemoDTO(memo))
+            .setPayload(service.postAll(body.list.map { MemoDTO(it) }).map { MemoDTO(it) })
             .build()
     }
 }

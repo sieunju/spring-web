@@ -35,4 +35,10 @@ interface MemoService {
      * @param body 추가할 메모 데이터 모델
      */
     fun post(body: MemoDTO): Memo
+
+    /**
+     * 메모 여러개 추가 bulk 형식
+     * @param list 추가할 메도 데이터 여러개ㅇ
+     */
+    fun postAll(list: List<MemoDTO>): List<Memo>
 }

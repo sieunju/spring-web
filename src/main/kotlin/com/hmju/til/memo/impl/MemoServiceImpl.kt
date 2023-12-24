@@ -78,4 +78,12 @@ class MemoServiceImpl @Autowired constructor(
     override fun post(body: MemoDTO): Memo {
         return repository.save(Memo(body))
     }
+
+    /**
+     * 메모 여러개 추가 bulk 형식
+     * @param list 추가할 메도 데이터 여러개ㅇ
+     */
+    override fun postAll(list: List<MemoDTO>): List<Memo> {
+        return repository.saveAll(list.map { Memo(it) })
+    }
 }
