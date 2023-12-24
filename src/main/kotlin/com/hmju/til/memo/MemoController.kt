@@ -25,6 +25,19 @@ class MemoController @Autowired constructor(
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     /**
+     * 메모 추가 bulk 형식
+     * @param body 추가할 메모 데이터
+     */
+    @PostMapping
+    fun post(
+        @RequestBody body: MemoListVo
+    ): JSendResponse<MemoDTO, JSendMeta> {
+        return JSendResponse.Builder<MemoDTO, JSendMeta>()
+            .setPayload(service.postAll(body.list.map { MemoDTO(it) }).map { MemoDTO(it) })
+            .build()
+    }
+
+    /**
      * 메모 조회
      * @param pageNo 페이지 번호
      * @param pageSize 페이지 사이즈
@@ -41,15 +54,29 @@ class MemoController @Autowired constructor(
     }
 
     /**
-     * 메모 추가 bulk 형식
-     * @param body 추가할 메모 데이터
+     * 메모 데이터 업데이트
+     * @param body 업데이트할 메모 데이터
      */
-    @PostMapping
-    fun post(
+    @PutMapping
+    fun update(
         @RequestBody body: MemoListVo
     ): JSendResponse<MemoDTO, JSendMeta> {
         return JSendResponse.Builder<MemoDTO, JSendMeta>()
-            .setPayload(service.postAll(body.list.map { MemoDTO(it) }).map { MemoDTO(it) })
+            .setPayload(service.updateAll(body.list.map { MemoDTO(it) }).map { MemoDTO(it) })
+            .build()
+    }
+
+    /**
+     * 메모 삭제 bulk 형식
+     * @param ids 삭제할 메모 아이디들
+     */
+    @DeleteMapping
+    fun delete(
+        @RequestParam(name = "ids") ids: List<Int>
+    ): JSendResponse<MemoDTO, JSendMeta> {
+        return JSendResponse.Builder<MemoDTO, JSendMeta>()
+            .setPayload(service.deleteAll(ids).map { MemoDTO(it) })
+            .setMessage("성공적으로 삭제 완료 했습니다.")
             .build()
     }
 }

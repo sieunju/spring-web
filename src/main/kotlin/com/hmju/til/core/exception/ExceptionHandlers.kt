@@ -5,6 +5,7 @@ import com.hmju.til.core.model.JSendResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
+import org.springframework.orm.jpa.JpaSystemException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
@@ -26,6 +27,17 @@ class ExceptionHandlers {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage(ex.msg)
+            .build()
+    }
+
+    @ExceptionHandler(JpaSystemException::class)
+    fun handleJpaSystemException(
+        ex: JpaSystemException
+    ): JSendResponse<Any, JSendMeta> {
+        logger.info("JpaSystemException $ex")
+        return JSendResponse.Builder<Any, JSendMeta>()
+            .setStatus(HttpStatus.BAD_REQUEST)
+            .setMessage("올바르지 않은 데이터 입니다.")
             .build()
     }
 

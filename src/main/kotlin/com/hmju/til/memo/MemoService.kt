@@ -31,14 +31,20 @@ interface MemoService {
     ): PaginationMeta
 
     /**
-     * 메모 추가
-     * @param body 추가할 메모 데이터 모델
-     */
-    fun post(body: MemoDTO): Memo
-
-    /**
      * 메모 여러개 추가 bulk 형식
      * @param list 추가할 메도 데이터 여러개ㅇ
      */
     fun postAll(list: List<MemoDTO>): List<Memo>
+
+    /**
+     * 메모 여러개 삭제 하는 함수
+     * @param list 삭제할 메모 ID 리스트
+     */
+    fun deleteAll(list: List<Int>): List<Memo>
+
+    /**
+     * 메모 여러개 업데이트 하는 함수
+     * @param list 업데이트 할 ID 리스트
+     */
+    fun updateAll(list: List<MemoDTO>): List<Memo>
 }

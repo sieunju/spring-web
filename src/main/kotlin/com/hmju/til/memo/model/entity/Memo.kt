@@ -2,7 +2,7 @@ package com.hmju.til.memo.model.entity
 
 import com.hmju.til.memo.model.dto.MemoDTO
 import jakarta.persistence.*
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 /**
  * Description : Memo Entity
@@ -27,13 +27,13 @@ data class Memo(
     @Column(name = "CONTENTS", length = 800, nullable = false)
     val contents: String = "",
     @Column(name = "REGISTER_DATE")
-    val registerDate: LocalDate? = null
+    val registerDate: LocalDateTime? = null
 ) {
     constructor(
         entity: MemoDTO
     ) : this(
-        id = 0,
-        userId = "deprecated",
+        id = entity.id ?: 0,
+        userId = entity.userId ?: "unknown",
         tag = entity.tag,
         num = null,
         title = entity.title,

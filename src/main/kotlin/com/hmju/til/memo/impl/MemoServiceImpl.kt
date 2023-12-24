@@ -5,6 +5,8 @@ import com.hmju.til.memo.MemoRepository
 import com.hmju.til.memo.MemoService
 import com.hmju.til.memo.model.dto.MemoDTO
 import com.hmju.til.memo.model.entity.Memo
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Service
 class MemoServiceImpl @Autowired constructor(
     private val repository: MemoRepository
 ) : MemoService {
+
+    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     /**
      * 메모 데이터 조회
@@ -72,18 +76,25 @@ class MemoServiceImpl @Autowired constructor(
     }
 
     /**
-     * 메모 추가
-     * @param body 추가할 메모 데이터 모델
-     */
-    override fun post(body: MemoDTO): Memo {
-        return repository.save(Memo(body))
-    }
-
-    /**
      * 메모 여러개 추가 bulk 형식
      * @param list 추가할 메도 데이터 여러개ㅇ
      */
     override fun postAll(list: List<MemoDTO>): List<Memo> {
         return repository.saveAll(list.map { Memo(it) })
+    }
+
+    override fun deleteAll(list: List<Int>): List<Memo> {
+        val selectList = repository.findAllById(list.map { it })
+        repository.deleteAllById(selectList.map { it.id })
+        return selectList
+    }
+
+    /**
+     * 메모 여러개 업데이트 하는 함수
+     * @param list 업데이트 할 ID 리스트
+     */
+    override fun updateAll(list: List<MemoDTO>): List<Memo> {
+        val filterList = list.filter { it.id != null && it.id > 0L }
+        return repository.saveAll(filterList.map { Memo(it) })
     }
 }

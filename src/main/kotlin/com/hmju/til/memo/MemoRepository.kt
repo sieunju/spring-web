@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository
  *
  * Created by juhongmin on 12/22/23
  */
-interface MemoRepository : JpaRepository<Memo, Long> {
+interface MemoRepository : JpaRepository<Memo, Int> {
 
     /**
      * 범위로 메모 리스트 가져오는 함수
