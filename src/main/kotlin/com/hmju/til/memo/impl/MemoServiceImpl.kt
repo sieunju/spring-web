@@ -3,8 +3,11 @@ package com.hmju.til.memo.impl
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.memo.MemoRepository
 import com.hmju.til.memo.MemoService
+import com.hmju.til.memo.model.dto.MemoDTO
 import com.hmju.til.memo.model.entity.Memo
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 /**
@@ -28,9 +31,16 @@ class MemoServiceImpl @Autowired constructor(
         pageSize: Int
     ): List<Memo> {
         // Start Index 계산
-        var offset = Math.max(pageNo.minus(1), 0)
-        offset *= pageSize
-        return repository.findRange(offset, pageSize)
+//        var offset = Math.max(pageNo.minus(1), 0)
+//        offset *= pageSize
+//        return repository.findRange(offset, pageSize)
+        // Start Index 계산 0부터 시작해야함
+        val pageable = PageRequest.of(
+            pageNo.minus(1).coerceAtLeast(0),
+            pageSize,
+            Sort.by("memo_id").ascending()
+        )
+        return repository.findAll(pageable).content.toList()
     }
 
     /**
@@ -43,7 +53,7 @@ class MemoServiceImpl @Autowired constructor(
         pageSize: Int
     ): PaginationMeta {
         val count = repository.count()
-        val no = Math.max(1, pageNo) // pageNo 0 으로 줄때 대응
+        val no = 1.coerceAtLeast(pageNo) // pageNo 0 으로 줄때 대응
         var maxPage = count / pageSize
         // 나머지가 있는 경우 1추가
         if (count % pageSize > 0) {
@@ -59,5 +69,13 @@ class MemoServiceImpl @Autowired constructor(
             nextPage = nextPage,
             currentPage = pageNo
         )
+    }
+
+    /**
+     * 메모 추가
+     * @param body 추가할 메모 데이터 모델
+     */
+    override fun post(body: MemoDTO): Memo {
+        return repository.save(Memo(body))
     }
 }

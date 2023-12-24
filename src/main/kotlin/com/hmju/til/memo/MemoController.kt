@@ -1,15 +1,14 @@
 package com.hmju.til.memo
 
+import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.memo.model.dto.MemoDTO
+import com.hmju.til.memo.model.vo.MemoVo
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 /**
  * Description : Memo Controller
@@ -38,6 +37,20 @@ class MemoController @Autowired constructor(
         return JSendResponse.Builder<MemoDTO, PaginationMeta>()
             .setMeta(service.fetchMeta(pageNo, pageSize))
             .setPayload(service.fetch(pageNo, pageSize).map { MemoDTO(it) })
+            .build()
+    }
+
+    /**
+     * 메모 추가
+     * @param body 추가할 메모 데이터
+     */
+    @PostMapping
+    fun post(
+        @RequestBody body: MemoVo
+    ): JSendResponse<MemoDTO, JSendMeta> {
+        val memo = service.post(MemoDTO(body))
+        return JSendResponse.Builder<MemoDTO, JSendMeta>()
+            .setPayload(MemoDTO(memo))
             .build()
     }
 }

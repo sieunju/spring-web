@@ -1,6 +1,7 @@
 package com.hmju.til.memo
 
 import com.hmju.til.memo.model.entity.Memo
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 
@@ -9,7 +10,7 @@ import org.springframework.data.repository.CrudRepository
  *
  * Created by juhongmin on 12/22/23
  */
-interface MemoRepository : CrudRepository<Memo, Long> {
+interface MemoRepository : JpaRepository<Memo, Long> {
 
     /**
      * 범위로 메모 리스트 가져오는 함수
