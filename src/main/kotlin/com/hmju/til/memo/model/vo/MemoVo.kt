@@ -12,7 +12,7 @@ package com.hmju.til.memo.model.vo
  * Created by juhongmin on 12/24/23
  */
 data class MemoVo(
-    val id: Int? = null,
+    val id: Long? = null,
     val userId: String? = null,
     val tag: Int? = null,
     val title: String,

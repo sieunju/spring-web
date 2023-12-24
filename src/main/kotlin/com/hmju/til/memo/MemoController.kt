@@ -72,7 +72,7 @@ class MemoController @Autowired constructor(
      */
     @DeleteMapping
     fun delete(
-        @RequestParam(name = "ids") ids: List<Int>
+        @RequestParam(name = "ids") ids: List<Long>
     ): JSendResponse<MemoDTO, JSendMeta> {
         return JSendResponse.Builder<MemoDTO, JSendMeta>()
             .setPayload(service.deleteAll(ids).map { MemoDTO(it) })

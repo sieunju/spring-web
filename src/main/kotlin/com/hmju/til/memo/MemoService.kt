@@ -40,7 +40,7 @@ interface MemoService {
      * 메모 여러개 삭제 하는 함수
      * @param list 삭제할 메모 ID 리스트
      */
-    fun deleteAll(list: List<Int>): List<Memo>
+    fun deleteAll(list: List<Long>): List<Memo>
 
     /**
      * 메모 여러개 업데이트 하는 함수

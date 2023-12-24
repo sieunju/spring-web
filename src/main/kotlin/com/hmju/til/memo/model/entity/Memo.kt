@@ -15,7 +15,7 @@ data class Memo(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMO_ID", nullable = false)
-    val id: Int = 0,
+    val id: Long = 0,
     @Column(name = "USER_ID", length = 30, nullable = false)
     val userId: String = "",
     @Column(name = "TAG")

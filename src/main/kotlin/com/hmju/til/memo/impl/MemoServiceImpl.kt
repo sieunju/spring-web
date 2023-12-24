@@ -42,9 +42,9 @@ class MemoServiceImpl @Autowired constructor(
         val pageable = PageRequest.of(
             pageNo.minus(1).coerceAtLeast(0),
             pageSize,
-            Sort.by("memo_id").ascending()
+            Sort.by("id").ascending()
         )
-        return repository.findAll(pageable).content.toList()
+        return repository.findAll(pageable).content
     }
 
     /**
@@ -83,7 +83,7 @@ class MemoServiceImpl @Autowired constructor(
         return repository.saveAll(list.map { Memo(it) })
     }
 
-    override fun deleteAll(list: List<Int>): List<Memo> {
+    override fun deleteAll(list: List<Long>): List<Memo> {
         val selectList = repository.findAllById(list.map { it })
         repository.deleteAllById(selectList.map { it.id })
         return selectList
