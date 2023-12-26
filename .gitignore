@@ -42,4 +42,4 @@ out/
 ### LOG
 /logs/
 /release/
-application-prod.yml
+/src/main/resources/config/application-prod.yml
