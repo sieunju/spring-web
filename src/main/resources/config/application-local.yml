@@ -1,3 +1,10 @@
+server:
+  # Port 만사
+  port: 10004
+  undertow:
+    # WAS 는 undertow
+    worker-threads: 10
+
 # Local DB Config
 spring:
   datasource:
