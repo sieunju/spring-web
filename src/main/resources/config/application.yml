@@ -40,8 +40,3 @@ logging:
           descriptor:
             sql: DEBUG
         SQL: DEBUG
-
-common:
-  common
-test:
-  common
