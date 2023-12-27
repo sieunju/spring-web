@@ -21,4 +21,3 @@ java -jar release/til-api-server.jar --spring.profiles.active=local
 ```shell
 java -jar release/til-api-server.jar --spring.profiles.active=prod
 ```
-CI/CD Test
