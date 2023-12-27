@@ -7,8 +7,18 @@
 - Java 17
 - WAS undertow
 
-> 서버 실행 명령어? 나중에 나를 위해 여기에 적어둔다. 맞는지 잘 모름ㅋ
+## 빌드후 환경별로 서버 실행하는 방법
+1. Build를 실행하고 jar 파일을 특정 디렉토리에 이동합니다.
 ```shell
-./gradlew bootRun
+./gradlew clean build
+./gradlew releaseJar
+```
+2. 개발 버전
+```shell
+java -jar release/til-api-server.jar --spring.profiles.active=local
+```
+3. 운영 버전
+```shell
+java -jar release/til-api-server.jar --spring.profiles.active=prod
 ```
 CI/CD Test
