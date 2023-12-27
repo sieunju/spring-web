@@ -41,5 +41,5 @@ out/
 
 ### LOG
 /logs/
-application.properties
 /release/
+/src/main/resources/config/application-prod.yml
