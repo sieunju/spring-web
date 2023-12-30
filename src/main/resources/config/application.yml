@@ -16,6 +16,9 @@ spring:
       ddl-auto: none
       format_sql: true
       show-sql: true
+      naming:
+        # name_strategy 설정
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   jackson:
     # JSON Snake Case (자동 변환)
     property-naming-strategy: SNAKE_CASE
