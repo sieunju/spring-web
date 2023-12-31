@@ -28,11 +28,20 @@ spring:
       max-file-size: 50MB
 
 # Logging
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: DEBUG
-        SQL: DEBUG
+#logging:
+#  file:
+#    name: logs/spring-web.log
+#  level:
+#    file: debug
+#    org:
+#      hibernate:
+#        SQL: debug
+#  pattern:
+#    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# File Resource Path
+upload-path:
+  image:  ./resource/img
+  txt:    ./resource/txt
+  audio:  ./resource/audio
+  etc:    ./resource/etc
