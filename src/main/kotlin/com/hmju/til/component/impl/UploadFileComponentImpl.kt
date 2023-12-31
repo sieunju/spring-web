@@ -36,6 +36,9 @@ class UploadFileComponentImpl : UploadFileComponent {
     @Value("\${upload-path.etc}")
     private lateinit var etcDirectory: String
 
+    @Value("\${upload-path.base}")
+    private lateinit var baseDirectory: String
+
     private val dateFormat: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern("yyyyMMdd") }
 
     /**
@@ -107,13 +110,10 @@ class UploadFileComponentImpl : UploadFileComponent {
         if (file.isEmpty) throw FileNotFoundException("파일이 없습니다.")
         val currentTimeMs = System.currentTimeMillis()
         val fileName = "${currentTimeMs / 1000}${currentTimeMs % 1000}"
-        val destFile = File(
-            targetDirectory
-                .plus(fileName)
-                .plus(".")
-                .plus(getFileExtension(file))
-        )
+        val path = targetDirectory.plus(fileName).plus(".").plus(getFileExtension(file))
+        val destFile = File(path)
         Files.write(Paths.get(destFile.path), file.bytes)
-        return destFile.path
+        // 불필요한 디렉토리 경로 지우기
+        return path.replace(baseDirectory,"/resources")
     }
 }

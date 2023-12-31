@@ -41,7 +41,8 @@ spring:
 
 # File Resource Path
 upload-path:
-  image:  ./resource/img
-  txt:    ./resource/txt
-  audio:  ./resource/audio
-  etc:    ./resource/etc
+  base:   ./src/main/resources/files
+  image:  ./src/main/resources/files/img
+  txt:    ./src/main/resources/files/txt
+  audio:  ./src/main/resources/files/audio
+  etc:    ./src/main/resources/files/etc
