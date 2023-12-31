@@ -5,7 +5,7 @@ import com.hmju.til.memo.model.vo.MemoVo
 import java.time.LocalDateTime
 
 /**
- * Description : 메몰 DTO
+ * Description : 메모 DTO
  *
  * Created by juhongmin on 12/22/23
  */

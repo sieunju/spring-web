@@ -34,7 +34,6 @@ class FileDataSourceConfig @Autowired constructor(
     private val dbComponent: DataSourceComponent
 ) {
 
-
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @Value("\${spring.datasource.file.driverClassName}")
