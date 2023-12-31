@@ -1,9 +1,10 @@
-package com.hmju.til.component
+package com.hmju.til.component.impl
 
+import com.hmju.til.component.DataSourceComponent
 import org.springframework.stereotype.Component
 
 /**
- * Description : 데이터 베이스 Component 구현체
+ * Description : 데이터 베이스 Component Implement Class
  *
  * Created by juhongmin on 12/31/23
  */
