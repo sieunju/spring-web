@@ -1,5 +1,4 @@
 server:
-  # Port 만사
   port: 10004
   undertow:
     # WAS 는 undertow
@@ -8,7 +7,13 @@ server:
 # Local DB Config
 spring:
   datasource:
-    driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/db_memo
-    username: root
-    password: 1234
+    main:
+      driverClassName: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://localhost:3306/db_memo
+      username: root
+      password: 1234
+    file:
+      driverClassName: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://localhost:3306/db_file
+      username: root
+      password: 1234
