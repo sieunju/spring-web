@@ -84,6 +84,11 @@ class FileServiceImpl @Autowired constructor(
             .map { repository.save(it) }
     }
 
+    /**
+     * 파일 업로드 처리하는 함수
+     *
+     * @param file 업로드할 파일
+     */
     private fun handleFileUpload(
         file: MultipartFile
     ): FileEntity? {
