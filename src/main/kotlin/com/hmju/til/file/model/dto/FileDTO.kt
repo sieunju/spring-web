@@ -9,7 +9,7 @@ import java.time.LocalDateTime
  * Created by juhongmin on 12/31/23
  */
 data class FileDTO(
-    val id: Int? = null,
+    val id: Long? = null,
     val originalName: String? = null,
     val path: String,
     val mimeType: String? = null,
