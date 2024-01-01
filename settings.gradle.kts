@@ -1,1 +1,1 @@
-rootProject.name = "til"
+rootProject.name = "spring-web"

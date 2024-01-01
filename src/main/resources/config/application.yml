@@ -8,17 +8,17 @@ spring:
         - local
       prod:
         - prod
-  jpa:
-    hibernate:
-      # 기존 DB 맵핑시 에러 대응
-      use-new-id-generator-mappings: false
-      # 기존 DB 와 맵핑시 정책
-      ddl-auto: none
-      format_sql: true
-      show-sql: true
-      naming:
-        # name_strategy 설정
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#  jpa:
+#    hibernate:
+#      # 기존 DB 맵핑시 에러 대응
+#      use-new-id-generator-mappings: false
+#      # 기존 DB 와 맵핑시 정책
+#      ddl-auto: none
+#      format_sql: true
+#      show-sql: true
+#      naming:
+#        # name_strategy 설정
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   jackson:
     # JSON Snake Case (자동 변환)
     property-naming-strategy: SNAKE_CASE
@@ -28,11 +28,21 @@ spring:
       max-file-size: 50MB
 
 # Logging
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: DEBUG
-        SQL: DEBUG
+#logging:
+#  file:
+#    name: logs/spring-web.log
+#  level:
+#    file: debug
+#    org:
+#      hibernate:
+#        SQL: debug
+#  pattern:
+#    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# File Resource Path
+upload-path:
+  base:   ./src/main/resources/files
+  image:  ./src/main/resources/files/img
+  txt:    ./src/main/resources/files/txt
+  audio:  ./src/main/resources/files/audio
+  etc:    ./src/main/resources/files/etc

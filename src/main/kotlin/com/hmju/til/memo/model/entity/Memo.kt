@@ -30,14 +30,14 @@ data class Memo(
     val registerDate: LocalDateTime? = null
 ) {
     constructor(
-        entity: MemoDTO
+        dto: MemoDTO
     ) : this(
-        id = entity.id ?: 0,
-        userId = entity.userId ?: "unknown",
-        tag = entity.tag,
+        id = dto.id ?: 0,
+        userId = dto.userId ?: "unknown",
+        tag = dto.tag,
         num = null,
-        title = entity.title,
-        contents = entity.contents,
-        registerDate = entity.registerDate
+        title = dto.title,
+        contents = dto.contents,
+        registerDate = dto.registerDate
     )
 }

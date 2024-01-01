@@ -43,3 +43,4 @@ out/
 /logs/
 /release/
 /src/main/resources/config/application-prod.yml
+/src/main/resources/files/
