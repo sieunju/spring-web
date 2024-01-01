@@ -1,16 +1,19 @@
 package com.hmju.til.core.config
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
-import io.swagger.v3.oas.models.Components
-import io.swagger.v3.oas.models.OpenAPI
-import io.swagger.v3.oas.models.security.SecurityRequirement
-import io.swagger.v3.oas.models.security.SecurityScheme
-import io.swagger.v3.oas.models.servers.Server
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.security.SecurityRequirements
+import io.swagger.v3.oas.annotations.security.SecurityScheme
+import io.swagger.v3.oas.annotations.security.SecuritySchemes
+import io.swagger.v3.oas.annotations.servers.Server
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
+
 
 /**
  * Description : Swagger Config
@@ -19,55 +22,27 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
  */
 @Configuration
 @OpenAPIDefinition(
-    info = Info(
-        title = "TIL API 문서",
-        description = "개인 API 문서입니다.",
-        version = "v1.0.0"
-    ),
-//    servers = [Server(
-//        url = "http://localhost:10004",
-//        description = "local"
-//    ), Server(
-//        url = "https://til.qtzz.synology.me",
-//        description = "prod"
-//    )]
+    info = Info(title = "TIL API 문서", version = "v1.0.0"),
+    servers = [
+        Server(url = "http://localhost:10004", description = "local"),
+        Server(url = "https://til.qtzz.synology.me", description = "prod")
+    ]
 )
-@EnableWebMvc
+@SecurityRequirements(value = [SecurityRequirement(name = "JSON Web Token Auth")])
+@SecuritySchemes(
+    value = [
+        SecurityScheme(
+            type = SecuritySchemeType.HTTP,
+            name = "JSON Web Token Auth",
+            scheme = "bearer",
+            bearerFormat = "JWT"
+        )
+    ]
+)
 @Suppress("unused")
 class SwaggerConfig {
 
-    @Bean
-    fun openApi(): OpenAPI {
-        val jwtSchemeName = "jwtAuth"
-        val securityRequirement = SecurityRequirement().addList(jwtSchemeName)
-
-        val component = Components()
-            .addSecuritySchemes(
-                jwtSchemeName, SecurityScheme()
-                    .name(jwtSchemeName)
-                    .type(SecurityScheme.Type.HTTP)
-                    .scheme("bearer")
-                    .bearerFormat("JWT")
-            )
-        return OpenAPI()
-            .servers(listOf(getLocalServer(), getProdServer()))
-            .addSecurityItem(securityRequirement)
-            .components(component)
-    }
-
-    private fun getLocalServer(): Server {
-        return Server().apply {
-            url = "http://localhost:10004"
-            description = "local"
-        }
-    }
-
-    private fun getProdServer(): Server {
-        return Server().apply {
-            url = "https://til.qtzz.synology.me"
-            description = "prod"
-        }
-    }
+    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @Bean
     fun apiDocs(): GroupedOpenApi {
@@ -76,4 +51,15 @@ class SwaggerConfig {
             .pathsToMatch("/api/**")
             .build()
     }
+
+//    @Bean
+//    fun corsConfig(): WebMvcConfigurer {
+//        return object : WebMvcConfigurer {
+//            override fun addCorsMappings(registry: CorsRegistry) {
+//                registry.addMapping("/**")
+//                    .allowedOrigins("http://localhost:10004")
+//                    .allowedMethods("GET","POST","DELETE","PUT")
+//            }
+//        }
+//    }
 }
