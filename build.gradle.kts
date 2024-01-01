@@ -35,6 +35,14 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
+    /**
+     * Swagger
+     */
+    implementation("io.springfox:springfox-swagger2:3.0.0")
+    implementation("io.springfox:springfox-swagger-ui:3.0.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+    // compileOnly("javax.servlet:servlet-api:2.5")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
