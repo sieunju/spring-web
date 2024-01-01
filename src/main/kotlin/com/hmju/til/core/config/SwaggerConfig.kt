@@ -46,6 +46,7 @@ class SwaggerConfig {
 
     @Bean
     fun apiDocs(): GroupedOpenApi {
+        // URL swagger-ui/index.html
         return GroupedOpenApi.builder()
             .group("API DOCS")
             .pathsToMatch("/api/**")
