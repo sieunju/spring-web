@@ -50,8 +50,6 @@ class SecurityConfig {
                 it.requestMatchers("/v3/api-docs/**").permitAll()
                 it.requestMatchers("/swagger-ui/**").permitAll()
                 // it.anyRequest().permitAll()
-                // it.requestMatchers("/swagger-ui/index.html").permitAll()
-                // it.anyRequest().permitAll()
             }
             .build()
     }
