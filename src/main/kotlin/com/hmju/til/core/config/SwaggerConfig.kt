@@ -52,15 +52,4 @@ class SwaggerConfig {
             .pathsToMatch("/api/**")
             .build()
     }
-
-//    @Bean
-//    fun corsConfig(): WebMvcConfigurer {
-//        return object : WebMvcConfigurer {
-//            override fun addCorsMappings(registry: CorsRegistry) {
-//                registry.addMapping("/**")
-//                    .allowedOrigins("http://localhost:10004")
-//                    .allowedMethods("GET","POST","DELETE","PUT")
-//            }
-//        }
-//    }
 }
