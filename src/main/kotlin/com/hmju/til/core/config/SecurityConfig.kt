@@ -10,7 +10,6 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 
-
 /**
  * Description : Security Config
  *
@@ -43,7 +42,6 @@ class SecurityConfig {
             .headers { headers ->
                 headers.frameOptions { it.sameOrigin() }
                 headers.cacheControl { it.disable() }
-
             }
             .authorizeHttpRequests {
                 it.requestMatchers("/api/**").permitAll()
