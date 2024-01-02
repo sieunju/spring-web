@@ -46,20 +46,10 @@ class SwaggerConfig {
 
     @Bean
     fun apiDocs(): GroupedOpenApi {
+        // URL swagger-ui/index.html
         return GroupedOpenApi.builder()
             .group("API DOCS")
             .pathsToMatch("/api/**")
             .build()
     }
-
-//    @Bean
-//    fun corsConfig(): WebMvcConfigurer {
-//        return object : WebMvcConfigurer {
-//            override fun addCorsMappings(registry: CorsRegistry) {
-//                registry.addMapping("/**")
-//                    .allowedOrigins("http://localhost:10004")
-//                    .allowedMethods("GET","POST","DELETE","PUT")
-//            }
-//        }
-//    }
 }
