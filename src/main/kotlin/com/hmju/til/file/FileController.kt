@@ -4,6 +4,7 @@ import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.file.model.dto.FileDTO
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile
  *
  * Created by juhongmin on 12/30/23
  */
+@Tag(name = "Uploads", description = "파일 업로드 API")
 @RestController
 @RequestMapping("/api/v1/uploads")
 @Suppress("unused")

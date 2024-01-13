@@ -5,6 +5,7 @@ import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.memo.model.dto.MemoDTO
 import com.hmju.til.memo.model.vo.MemoListVo
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*
  *
  * Created by juhongmin on 12/22/23
  */
+@Tag(name = "Memo", description = "메모 API")
 @RestController
 @RequestMapping("/api/v1/memo")
 @Suppress("unused")
