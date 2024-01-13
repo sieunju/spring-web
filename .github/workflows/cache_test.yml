@@ -1,0 +1,19 @@
+name: Cache Test
+on: push
+
+jobs:
+  build:
+    runs-on: ubunto-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          cache: 'gradle'
+          cache-dependency-path: | # optional
+            sub-project/*.gradle*
+            sub-project/**/gradle-wrapper.properties
+      - run: ./gradlew build --no-daemon
+
+        

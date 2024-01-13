@@ -26,6 +26,7 @@ dependencies {
     }
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     /**
      * JPA & mariadb
@@ -41,7 +42,7 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
-    // compileOnly("javax.servlet:servlet-api:2.5")
+    // implementation("io.springfox:springfox-boot-starter:3.0.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -57,10 +58,10 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.register("releaseJar",Copy::class.java) {
+tasks.register("releaseJar", Copy::class.java) {
     delete("release/")
     from("build/libs/")
     into("release/")
     include("${rootProject.name}-${rootProject.version}.jar")
-    rename("${rootProject.name}-${rootProject.version}.jar","til-api-server.jar")
+    rename("${rootProject.name}-${rootProject.version}.jar", "til-api-server.jar")
 }
