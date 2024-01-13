@@ -4,6 +4,7 @@ import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @Tag(name = "[Test] Error Handling", description = "테스트용 에러 API")
 @RestController
-@RequestMapping("/api/v1/til/error")
+@RequestMapping("/api/v1/til/error", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")
 class ErrorHandlingController {
     @GetMapping("/505")
