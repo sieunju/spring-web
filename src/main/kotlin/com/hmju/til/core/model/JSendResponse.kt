@@ -93,6 +93,12 @@ class JSendResponse<T, M : JSendMeta> private constructor(
                     message = this.message,
                     data = PayloadList(list, this.meta)
                 )
+            } else if (meta != null) {
+                JSendOnlyMeta(
+                    status = this.status == HttpStatus.OK,
+                    message = this.message,
+                    data = OnlyMeta(this.meta)
+                )
             } else {
                 JSendEmpty(
                     status = this.status == HttpStatus.OK,
@@ -121,6 +127,16 @@ class JSendResponse<T, M : JSendMeta> private constructor(
         data class PayloadObj<T, M : JSendMeta>(
             val payload: T,
             val meta: M? = null
+        )
+
+        data class OnlyMeta<M : JSendMeta>(
+            val meta: M? = null
+        )
+
+        data class JSendOnlyMeta<M : JSendMeta>(
+            val status: Boolean = true,
+            val message: String? = null,
+            val data: OnlyMeta<M>
         )
 
         data class JSendEmpty(
