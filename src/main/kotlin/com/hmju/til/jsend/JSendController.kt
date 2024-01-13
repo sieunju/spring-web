@@ -19,7 +19,7 @@ import kotlin.random.Random
  *
  * Created by juhongmin on 1/13/24
  */
-@Tag(name = "JSend", description = "JSend Format 테스트용 API")
+@Tag(name = "[Test] JSend", description = "JSend Format 테스트용 API")
 @RestController
 @RequestMapping("/api/v1/til/jsend")
 @Suppress("unused")
