@@ -1,4 +1,4 @@
-package com.hmju.til.memo
+package com.hmju.til.view
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -12,15 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping
  * Created by juhongmin on 1/14/24
  */
 @Controller
-@RequestMapping("/views/memo")
+@RequestMapping("/views")
 @Suppress("unused")
-class MemoViewController {
+class WebViewController {
 
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
-    @GetMapping
+    @GetMapping("/memo")
     fun memoPage() : String {
         // return "index.html"
-        return "memoList.html"
+        return "memo/index.html"
+    }
+
+    @GetMapping("/android")
+    fun androidPage(): String {
+        return "android/index.html"
     }
 }

@@ -27,7 +27,7 @@ class WebConfig : WebMvcConfigurer {
 
         // Html Config
         registry.addResourceHandler("/views/**")
-            .addResourceLocations("classpath:/templates/", "classpath:/static/")
+            .addResourceLocations("classpath:/static/views/")
             .setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES))
     }
 }
