@@ -32,7 +32,7 @@ interface MemoService {
 
     /**
      * 메모 여러개 추가 bulk 형식
-     * @param list 추가할 메도 데이터 여러개ㅇ
+     * @param list 추가할 메도 데이터 여러개
      */
     fun postAll(list: List<MemoDTO>): List<Memo>
 
@@ -44,7 +44,7 @@ interface MemoService {
 
     /**
      * 메모 여러개 업데이트 하는 함수
-     * @param list 업데이트 할 ID 리스트
+     * @param list 업데이트 할 데이터
      */
     fun updateAll(list: List<MemoDTO>): List<Memo>
 }

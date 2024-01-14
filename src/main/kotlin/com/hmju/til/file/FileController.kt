@@ -4,9 +4,11 @@ import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.file.model.dto.FileDTO
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -15,8 +17,13 @@ import org.springframework.web.multipart.MultipartFile
  *
  * Created by juhongmin on 12/30/23
  */
+@Tag(name = "Uploads", description = "파일 업로드 API")
 @RestController
-@RequestMapping("/api/v1/uploads")
+@RequestMapping(
+    path = ["/api/v1/uploads"],
+    produces = [MediaType.APPLICATION_JSON_VALUE],
+    consumes = [MediaType.MULTIPART_FORM_DATA_VALUE]
+)
 @Suppress("unused")
 class FileController @Autowired constructor(
     private val service: FileService
@@ -37,7 +44,7 @@ class FileController @Autowired constructor(
 
     @PostMapping
     fun post(
-        @RequestParam("files", required = true) files: List<MultipartFile>
+        @RequestPart("files", required = true) files: List<MultipartFile>
     ): JSendResponse<FileDTO, JSendMeta> {
         return JSendResponse.Builder<FileDTO, JSendMeta>()
             .setPayload(service.postAll(files).map { FileDTO(it) })
