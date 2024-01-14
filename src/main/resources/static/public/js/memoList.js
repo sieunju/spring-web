@@ -70,6 +70,7 @@ function doMemoList() {
     $.ajax({
         type: "GET",
         url: "/api/v1/memo",
+        contentType: 'application/json',
         data: queryMap,
         dataType: "JSON",
         success: function (json) {
@@ -258,7 +259,7 @@ function updateData(divDetail) {
     $.ajax({
         type: 'PUT',
         url: '/api/memo',
-        contentType: 'application/json; charset=utf-8',
+        contentType: 'application/json',
         dataType: 'JSON',
         data: JSON.stringify({
             title: title,

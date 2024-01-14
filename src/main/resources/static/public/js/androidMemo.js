@@ -1,8 +1,8 @@
 
 window.onload = function () {
     console.log(window.location.pathname)
-    if (window.location.pathname == "/view/android") {
-        fetchAndroidMemo()
+    if (window.location.pathname == "/views/android") {
+        fetchAndroidMemo()o
     } else {
         // 타이틀 엔터키 방지 로직
         document.getElementById('title').addEventListener('keydown', function (event) {
@@ -29,17 +29,18 @@ window.onload = function () {
 function fetchAndroidMemo() {
     $.ajax({
         type: "GET",
-        url: "/api/android",
+        url: "/api/v1/memo/aos",
+        contentType: 'application/json',
         dataType: "JSON",
         success: function (json) {
-
-            json.list.forEach(element => {
+            let data = json.data;
+            data.payload.forEach(element => {
                 // initView
                 const divRoot = $('<div class="card-normal-bg"></div>');
 
                 let card = $('<div id="card-contents" class="card-normal-contents"></div>')
                 // DataBinding
-                card.html(element.TITLE + "<p>" + element.CONTENTS + "</p>")
+                card.html(element.title + "<p>" + element.contents + "</p>")
                 divRoot.append(card);
                 $('#memo_list').append(divRoot);
             })
