@@ -18,7 +18,9 @@ internal class DataSourceComponentImpl : DataSourceComponent {
         map["hibernate.ddl-auto"] = "none"
         map["hibernate.format_sql"] = true
         map["hibernate.show_sql"] = true
+        map["hibernate.use_sql_comments"] = true
         map["hibernate.physical_naming_strategy"] = "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+        map["hibernate.use_query_cache"] = false
         return map
     }
 
