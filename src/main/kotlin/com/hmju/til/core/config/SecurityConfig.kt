@@ -48,6 +48,13 @@ class SecurityConfig {
                 it.requestMatchers("/v3/api-docs/**").permitAll()
                 it.requestMatchers("/swagger-ui/**").permitAll()
                 it.requestMatchers("/resources/**").permitAll()
+
+                // View Config
+                it.requestMatchers("/views/**").permitAll()
+                it.requestMatchers("/public/css/**").permitAll()
+                it.requestMatchers("/public/js/**").permitAll()
+                it.requestMatchers("/public/resource/**").permitAll()
+
                 // it.anyRequest().permitAll()
             }
             .build()
