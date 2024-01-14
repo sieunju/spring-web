@@ -27,6 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.slf4j:slf4j-api:2.0.9")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     /**
      * JPA & mariadb
@@ -42,7 +43,6 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
-    // implementation("io.springfox:springfox-boot-starter:3.0.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
