@@ -68,9 +68,9 @@ class MainDataSourceConfig @Autowired constructor(
         em.dataSource = dataSource
         em.setPackagesToScan("com.hmju.til.memo.model", "com.hmju.til.goods.model")
         em.persistenceUnitName = "mainEntityManager"
-        em.jpaVendorAdapter = HibernateJpaVendorAdapter().apply {
-            setGenerateDdl(true)
-        }
+        val adapter = HibernateJpaVendorAdapter()
+        adapter.setGenerateDdl(true)
+        em.jpaVendorAdapter = adapter
         em.setJpaPropertyMap(dbComponent.getPropertiesMap())
         return em
     }
