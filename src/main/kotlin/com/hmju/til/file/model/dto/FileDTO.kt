@@ -24,4 +24,15 @@ data class FileDTO(
         mimeType = entity.mimeType,
         registerDate = entity.registerDate
     )
+
+    constructor(
+        host: String,
+        entity: FileEntity
+    ) : this(
+        id = entity.id,
+        originalName = entity.originalName,
+        path = host.plus(entity.path),
+        mimeType = entity.mimeType,
+        registerDate = entity.registerDate
+    )
 }
