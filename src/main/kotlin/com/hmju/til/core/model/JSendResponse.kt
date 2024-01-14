@@ -28,7 +28,7 @@ class JSendResponse<T, M : JSendMeta> private constructor(
         /**
          * Setter HTTP Status
          * @see HttpStatus
-         * @param HTTP Status 코드
+         * @param status [HttpStatus] 코드
          */
         fun setStatus(status: HttpStatus): Builder<T, M> {
             this.status = status
