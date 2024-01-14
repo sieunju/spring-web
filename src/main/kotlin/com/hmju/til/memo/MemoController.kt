@@ -4,7 +4,7 @@ import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.memo.model.dto.MemoDTO
-import com.hmju.til.memo.model.vo.MemoListVo
+import com.hmju.til.memo.model.vo.MemoVO
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,14 +29,14 @@ class MemoController @Autowired constructor(
 
     /**
      * 메모 추가 bulk 형식
-     * @param body 추가할 메모 데이터
+     * @param list 추가할 메모 데이터
      */
     @PostMapping
     fun post(
-        @RequestBody body: MemoListVo
+        @RequestBody list: List<MemoVO>
     ): JSendResponse<MemoDTO, JSendMeta> {
         return JSendResponse.Builder<MemoDTO, JSendMeta>()
-            .setPayload(service.postAll(body.list.map { MemoDTO(it) }).map { MemoDTO(it) })
+            .setPayload(service.postAll(list.map { MemoDTO(it) }).map { MemoDTO(it) })
             .build()
     }
 
@@ -58,14 +58,14 @@ class MemoController @Autowired constructor(
 
     /**
      * 메모 데이터 업데이트
-     * @param body 업데이트할 메모 데이터
+     * @param list 업데이트할 메모 데이터
      */
     @PutMapping
     fun update(
-        @RequestBody body: MemoListVo
+        @RequestBody list: List<MemoVO>
     ): JSendResponse<MemoDTO, JSendMeta> {
         return JSendResponse.Builder<MemoDTO, JSendMeta>()
-            .setPayload(service.updateAll(body.list.map { MemoDTO(it) }).map { MemoDTO(it) })
+            .setPayload(service.updateAll(list.map { MemoDTO(it) }).map { MemoDTO(it) })
             .build()
     }
 

@@ -11,10 +11,10 @@ package com.hmju.til.memo.model.vo
  *
  * Created by juhongmin on 12/24/23
  */
-data class MemoVo(
+data class MemoVO(
     val id: Long? = null,
     val userId: String? = null,
     val tag: Int? = null,
-    val title: String,
-    val contents: String
+    val title: String = "",
+    val contents: String = ""
 )

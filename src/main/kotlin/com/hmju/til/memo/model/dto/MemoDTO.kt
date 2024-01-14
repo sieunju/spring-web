@@ -1,7 +1,7 @@
 package com.hmju.til.memo.model.dto
 
 import com.hmju.til.memo.model.entity.Memo
-import com.hmju.til.memo.model.vo.MemoVo
+import com.hmju.til.memo.model.vo.MemoVO
 import java.time.LocalDateTime
 
 /**
@@ -29,7 +29,7 @@ data class MemoDTO(
     )
 
     constructor(
-        entity: MemoVo
+        entity: MemoVO
     ) : this(
         id = entity.id ?: 0,
         userId = entity.userId,
