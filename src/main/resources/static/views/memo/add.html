@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <link type="text/css" rel="stylesheet" href="../public/css/materialize.css">
-  <link type="text/css" rel="stylesheet" href="../public/css/common_color.css">
+  <link type="text/css" rel="stylesheet" href="../../public/css/materialize.css">
+  <link type="text/css" rel="stylesheet" href="../../public/css/common_color.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="shortcut icon" href="../public/resource/icon/favicon.ico">
+  <link rel="shortcut icon" href="../../public/resource/icon/favicon.ico">
   <title>Memo</title>
 </head>
 
 <body style="overflow-x: hidden;">
 
-  <form style="width:auto; margin-top: 50px;" id="addMemo_form" action="/api/memo" method="POST"
+  <form style="width:auto; margin-top: 50px;" id="addMemo_form" action="/api/v1/memo" method="POST"
     onsubmit="return addMemo()">
     <fieldset class="login_form" style="max-width: 500px; margin:auto; border:none;">
 
@@ -24,7 +24,7 @@
           <input type="radio" id="tag1" name="tag" value="1" checked>
           <label for="tag1">
             <span>
-              <img src="../../resource/check.svg" alt="Checked Icon" />
+              <img src="../../public/resource/check.svg" alt="Checked Icon" />
             </span>
           </label>
         </div>
@@ -34,7 +34,7 @@
           <input type="radio" id="tag2" name="tag" value="2">
           <label for="tag2">
             <span>
-              <img src="../public/resource/check.svg" alt="Checked Icon" />
+              <img src="../../public/resource/check.svg" alt="Checked Icon" />
             </span>
           </label>
         </div>
@@ -44,7 +44,7 @@
           <input type="radio" id="tag3" name="tag" value="3">
           <label for="tag3">
             <span>
-              <img src="../publicresource/check.svg" alt="Checked Icon" />
+              <img src="../../public/resource/check.svg" alt="Checked Icon" />
             </span>
           </label>
         </div>
@@ -54,7 +54,7 @@
           <input type="radio" id="tag4" name="tag" value="4">
           <label for="tag4">
             <span>
-              <img src="../public/resource/check.svg" alt="Checked Icon" />
+              <img src="../../public/resource/check.svg" alt="Checked Icon" />
             </span>
           </label>
         </div>
@@ -64,7 +64,7 @@
           <input type="radio" id="tag5" name="tag" value="5">
           <label for="tag5">
             <span>
-              <img src="../public/resource/check.svg" alt="Checked Icon" />
+              <img src="../../public/resource/check.svg" alt="Checked Icon" />
             </span>
           </label>
         </div>
@@ -74,7 +74,7 @@
           <input type="radio" id="tag6" name="tag" value="6">
           <label for="tag6">
             <span>
-              <img src="../public/resource/check.svg" alt="Checked Icon" />
+              <img src="../../public/resource/check.svg" alt="Checked Icon" />
             </span>
           </label>
         </div>
@@ -84,7 +84,7 @@
           <input type="radio" id="tag7" name="tag" value="7">
           <label for="tag7">
             <span>
-              <img src="../public/resource/check.svg" alt="Checked Icon" />
+              <img src="../../public/resource/check.svg" alt="Checked Icon" />
             </span>
           </label>
         </div>
@@ -110,9 +110,9 @@
     </fieldset>
   </form>
 
-  <script type="text/javascript" src="../public/js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="../public/js/materialize.js"></script>
-  <script type="text/javascript" src="../public/js/addMemo.js"></script>
+  <script type="text/javascript" src="../../public/js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="../../public/js/materialize.js"></script>
+  <script type="text/javascript" src="../../public/js/addMemo.js"></script>
 </body>
 
 </html>

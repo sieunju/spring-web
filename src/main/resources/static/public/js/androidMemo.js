@@ -1,18 +1,18 @@
 
 window.onload = function () {
     console.log(window.location.pathname)
-    if (window.location.pathname == "/views/android") {
-        fetchAndroidMemo()o
+    if (window.location.pathname == "/views/android/index.html") {
+        fetchAndroidMemo()
     } else {
         // 타이틀 엔터키 방지 로직
-        document.getElementById('title').addEventListener('keydown', function (event) {
-            switch (event.keyCode) {
-                case 13:
-                    // 엔터 키 방지.
-                    event.preventDefault();
-                    break;
-            }
-        })
+//        document.getElementById('title').addEventListener('keydown', function (event) {
+//            switch (event.keyCode) {
+//                case 13:
+//                    // 엔터 키 방지.
+//                    event.preventDefault();
+//                    break;
+//            }
+//        })
 
         // 취소 버튼 클릭시.
         document.getElementById('btn-cancel').onclick = function () {

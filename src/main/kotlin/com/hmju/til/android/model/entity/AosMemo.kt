@@ -18,7 +18,6 @@ data class AosMemo(
     val id: Long = 0,
     @Column(name = "TITLE", nullable = false)
     val title: String = "",
-    @Lob
     @Column(name = "CONTENTS", nullable = false)
     val contents: String = "",
     @Column(name = "REGISTER_DATE")
