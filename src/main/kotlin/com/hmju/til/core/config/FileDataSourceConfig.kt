@@ -25,7 +25,7 @@ import javax.sql.DataSource
  */
 @Configuration
 @EnableJpaRepositories(
-    basePackages = ["com.hmju.til.file"],
+    basePackages = ["com.hmju.til.features.file"],
     entityManagerFactoryRef = "fileEntityManagerFactory",
     transactionManagerRef = "fileTransactionManagerFactory"
 )
@@ -66,7 +66,7 @@ class FileDataSourceConfig @Autowired constructor(
     ): LocalContainerEntityManagerFactoryBean {
         val em = LocalContainerEntityManagerFactoryBean()
         em.dataSource = dataSource
-        em.setPackagesToScan("com.hmju.til.file.model")
+        em.setPackagesToScan("com.hmju.til.features.file.model")
         em.persistenceUnitName = "fileEntityManager"
 
         val vendorAdapter = HibernateJpaVendorAdapter()

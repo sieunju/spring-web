@@ -26,9 +26,9 @@ import javax.sql.DataSource
 @Configuration
 @EnableJpaRepositories(
     basePackages = [
-        "com.hmju.til.memo",
-        "com.hmju.til.goods",
-        "com.hmju.til.android"
+        "com.hmju.til.features.memo",
+        "com.hmju.til.features.goods",
+        "com.hmju.til.features.android"
     ],
     entityManagerFactoryRef = "mainEntityManagerFactory",
     transactionManagerRef = "mainTransactionManagerFactory"
@@ -71,9 +71,9 @@ class MainDataSourceConfig @Autowired constructor(
         val em = LocalContainerEntityManagerFactoryBean()
         em.dataSource = dataSource
         em.setPackagesToScan(
-            "com.hmju.til.memo.model",
-            "com.hmju.til.goods.model",
-            "com.hmju.til.android.model"
+            "com.hmju.til.features.memo.model",
+            "com.hmju.til.features.goods.model",
+            "com.hmju.til.features.android.model"
         )
         em.persistenceUnitName = "mainEntityManager"
         val adapter = HibernateJpaVendorAdapter()
