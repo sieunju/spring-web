@@ -52,7 +52,6 @@ class MainDataSourceConfig @Autowired constructor(
     @Value("\${spring.datasource.main.password}")
     private lateinit var password: String
 
-    @Primary
     @Bean("mainDataSource")
     fun getMainDataSource(): DataSource {
         return DataSourceBuilder.create()
@@ -63,7 +62,6 @@ class MainDataSourceConfig @Autowired constructor(
             .build()
     }
 
-    @Primary
     @Bean("mainEntityManagerFactory")
     fun getMainEntityManager(
         @Qualifier("mainDataSource") dataSource: DataSource
@@ -71,9 +69,9 @@ class MainDataSourceConfig @Autowired constructor(
         val em = LocalContainerEntityManagerFactoryBean()
         em.dataSource = dataSource
         em.setPackagesToScan(
-            "com.hmju.til.features.memo.model",
-            "com.hmju.til.features.goods.model",
-            "com.hmju.til.features.android.model"
+            "com.hmju.til.features.memo",
+            "com.hmju.til.features.goods",
+            "com.hmju.til.features.android"
         )
         em.persistenceUnitName = "mainEntityManager"
         val adapter = HibernateJpaVendorAdapter()
@@ -83,12 +81,10 @@ class MainDataSourceConfig @Autowired constructor(
         return em
     }
 
-    @Primary
     @Bean("mainTransactionManagerFactory")
     fun getMainTransactionManager(
         @Qualifier("mainEntityManagerFactory") factory: EntityManagerFactory
     ): PlatformTransactionManager {
-        // 나중에 필요하면 코드 작성 함
         return JpaTransactionManager(factory)
     }
 }

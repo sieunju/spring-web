@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
@@ -25,7 +24,9 @@ import javax.sql.DataSource
  */
 @Configuration
 @EnableJpaRepositories(
-    basePackages = ["com.hmju.til.features.file"],
+    basePackages = [
+        "com.hmju.til.features.file"
+    ],
     entityManagerFactoryRef = "fileEntityManagerFactory",
     transactionManagerRef = "fileTransactionManagerFactory"
 )
@@ -48,7 +49,6 @@ class FileDataSourceConfig @Autowired constructor(
     @Value("\${spring.datasource.file.password}")
     private lateinit var password: String
 
-    @Primary
     @Bean("fileDataSource")
     fun getFileDataSource(): DataSource {
         return DataSourceBuilder.create()
@@ -59,28 +59,26 @@ class FileDataSourceConfig @Autowired constructor(
             .build()
     }
 
-    @Primary
     @Bean("fileEntityManagerFactory")
     fun getFileEntityManager(
         @Qualifier("fileDataSource") dataSource: DataSource
     ): LocalContainerEntityManagerFactoryBean {
         val em = LocalContainerEntityManagerFactoryBean()
         em.dataSource = dataSource
-        em.setPackagesToScan("com.hmju.til.features.file.model")
+        em.setPackagesToScan(
+            "com.hmju.til.features.file"
+        )
         em.persistenceUnitName = "fileEntityManager"
-
-        val vendorAdapter = HibernateJpaVendorAdapter()
-        em.jpaVendorAdapter = vendorAdapter
+        val adapter = HibernateJpaVendorAdapter()
+        em.jpaVendorAdapter = adapter
         em.setJpaPropertyMap(dbComponent.getPropertiesMap())
         return em
     }
 
-    @Primary
     @Bean("fileTransactionManagerFactory")
     fun getFileTransactionManager(
         @Qualifier("fileEntityManagerFactory") factory: EntityManagerFactory
     ): PlatformTransactionManager {
-        // 나중에 필요하면 코드 작성 함
         return JpaTransactionManager(factory)
     }
 }
