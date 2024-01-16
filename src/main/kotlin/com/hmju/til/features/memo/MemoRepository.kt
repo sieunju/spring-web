@@ -3,13 +3,13 @@ package com.hmju.til.features.memo
 import com.hmju.til.features.memo.model.entity.Memo
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.CrudRepository
 
 /**
  * Description : Memo Repository
  *
  * Created by juhongmin on 12/22/23
  */
+@Suppress("unused")
 interface MemoRepository : JpaRepository<Memo, Long> {
 
     /**
