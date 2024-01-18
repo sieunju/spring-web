@@ -2,6 +2,9 @@ package com.hmju.til.component.impl
 
 import com.hmju.til.component.JwtComponent
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.KeyPairBuilder
+import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.Logger
@@ -9,7 +12,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
+import java.nio.charset.Charset
+import java.security.spec.AlgorithmParameterSpec
 import java.util.*
+import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
 /**
@@ -24,7 +30,7 @@ internal class JwtComponentImpl : JwtComponent {
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     //    @Value("\${jwt.secret-key}")
-//    private lateinit var secretKey: String
+    private lateinit var secretKey: String
     private lateinit var key: SecretKey
 
     // 테스트 3분
@@ -34,7 +40,8 @@ internal class JwtComponentImpl : JwtComponent {
 
     @PostConstruct
     protected fun init() {
-        key = Jwts.SIG.HS512.key().build()
+        // key = Jwts.SIG.HS512.key().build()
+        key = Keys.hmacShaKeyFor(secretKey.toByteArray(Charset.defaultCharset()))
     }
 
     override fun createToken(userEmail: String): String {
