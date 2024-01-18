@@ -38,6 +38,13 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     /**
+     * JWT
+     */
+    implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-gson:0.12.3")
+
+    /**
      * Swagger
      */
     implementation("io.springfox:springfox-swagger2:3.0.0")

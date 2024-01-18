@@ -1,6 +1,7 @@
 package com.hmju.til.core.config
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpHeaders
 
 
 /**
@@ -28,14 +30,16 @@ import org.springframework.context.annotation.Configuration
         Server(url = "https://til.qtzz.synology.me", description = "prod")
     ]
 )
-@SecurityRequirements(value = [SecurityRequirement(name = "JSON Web Token Auth")])
+@SecurityRequirements(value = [SecurityRequirement(name = "JSON Web Token Auth", scopes = [HttpHeaders.AUTHORIZATION])])
 @SecuritySchemes(
     value = [
         SecurityScheme(
             type = SecuritySchemeType.HTTP,
             name = "JSON Web Token Auth",
             scheme = "bearer",
-            bearerFormat = "JWT"
+            bearerFormat = "JWT",
+            `in` = SecuritySchemeIn.HEADER,
+            paramName = HttpHeaders.AUTHORIZATION
         )
     ]
 )
