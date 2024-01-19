@@ -1,6 +1,7 @@
 package com.hmju.til.component.impl
 
 import com.hmju.til.component.JwtComponent
+import com.hmju.til.core.exception.InvalidJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
@@ -52,7 +54,17 @@ internal class JwtComponentImpl : JwtComponent {
     override fun getHeaderToken(
         req: HttpServletRequest
     ): String? {
-        return req.getHeader("Authorization")
+        val auth = req.getHeader(HttpHeaders.AUTHORIZATION)
+        if (auth.isNullOrEmpty()) return null
+        // bearer
+        return if (auth.startsWith("Bearer ")) {
+            auth.substring(7)
+                .replace("+", "-")
+                .replace("/", "_")
+                .replace("=", "")
+        } else {
+            throw InvalidJwtException(auth)
+        }
     }
 
     override fun isValidate(
@@ -66,7 +78,6 @@ internal class JwtComponentImpl : JwtComponent {
                 .body
             return !claims.expiration.before(Date())
         } catch (ex: Exception) {
-            logger.info("ERROR $ex")
             false
         }
     }

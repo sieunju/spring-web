@@ -51,4 +51,15 @@ class ExceptionHandlers {
             .setMessage(ex.message ?: "")
             .build()
     }
+
+    @ExceptionHandler(InvalidJwtException::class)
+    fun handleJwtException(
+        ex: InvalidJwtException
+    ): JSendResponse<Any, JSendMeta> {
+        logger.info("InvalidJwtException $ex")
+        return JSendResponse.Builder<Any, JSendMeta>()
+            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+            .setMessage(ex.message ?: "")
+            .build()
+    }
 }
