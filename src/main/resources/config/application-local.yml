@@ -23,4 +23,4 @@ remote_host: http://localhost:10004
 
 # JWT Secret-key
 jwt:
-  secret-key: hello-spring-kkk
+  secret-key: SmdlZzB4bmNBUGdWeWE2TmhwU0hobHBoV20yNTRZQ0xIWlIvQ2dlRGdNOD0K

@@ -29,10 +29,11 @@ internal class JwtAuthenticationFilter(
             return
         }
         val token = jwtComponent.getHeaderToken(req)
-        logger.info("Header $token\n${req.requestURL}\nisValidate ${jwtComponent.isValidate(token ?: "")}")
         // 유효한 경우
         if (token != null && jwtComponent.isValidate(token)) {
-            SecurityContextHolder.getContext().authentication = jwtComponent.getAuthentication(token)
+            val auth = jwtComponent.getAuthentication(token)
+            logger.info("Auth ${auth.isAuthenticated} ${auth.principal}")
+            SecurityContextHolder.getContext().authentication = auth
         }
         chain.doFilter(req, res)
     }
