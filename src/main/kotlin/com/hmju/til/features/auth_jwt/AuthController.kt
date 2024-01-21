@@ -3,7 +3,11 @@ package com.hmju.til.features.auth_jwt
 import com.hmju.til.component.JwtComponent
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
+import com.hmju.til.features.auth_jwt.model.dto.AuthDTO
+import com.hmju.til.features.auth_jwt.model.vo.AuthVo
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,12 +26,20 @@ import org.springframework.web.bind.annotation.RestController
 @Suppress("unused")
 class AuthController @Autowired constructor(
     private val jwtComponent: JwtComponent
-){
+) {
+
+    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
+    private val emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$".toRegex()
+
     @PostMapping("/token")
-    fun postToken() : JSendResponse<String,JSendMeta> {
-        val token = jwtComponent.createToken("test@gmail.com").replace("-","+").replace("_","/")
-        return JSendResponse.Builder<String,JSendMeta>()
-            .setPayload(token)
+    fun postToken(
+        @RequestBody body: AuthVo
+    ): JSendResponse<AuthDTO, JSendMeta> {
+        if (body.email.isEmpty() || !emailRegex.matches(body.email)) {
+            throw IllegalArgumentException("이메일이 유효하지 않습니다.")
+        }
+        return JSendResponse.Builder<AuthDTO, JSendMeta>()
+            .setPayload(AuthDTO(jwtComponent.createToken(body)))
             .build()
     }
 }

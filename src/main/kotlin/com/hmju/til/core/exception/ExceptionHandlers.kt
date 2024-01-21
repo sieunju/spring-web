@@ -6,6 +6,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.orm.jpa.JpaSystemException
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
  * Created by juhongmin on 12/23/23
  */
 @ControllerAdvice
+@Suppress("unused")
 class ExceptionHandlers {
 
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
@@ -52,6 +54,17 @@ class ExceptionHandlers {
             .build()
     }
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(
+        ex: IllegalArgumentException
+    ) : JSendResponse<Any,JSendMeta> {
+        logger.info("IllegalArgumentException $ex")
+        return JSendResponse.Builder<Any, JSendMeta>()
+            .setStatus(HttpStatus.BAD_REQUEST)
+            .setMessage(ex.message ?: "")
+            .build()
+    }
+
     @ExceptionHandler(InvalidJwtException::class)
     fun handleJwtException(
         ex: InvalidJwtException
@@ -60,6 +73,16 @@ class ExceptionHandlers {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
             .setMessage(ex.message ?: "")
+            .build()
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleNotValidException(
+        ex: MethodArgumentNotValidException
+    ): JSendResponse<Any, JSendMeta> {
+        return JSendResponse.Builder<Any, JSendMeta>()
+            .setStatus(HttpStatus.BAD_REQUEST)
+            .setMessage("유효한 값이 없습니다.")
             .build()
     }
 }

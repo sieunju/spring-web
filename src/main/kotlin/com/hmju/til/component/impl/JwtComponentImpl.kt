@@ -2,6 +2,8 @@ package com.hmju.til.component.impl
 
 import com.hmju.til.component.JwtComponent
 import com.hmju.til.core.exception.InvalidJwtException
+import com.hmju.til.features.auth_jwt.model.entity.AuthEntity
+import com.hmju.til.features.auth_jwt.model.vo.AuthVo
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -34,17 +36,42 @@ internal class JwtComponentImpl : JwtComponent {
         Keys.hmacShaKeyFor(keyBytes)
     }
 
-    // 테스트 3분
-    private val expiredTimeMs: Long by lazy {
-        1000 * 60 * 10
+    // 30분
+    private val refreshExpiredTimeMs: Long by lazy { 30 * 60 * 1000 }
+    private val minuteTimeMs: Long by lazy { 60 * 1000 }
+
+    /**
+     * Create Json Web Token
+     * @param vo RequestBody
+     * @return JWT 에 대한 정보를 리턴하는 데이터 모델
+     */
+    override fun createToken(vo: AuthVo): AuthEntity {
+        val now = Date(System.currentTimeMillis())
+        val expired = Date(now.time.plus(vo.expiredMinute * minuteTimeMs))
+        val refreshExpired = Date(now.time.plus(refreshExpiredTimeMs))
+        val token = createToken(vo.email, now, expired)
+        val refreshToken = createToken(vo.email, now, refreshExpired)
+        return AuthEntity(
+            token = token,
+            refreshToken = refreshToken,
+            expiredDate = expired
+        )
     }
 
-    override fun createToken(userEmail: String): String {
-        val now = Date(System.currentTimeMillis())
-        val expired = Date(System.currentTimeMillis().plus(expiredTimeMs))
+    /**
+     * JWT Token 생성하는 함수
+     * @param email Token 에 필요한 이메일
+     * @param now 현재 시각
+     * @param expired 만료 시간
+     */
+    private fun createToken(
+        email: String,
+        now: Date,
+        expired: Date
+    ): String {
         return Jwts.builder()
-            .setClaims(mapOf("typ" to "JWT"))
-            .setSubject(userEmail)
+            .setClaims(mapOf("type" to "JWT"))
+            .setSubject(email)
             .setIssuedAt(now)
             .signWith(key)
             .setExpiration(expired)
