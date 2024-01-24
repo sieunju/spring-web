@@ -20,5 +20,7 @@ interface JwtComponent {
 
     fun isValidate(token: String): Boolean
 
+    fun isExpired(token: String) : Boolean
+
     fun getAuthentication(token: String): Authentication
 }

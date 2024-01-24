@@ -35,7 +35,7 @@ internal class JwtAuthenticationFilter(
         try {
             val token = jwtComponent.getHeaderToken(req)
             // 유효한 경우
-            if (token != null && jwtComponent.isValidate(token)) {
+            if (token != null && jwtComponent.isExpired(token)) {
                 SecurityContextHolder.getContext().authentication = jwtComponent.getAuthentication(token)
             }
         } catch (ex: InvalidJwtException) {

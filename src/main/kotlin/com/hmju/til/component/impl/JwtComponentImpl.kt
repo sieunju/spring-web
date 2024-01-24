@@ -98,12 +98,22 @@ internal class JwtComponentImpl : JwtComponent {
         token: String
     ): Boolean {
         return try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
+            true
+        } catch (ex: Exception) {
+            logger.info("우리가 쓰고 있는 토큰이 아닙니다. $ex")
+            false
+        }
+    }
+
+    override fun isExpired(token: String): Boolean {
+        return try {
             val claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .body
-            return !claims.expiration.before(Date())
+            !claims.expiration.before(Date())
         } catch (ex: Exception) {
             false
         }
