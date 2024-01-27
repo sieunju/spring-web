@@ -1,24 +1,26 @@
 package com.hmju.til.features.auth_jwt.model.dto
 
-import com.hmju.til.features.auth_jwt.model.entity.AuthEntity
+import com.hmju.til.features.auth_jwt.model.entity.JwtInfo
+import java.time.LocalDateTime
 import java.util.*
 
 /**
- * Description :
+ * Description : Auth Client 전용 DTO
  *
- * Created by juhongmin on 1/21/24
+ * Created by juhongmin on 1/27/24
  */
 data class AuthDTO(
-    val token: String = "",
-    val expiredDate: Date,
-    val refreshToken: String = ""
+    val accessToken: String,
+    val accessExpiredDate: LocalDateTime,
+    val refreshToken: String,
+    val refreshExpiredDate: LocalDateTime
 ) {
-
     constructor(
-        entity: AuthEntity
+        info: JwtInfo
     ) : this(
-        token = entity.token,
-        expiredDate = entity.expiredDate,
-        refreshToken = entity.refreshToken
+        accessToken = info.token,
+        accessExpiredDate = info.expiredDate,
+        refreshToken = info.refreshToken,
+        refreshExpiredDate = info.refreshExpiredDate
     )
 }

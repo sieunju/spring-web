@@ -1,6 +1,7 @@
 package com.hmju.til.component
 
-import com.hmju.til.features.auth_jwt.model.entity.AuthEntity
+import com.hmju.til.features.auth_jwt.model.entity.JsonWebToken
+import com.hmju.til.features.auth_jwt.model.entity.JwtInfo
 import com.hmju.til.features.auth_jwt.model.vo.AuthVo
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.core.Authentication
@@ -12,11 +13,17 @@ import org.springframework.security.core.Authentication
  */
 interface JwtComponent {
 
-    fun createToken(vo: AuthVo): AuthEntity
+    fun create(vo: AuthVo): JwtInfo
+
+    fun create(entity: JsonWebToken) : JwtInfo
 
     fun getHeaderToken(
         req: HttpServletRequest
     ): String?
+
+    fun getHeaderToken(
+        auth: String
+    ) : String
 
     fun isValidate(token: String): Boolean
 

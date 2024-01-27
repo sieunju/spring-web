@@ -2,8 +2,10 @@ package com.hmju.til.component.impl
 
 import com.hmju.til.component.JwtComponent
 import com.hmju.til.core.exception.InvalidJwtException
-import com.hmju.til.features.auth_jwt.model.entity.AuthEntity
+import com.hmju.til.features.auth_jwt.model.entity.JsonWebToken
+import com.hmju.til.features.auth_jwt.model.entity.JwtInfo
 import com.hmju.til.features.auth_jwt.model.vo.AuthVo
+import com.hmju.til.toLocalDateTime
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -19,7 +21,7 @@ import java.security.Key
 import java.util.*
 
 /**
- * Description :
+ * Description : JsonWebToken Provider Class
  *
  * Created by juhongmin on 1/16/24
  */
@@ -45,37 +47,38 @@ internal class JwtComponentImpl : JwtComponent {
      * @param vo RequestBody
      * @return JWT 에 대한 정보를 리턴하는 데이터 모델
      */
-    override fun createToken(vo: AuthVo): AuthEntity {
+    override fun create(
+        vo: AuthVo
+    ): JwtInfo {
         val now = Date(System.currentTimeMillis())
         val expired = Date(now.time.plus(vo.expiredMinute * minuteTimeMs))
         val refreshExpired = Date(now.time.plus(refreshExpiredTimeMs))
         val token = createToken(vo.email, now, expired)
         val refreshToken = createToken(vo.email, now, refreshExpired)
-        return AuthEntity(
+        return JwtInfo(
             token = token,
+            expiredDate = expired.toLocalDateTime(),
+            email = vo.email,
             refreshToken = refreshToken,
-            expiredDate = expired
+            refreshExpiredDate = refreshExpired.toLocalDateTime()
         )
     }
 
-    /**
-     * JWT Token 생성하는 함수
-     * @param email Token 에 필요한 이메일
-     * @param now 현재 시각
-     * @param expired 만료 시간
-     */
-    private fun createToken(
-        email: String,
-        now: Date,
-        expired: Date
-    ): String {
-        return Jwts.builder()
-            .setClaims(mapOf("type" to "JWT"))
-            .setSubject(email)
-            .setIssuedAt(now)
-            .signWith(key)
-            .setExpiration(expired)
-            .compact()
+    override fun create(
+        entity: JsonWebToken
+    ): JwtInfo {
+        val now = Date(System.currentTimeMillis())
+        val expired = Date(now.time.plus(5 * minuteTimeMs))
+        val refreshExpired = Date(now.time.plus(refreshExpiredTimeMs))
+        val token = createToken(entity.email, now, expired)
+        val refreshToken = createToken(entity.email, now, refreshExpired)
+        return JwtInfo(
+            token = token,
+            expiredDate = expired.toLocalDateTime(),
+            email = entity.email,
+            refreshToken = refreshToken,
+            refreshExpiredDate = refreshExpired.toLocalDateTime()
+        )
     }
 
     override fun getHeaderToken(
@@ -83,6 +86,10 @@ internal class JwtComponentImpl : JwtComponent {
     ): String? {
         val auth = req.getHeader(HttpHeaders.AUTHORIZATION)
         if (auth.isNullOrEmpty()) return null
+        return getHeaderToken(auth)
+    }
+
+    override fun getHeaderToken(auth: String): String {
         // bearer
         return if (auth.startsWith("Bearer ")) {
             auth.substring(7)
@@ -130,5 +137,25 @@ internal class JwtComponentImpl : JwtComponent {
             token,
             arrayListOf()
         )
+    }
+
+    /**
+     * JWT Token 생성하는 함수
+     * @param email Token 에 필요한 이메일
+     * @param now 현재 시각
+     * @param expired 만료 시간
+     */
+    private fun createToken(
+        email: String,
+        now: Date,
+        expired: Date
+    ): String {
+        return Jwts.builder()
+            .setClaims(mapOf("type" to "JWT"))
+            .setSubject(email)
+            .setIssuedAt(now)
+            .signWith(key)
+            .setExpiration(expired)
+            .compact()
     }
 }
