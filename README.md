@@ -26,3 +26,26 @@ java -jar release/til-api-server.jar --spring.profiles.active=local
 ```shell
 java -jar release/til-api-server.jar --spring.profiles.active=prod
 ```
+
+## Exception 정의
+1. JSendException
+   - HTTP Status : 400
+   - Message: ErrorMessage
+2. JpaSystemException
+   - HTTP Status : 400
+   - Message: 올바르지 않은 데이터 입니다.
+3. IllegalArgumentException
+   - HTTP Status : 400
+   - Message: ErrorMessage
+4. InvalidAuthException
+   - HTTP Status : 500
+   - Message: 유효하지 않는 토큰입니다.
+5. MethodArgumentNotValidException
+   - HTTP Status : 400
+   - Message: 유효한 값이 없습니다.
+6. Exception
+   - HTTP Status : 500
+   - Message: ErrorMessage
+7. ExpiredAuthException
+   - HTTP Status : 401
+   - Message: 만료된 토큰입니다.
