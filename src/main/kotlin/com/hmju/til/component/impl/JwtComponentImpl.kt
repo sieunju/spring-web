@@ -1,10 +1,13 @@
 package com.hmju.til.component.impl
 
 import com.hmju.til.component.JwtComponent
-import com.hmju.til.core.exception.InvalidJwtException
+import com.hmju.til.core.exception.ExpiredAuthException
+import com.hmju.til.core.exception.InvalidAuthException
 import com.hmju.til.features.auth_jwt.model.entity.JsonWebToken
 import com.hmju.til.features.auth_jwt.model.entity.JwtInfo
 import com.hmju.til.features.auth_jwt.model.vo.AuthVo
+import com.hmju.til.toLocalDateTime
+import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -17,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.security.Key
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -66,24 +70,35 @@ internal class JwtComponentImpl : JwtComponent {
             .build()
     }
 
+    override fun isTokenValidate(auth: String): Boolean {
+        return auth.startsWith("Bearer ")
+    }
+
     override fun getHeaderToken(
         req: HttpServletRequest
     ): String? {
         val auth = req.getHeader(HttpHeaders.AUTHORIZATION)
         if (auth.isNullOrEmpty()) return null
+        if (!isTokenValidate(auth)) throw InvalidAuthException(auth)
         return getHeaderToken(auth)
     }
 
     override fun getHeaderToken(auth: String): String {
-        // bearer
-        return if (auth.startsWith("Bearer ")) {
+        // Bearer
+        val originAuth = if (auth.startsWith("Bearer ")) {
             auth.substring(7)
-                .replace("+", "-")
-                .replace("/", "_")
-                .replace("=", "")
         } else {
-            throw InvalidJwtException(auth)
+            auth
         }
+        return originAuth
+            .replace(Regex("[+/=]]")) {
+                when (it.value) {
+                    "+" -> "-"
+                    "/" -> "_"
+                    "=" -> ""
+                    else -> it.value
+                }
+            }
     }
 
     override fun isValidate(
@@ -105,9 +120,12 @@ internal class JwtComponentImpl : JwtComponent {
                 .build()
                 .parseClaimsJws(token)
                 .body
-            !claims.expiration.before(Date())
+            val tokenTime = claims.expiration.toLocalDateTime()
+            tokenTime.isBefore(LocalDateTime.now())
+        } catch (ex: ExpiredJwtException) {
+            throw ExpiredAuthException(token)
         } catch (ex: Exception) {
-            false
+            true
         }
     }
 
@@ -119,7 +137,8 @@ internal class JwtComponentImpl : JwtComponent {
             .body.subject
         return UsernamePasswordAuthenticationToken(
             subject,
-            token
+            token,
+            mutableListOf()
         )
     }
 

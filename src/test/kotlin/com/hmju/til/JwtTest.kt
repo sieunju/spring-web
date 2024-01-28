@@ -36,10 +36,7 @@ class JwtTest {
         val vo = AuthVo(email = "test@gmail.com", expiredMinute = 1)
         val entity = jwtComponent.create(vo)
         println("Token ${entity.token}")
-        val token = "eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiSldUIiwic3ViIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MDU4NDE4ODMsImV4cCI6MTcwNTg0MTk0M30.AJnVuCvwE7Huz4cgXYliRunNpqNfID4S1NdLF-en7Z8"
-            .replace("+", "-")
-            .replace("/", "_")
-            .replace("=", "")
+        val token = jwtComponent.getHeaderToken(entity.token)
         val validate= jwtComponent.isValidate(token)
         val expired = jwtComponent.isExpired(token)
         println("여기서 만든 토큰입니까? $validate  만료된 토큰 $expired")

@@ -8,5 +8,4 @@ package com.hmju.til.core.exception
 data class JSendException(
     val code: Int,
     val msg: String
-) : RuntimeException(msg) {
-}
+) : RuntimeException(msg)

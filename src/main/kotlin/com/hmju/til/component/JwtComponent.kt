@@ -17,6 +17,8 @@ interface JwtComponent {
 
     fun create(entity: JsonWebToken) : JwtInfo
 
+    fun isTokenValidate(auth: String) : Boolean
+
     fun getHeaderToken(
         req: HttpServletRequest
     ): String?

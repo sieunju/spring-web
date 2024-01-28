@@ -1,7 +1,7 @@
 package com.hmju.til.features.auth_jwt
 
 import com.hmju.til.component.JwtComponent
-import com.hmju.til.core.exception.InvalidJwtException
+import com.hmju.til.core.exception.InvalidAuthException
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.features.auth_jwt.model.dto.AuthDTO
@@ -53,7 +53,7 @@ class AuthController @Autowired constructor(
     ): JSendResponse<AuthDTO, JSendMeta> {
         val expiredEntity = service
             .findAuth(jwtComponent.getHeaderToken(authorization))
-            ?: throw InvalidJwtException(auth = authorization)
+            ?: throw InvalidAuthException(auth = authorization)
         logger.info("만료된 데이터 찾았습니다. $expiredEntity")
         val info = jwtComponent.create(expiredEntity)
         service.update(JsonWebTokenDTO(expiredEntity.id, info))

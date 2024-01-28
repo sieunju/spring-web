@@ -2,6 +2,7 @@ package com.hmju.til.features.error_handling
 
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
  * Created by juhongmin on 1/13/24
  */
 @Tag(name = "[Test] Error Handling", description = "테스트용 에러 API")
+@SecurityRequirement(name = "JWT Auth")
 @RestController
 @RequestMapping("/api/v1/til/error", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")

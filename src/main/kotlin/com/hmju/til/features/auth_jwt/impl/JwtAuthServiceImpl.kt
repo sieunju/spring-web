@@ -1,7 +1,7 @@
 package com.hmju.til.features.auth_jwt.impl
 
 import com.hmju.til.component.JwtComponent
-import com.hmju.til.core.exception.InvalidJwtException
+import com.hmju.til.core.exception.InvalidAuthException
 import com.hmju.til.features.auth_jwt.JwtAuthRepository
 import com.hmju.til.features.auth_jwt.JwtAuthService
 import com.hmju.til.features.auth_jwt.model.dto.JsonWebTokenDTO
@@ -38,9 +38,9 @@ internal class JwtAuthServiceImpl @Autowired constructor(
      * 유효성 검사 후 새로 발급해서 전달한다.
      * @param token Refresh Token
      */
-    @Throws(InvalidJwtException::class)
+    @Throws(InvalidAuthException::class)
     override fun refresh(token: String): JsonWebToken {
-        throw InvalidJwtException("")
+        throw InvalidAuthException("")
     }
 
     override fun update(dto: JsonWebTokenDTO): JsonWebToken {
