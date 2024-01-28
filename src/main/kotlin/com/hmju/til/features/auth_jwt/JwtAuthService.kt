@@ -1,7 +1,6 @@
 package com.hmju.til.features.auth_jwt
 
 import com.hmju.til.features.auth_jwt.model.dto.JsonWebTokenDTO
-import com.hmju.til.features.auth_jwt.model.entity.JsonWebToken
 
 /**
  * Description : JWT Auth Service Interface
@@ -12,11 +11,7 @@ interface JwtAuthService {
 
     fun save(dto: JsonWebTokenDTO)
 
-    fun findAuth(token: String): JsonWebToken?
-
-    fun refresh(token: String) : JsonWebToken
-
-    fun update(dto: JsonWebTokenDTO): JsonWebToken
+    fun refresh(token: String): JsonWebTokenDTO
 
     fun delete(id: Long)
 

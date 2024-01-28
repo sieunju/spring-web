@@ -18,18 +18,28 @@ data class JsonWebToken(
     val id: Long = 0,
     @Column(name = "EMAIL", nullable = false)
     val email: String = "",
-    @Column(name = "TOKEN", nullable = false)
+    @Column(name = "REFRESH_TOKEN", nullable = false)
     val token: String = "",
-    @Column(name = "EXPIRED_DATE", nullable = false)
+    @Column(name = "REFRESH_TOKEN_EXPIRED_DATE", nullable = false)
     val expiredDate: LocalDateTime = LocalDateTime.now(),
     @Column(name = "REGISTER_DATE", nullable = false)
-    val registerDate: LocalDateTime = LocalDateTime.now()
+    val registerDate: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "IS_DELETE", nullable = false)
+    val isDelete: Boolean = false // true 인 경우 하루뒤 삭제하는 스크립트 작성 예정
 ) {
     constructor(dto: JsonWebTokenDTO) : this(
         id = dto.id ?: 0,
         email = dto.email,
         token = dto.refreshToken,
-        expiredDate = dto.expiredDate,
+        expiredDate = dto.refreshExpiredDate,
+        registerDate = LocalDateTime.now()
+    )
+
+    constructor(info: JwtInfo) : this(
+        id = 0,
+        email = info.email,
+        token = info.refreshToken,
+        expiredDate = info.refreshExpiredDate,
         registerDate = LocalDateTime.now()
     )
 }

@@ -1,7 +1,6 @@
 package com.hmju.til.features.auth_jwt
 
 import com.hmju.til.component.JwtComponent
-import com.hmju.til.core.exception.InvalidAuthException
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.features.auth_jwt.model.dto.AuthDTO
@@ -11,7 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.*
  *
  * Created by juhongmin on 1/15/24
  */
-@Tag(name = "[Test] Auth JWT", description = "JWT 테스트용 API")
+@Tag(name = "Auth JWT", description = "Auth API")
 @RestController
 @RequestMapping("/api/v1/auth", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")
@@ -49,16 +48,11 @@ class AuthController @Autowired constructor(
 
     @PostMapping("/refresh")
     fun postRefresh(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String
+        @RequestHeader(value = AUTHORIZATION) authorization: String
     ): JSendResponse<AuthDTO, JSendMeta> {
-        val expiredEntity = service
-            .findAuth(jwtComponent.getHeaderToken(authorization))
-            ?: throw InvalidAuthException(auth = authorization)
-        logger.info("만료된 데이터 찾았습니다. $expiredEntity")
-        val info = jwtComponent.create(expiredEntity)
-        service.update(JsonWebTokenDTO(expiredEntity.id, info))
+        val dto = service.refresh(jwtComponent.getHeaderToken(authorization))
         return JSendResponse.Builder<AuthDTO, JSendMeta>()
-            .setPayload(AuthDTO(info))
+            .setPayload(AuthDTO(dto))
             .build()
     }
 }

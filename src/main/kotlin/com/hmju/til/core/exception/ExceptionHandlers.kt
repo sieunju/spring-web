@@ -2,6 +2,8 @@ package com.hmju.til.core.exception
 
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.orm.jpa.JpaSystemException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @ControllerAdvice
 @Suppress("unused")
 class ExceptionHandlers {
+
+    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @ExceptionHandler(JSendException::class)
     fun handleJSendException(
@@ -41,6 +45,7 @@ class ExceptionHandlers {
     fun handleException(
         ex: Exception
     ): JSendResponse<Any, JSendMeta> {
+        logger.info("HandleException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
             .setMessage(ex.message ?: "")

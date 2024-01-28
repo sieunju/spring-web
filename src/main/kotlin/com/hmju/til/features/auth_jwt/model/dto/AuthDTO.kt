@@ -2,7 +2,6 @@ package com.hmju.til.features.auth_jwt.model.dto
 
 import com.hmju.til.features.auth_jwt.model.entity.JwtInfo
 import java.time.LocalDateTime
-import java.util.*
 
 /**
  * Description : Auth Client 전용 DTO
@@ -22,5 +21,12 @@ data class AuthDTO(
         accessExpiredDate = info.expiredDate,
         refreshToken = info.refreshToken,
         refreshExpiredDate = info.refreshExpiredDate
+    )
+
+    constructor(dto: JsonWebTokenDTO) : this(
+        accessToken = dto.accessToken,
+        accessExpiredDate = dto.accessExpiredDate,
+        refreshToken = dto.refreshToken,
+        refreshExpiredDate = dto.refreshExpiredDate
     )
 }

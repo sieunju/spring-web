@@ -12,8 +12,8 @@ import java.util.*
 data class JsonWebTokenDTO(
     val id: Long? = null,
     val email: String,
-    val token: String,
-    val expiredDate: LocalDateTime,
+    val accessToken: String,
+    val accessExpiredDate: LocalDateTime,
     val refreshToken: String,
     val refreshExpiredDate: LocalDateTime
 ) {
@@ -22,20 +22,8 @@ data class JsonWebTokenDTO(
         info: JwtInfo
     ) : this(
         email = info.email,
-        token = info.token,
-        expiredDate = info.expiredDate,
-        refreshToken = info.refreshToken,
-        refreshExpiredDate = info.refreshExpiredDate
-    )
-
-    constructor(
-        id: Long,
-        info: JwtInfo
-    ) : this(
-        id = id,
-        email = info.email,
-        token = info.token,
-        expiredDate = info.expiredDate,
+        accessToken = info.token,
+        accessExpiredDate = info.expiredDate,
         refreshToken = info.refreshToken,
         refreshExpiredDate = info.refreshExpiredDate
     )

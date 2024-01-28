@@ -52,12 +52,11 @@ class SecurityConfig @Autowired constructor(
             }, CsrfFilter::class.java)
             .addFilterBefore(JwtAuthenticationFilter(jwtComponent), UsernamePasswordAuthenticationFilter::class.java)
             .authorizeHttpRequests {
-                // it.requestMatchers("/api/**").permitAll()
                 it.requestMatchers("/api/v1/auth/token").permitAll()
                 it.requestMatchers("/api/v1/auth/refresh").permitAll()
                 it.requestMatchers("/api/v1/memo/aos/**").permitAll()
 
-                it.requestMatchers("/api/**").authenticated()
+                // it.requestMatchers("/api/**").authenticated()
                 it.requestMatchers("/v3/api-docs/**").permitAll()
                 it.requestMatchers("/swagger-ui/**").permitAll()
                 it.requestMatchers("/resources/**").permitAll()
@@ -67,8 +66,7 @@ class SecurityConfig @Autowired constructor(
                 it.requestMatchers("/public/css/**").permitAll()
                 it.requestMatchers("/public/js/**").permitAll()
                 it.requestMatchers("/public/resource/**").permitAll()
-
-                // it.anyRequest().permitAll()
+                it.anyRequest().authenticated()
             }
             .build()
     }

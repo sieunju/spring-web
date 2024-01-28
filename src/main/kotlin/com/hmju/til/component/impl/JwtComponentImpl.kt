@@ -15,13 +15,14 @@ import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.time.LocalDateTime
 import java.util.*
+
 
 /**
  * Description : JsonWebToken Provider Class
@@ -77,7 +78,7 @@ internal class JwtComponentImpl : JwtComponent {
     override fun getHeaderToken(
         req: HttpServletRequest
     ): String? {
-        val auth = req.getHeader(HttpHeaders.AUTHORIZATION)
+        val auth = req.getHeader(AUTHORIZATION)
         if (auth.isNullOrEmpty()) return null
         if (!isTokenValidate(auth)) throw InvalidAuthException(auth)
         return getHeaderToken(auth)
@@ -130,13 +131,19 @@ internal class JwtComponentImpl : JwtComponent {
     }
 
     override fun getAuthentication(token: String): Authentication {
-        val subject = Jwts.parserBuilder()
+        val claims = Jwts.parserBuilder()
             .setSigningKey(key)
             .build()
             .parseClaimsJws(token)
-            .body.subject
+            .body
+//        val authorities: Collection<GrantedAuthority?> =
+//            Arrays.stream(claims["Bearer"].toString().split(",".toRegex()).dropLastWhile { it.isEmpty() }
+//                .toTypedArray())
+//                .map { role: String? -> SimpleGrantedAuthority(role) }
+//                .collect(Collectors.toList())
+        // authorities 에 대해서 좀 알아봐야 할듯
         return UsernamePasswordAuthenticationToken(
-            subject,
+            claims.subject,
             token,
             mutableListOf()
         )

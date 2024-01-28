@@ -10,6 +10,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * Description : JWT Auth Service Impl Class
@@ -29,22 +30,23 @@ internal class JwtAuthServiceImpl @Autowired constructor(
         repository.saveAndFlush(JsonWebToken(dto))
     }
 
-    override fun findAuth(token: String): JsonWebToken? {
-        return repository.findByToken(token)
-    }
-
     /**
      * RefreshToken 을 가져와서 토큰을 새로 교체해서 리턴하는 함수
      * 유효성 검사 후 새로 발급해서 전달한다.
      * @param token Refresh Token
      */
+    @Transactional(value = "mainTransactionManagerFactory", rollbackFor = [InvalidAuthException::class])
     @Throws(InvalidAuthException::class)
-    override fun refresh(token: String): JsonWebToken {
-        throw InvalidAuthException("")
-    }
-
-    override fun update(dto: JsonWebTokenDTO): JsonWebToken {
-        return repository.save(JsonWebToken(dto))
+    override fun refresh(token: String): JsonWebTokenDTO {
+        val entity = repository.findByToken(token) ?: throw InvalidAuthException(token)
+        // 1. 삭제 예정으로 변경
+        if (!entity.isDelete) {
+            repository.save(entity.copy(isDelete = true))
+        }
+        // 2. Token 재발급
+        val info = jwtComponent.create(entity)
+        repository.save(JsonWebToken(info))
+        return JsonWebTokenDTO(info)
     }
 
     override fun delete(id: Long) {

@@ -37,7 +37,12 @@ internal class JwtAuthenticationFilter(
             }
         } catch (ex: ExpiredAuthException) {
             if (res !is HttpServletResponse) return
-            ex.sendErrorBody(res)
+            // 만료된 토큰 에러에서 API 가 refresh 인경우
+            if (req.requestURL.contains("/api/v1/auth/refresh")) {
+                chain.doFilter(req, res)
+            } else {
+                ex.sendErrorBody(res)
+            }
             return
         } catch (ex: InvalidAuthException) {
             if (res !is HttpServletResponse) return
