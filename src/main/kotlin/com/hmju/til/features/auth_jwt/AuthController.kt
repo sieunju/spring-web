@@ -6,6 +6,7 @@ import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.features.auth_jwt.model.dto.AuthDTO
 import com.hmju.til.features.auth_jwt.model.dto.JsonWebTokenDTO
 import com.hmju.til.features.auth_jwt.model.vo.AuthVo
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -46,6 +47,7 @@ class AuthController @Autowired constructor(
             .build()
     }
 
+    @SecurityRequirement(name = "JWT Auth")
     @PostMapping("/refresh")
     fun postRefresh(
         @RequestHeader(value = AUTHORIZATION) authorization: String
