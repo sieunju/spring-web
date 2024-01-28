@@ -5,6 +5,7 @@ import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.features.memo.model.dto.MemoDTO
 import com.hmju.til.features.memo.model.vo.MemoVO
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*
  * Created by juhongmin on 12/22/23
  */
 @Tag(name = "Memo", description = "메모 API")
+@SecurityRequirement(name = "JWT Auth")
 @RestController
 @RequestMapping("/api/v1/memo", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")

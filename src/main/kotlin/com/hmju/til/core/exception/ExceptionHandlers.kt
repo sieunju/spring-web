@@ -2,8 +2,6 @@ package com.hmju.til.core.exception
 
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.orm.jpa.JpaSystemException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -19,13 +17,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @Suppress("unused")
 class ExceptionHandlers {
 
-    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
-
     @ExceptionHandler(JSendException::class)
     fun handleJSendException(
         ex: JSendException
     ): JSendResponse<Any, JSendMeta> {
-        logger.info("JSendException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage(ex.msg)
@@ -36,7 +31,6 @@ class ExceptionHandlers {
     fun handleJpaSystemException(
         ex: JpaSystemException
     ): JSendResponse<Any, JSendMeta> {
-        logger.info("JpaSystemException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage("올바르지 않은 데이터 입니다.")
@@ -47,7 +41,6 @@ class ExceptionHandlers {
     fun handleException(
         ex: Exception
     ): JSendResponse<Any, JSendMeta> {
-        logger.info("Exception $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
             .setMessage(ex.message ?: "")
@@ -57,19 +50,17 @@ class ExceptionHandlers {
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgumentException(
         ex: IllegalArgumentException
-    ) : JSendResponse<Any,JSendMeta> {
-        logger.info("IllegalArgumentException $ex")
+    ): JSendResponse<Any, JSendMeta> {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage(ex.message ?: "")
             .build()
     }
 
-    @ExceptionHandler(InvalidJwtException::class)
+    @ExceptionHandler(InvalidAuthException::class)
     fun handleJwtException(
-        ex: InvalidJwtException
+        ex: InvalidAuthException
     ): JSendResponse<Any, JSendMeta> {
-        logger.info("InvalidJwtException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
             .setMessage(ex.message ?: "")

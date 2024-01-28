@@ -1,11 +1,11 @@
 package com.hmju.til.core.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import io.swagger.v3.core.jackson.ModelResolver
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
-import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import io.swagger.v3.oas.annotations.security.SecurityRequirements
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import io.swagger.v3.oas.annotations.security.SecuritySchemes
 import io.swagger.v3.oas.annotations.servers.Server
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpHeaders
 
 
 /**
@@ -30,16 +29,13 @@ import org.springframework.http.HttpHeaders
         Server(url = "https://til.qtzz.synology.me", description = "prod")
     ]
 )
-@SecurityRequirements(value = [SecurityRequirement(name = "JSON Web Token Auth", scopes = [HttpHeaders.AUTHORIZATION])])
 @SecuritySchemes(
     value = [
         SecurityScheme(
             type = SecuritySchemeType.HTTP,
-            name = "JSON Web Token Auth",
-            scheme = "bearer",
-            bearerFormat = "JWT",
-            `in` = SecuritySchemeIn.HEADER,
-            paramName = HttpHeaders.AUTHORIZATION
+            name = "JWT Auth",
+            scheme = "Bearer",
+            bearerFormat = "JWT"
         )
     ]
 )
@@ -55,5 +51,12 @@ class SwaggerConfig {
             .group("API DOCS")
             .pathsToMatch("/api/**")
             .build()
+    }
+
+    @Bean
+    fun modelResolver(
+        objectMapper: ObjectMapper
+    ): ModelResolver {
+        return ModelResolver(objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE))
     }
 }
