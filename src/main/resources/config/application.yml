@@ -31,16 +31,16 @@ spring:
 #    port: 6379
 
 # Logging
-#logging:
-#  file:
-#    name: logs/spring-web.log
-#  level:
-#    file: debug
-#    org:
-#      hibernate:
-#        SQL: debug
-#  pattern:
-#    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+logging:
+  file:
+    name: logs/spring-web.log
+  level:
+    file: debug
+    org:
+      hibernate:
+        SQL: debug
+  pattern:
+    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 
 # File Resource Path
 upload-path:

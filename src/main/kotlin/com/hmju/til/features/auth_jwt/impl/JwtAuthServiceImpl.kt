@@ -9,6 +9,7 @@ import com.hmju.til.features.auth_jwt.model.entity.JsonWebToken
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -55,5 +56,12 @@ internal class JwtAuthServiceImpl @Autowired constructor(
 
     override fun delete(dto: JsonWebTokenDTO) {
         repository.delete(JsonWebToken(dto))
+    }
+
+    @Scheduled(cron = "0 0 0 1/2 * ?", zone = "Asia/Seoul")
+    fun expiredToken() {
+        val list = repository.findExpiredToken()
+        repository.deleteAll(list)
+        logger.info("삭제할 토큰들 작업 완료 했습니다.")
     }
 }

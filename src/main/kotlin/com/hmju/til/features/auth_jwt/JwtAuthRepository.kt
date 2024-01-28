@@ -20,4 +20,10 @@ interface JwtAuthRepository : JpaRepository<JsonWebToken, Long> {
     fun findByToken(
         token: String
     ): JsonWebToken?
+
+    /**
+     * 삭제할 데이터들 조회 하는 함수
+     */
+    @Query(value = "SELECT * FROM JWT_TB WHERE IS_DELETE = true", nativeQuery = true)
+    fun findExpiredToken(): List<JsonWebToken>
 }
