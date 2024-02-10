@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service
  */
 @Service
 @Suppress("unused")
-class MemoServiceImpl @Autowired constructor(
+internal class MemoServiceImpl @Autowired constructor(
     private val repository: MemoRepository
 ) : MemoService {
 

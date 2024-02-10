@@ -4,6 +4,7 @@ import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.features.jsend.model.TestMeta
 import com.hmju.til.features.jsend.model.TestNoticeMeta
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -21,6 +22,7 @@ import kotlin.random.Random
  * Created by juhongmin on 1/13/24
  */
 @Tag(name = "[Test] JSend", description = "JSend Format 테스트용 API")
+@SecurityRequirement(name = "JWT Auth")
 @RestController
 @RequestMapping("/api/v1/til/jsend", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")

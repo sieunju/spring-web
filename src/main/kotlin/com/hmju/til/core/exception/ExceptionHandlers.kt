@@ -6,6 +6,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.orm.jpa.JpaSystemException
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
  * Created by juhongmin on 12/23/23
  */
 @ControllerAdvice
+@Suppress("unused")
 class ExceptionHandlers {
 
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
@@ -23,7 +25,6 @@ class ExceptionHandlers {
     fun handleJSendException(
         ex: JSendException
     ): JSendResponse<Any, JSendMeta> {
-        logger.info("JSendException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage(ex.msg)
@@ -34,7 +35,6 @@ class ExceptionHandlers {
     fun handleJpaSystemException(
         ex: JpaSystemException
     ): JSendResponse<Any, JSendMeta> {
-        logger.info("JpaSystemException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage("올바르지 않은 데이터 입니다.")
@@ -45,10 +45,40 @@ class ExceptionHandlers {
     fun handleException(
         ex: Exception
     ): JSendResponse<Any, JSendMeta> {
-        logger.info("Exception $ex")
+        logger.info("HandleException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
             .setMessage(ex.message ?: "")
+            .build()
+    }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(
+        ex: IllegalArgumentException
+    ): JSendResponse<Any, JSendMeta> {
+        return JSendResponse.Builder<Any, JSendMeta>()
+            .setStatus(HttpStatus.BAD_REQUEST)
+            .setMessage(ex.message ?: "")
+            .build()
+    }
+
+    @ExceptionHandler(InvalidAuthException::class)
+    fun handleJwtException(
+        ex: InvalidAuthException
+    ): JSendResponse<Any, JSendMeta> {
+        return JSendResponse.Builder<Any, JSendMeta>()
+            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+            .setMessage(ex.message ?: "")
+            .build()
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleNotValidException(
+        ex: MethodArgumentNotValidException
+    ): JSendResponse<Any, JSendMeta> {
+        return JSendResponse.Builder<Any, JSendMeta>()
+            .setStatus(HttpStatus.BAD_REQUEST)
+            .setMessage("유효한 값이 없습니다.")
             .build()
     }
 }

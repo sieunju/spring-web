@@ -28,7 +28,8 @@ import javax.sql.DataSource
     basePackages = [
         "com.hmju.til.features.memo",
         "com.hmju.til.features.goods",
-        "com.hmju.til.features.android"
+        "com.hmju.til.features.android",
+        "com.hmju.til.features.auth_jwt"
     ],
     entityManagerFactoryRef = "mainEntityManagerFactory",
     transactionManagerRef = "mainTransactionManagerFactory"
@@ -71,7 +72,8 @@ class MainDataSourceConfig @Autowired constructor(
         em.setPackagesToScan(
             "com.hmju.til.features.memo",
             "com.hmju.til.features.goods",
-            "com.hmju.til.features.android"
+            "com.hmju.til.features.android",
+            "com.hmju.til.features.auth_jwt"
         )
         em.persistenceUnitName = "mainEntityManager"
         val adapter = HibernateJpaVendorAdapter()
