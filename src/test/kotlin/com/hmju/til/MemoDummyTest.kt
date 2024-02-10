@@ -1,7 +1,7 @@
 package com.hmju.til
 
-import com.hmju.til.memo.MemoService
-import com.hmju.til.memo.model.dto.MemoDTO
+import com.hmju.til.features.memo.MemoService
+import com.hmju.til.features.memo.model.dto.MemoDTO
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

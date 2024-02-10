@@ -1,9 +1,9 @@
 package com.hmju.til
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.hmju.til.file.FileService
-import com.hmju.til.goods.GoodsService
-import com.hmju.til.goods.model.dto.GoodsDTO
+import com.hmju.til.features.file.FileService
+import com.hmju.til.features.goods.GoodsService
+import com.hmju.til.features.goods.model.dto.GoodsDTO
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value

@@ -1,6 +1,6 @@
 package com.hmju.til.view
 
-import com.hmju.til.android.AosMemoService
+import com.hmju.til.features.android.AosMemoService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

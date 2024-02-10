@@ -1,10 +1,11 @@
 package com.hmju.til.core.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import io.swagger.v3.core.jackson.ModelResolver
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
-import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import io.swagger.v3.oas.annotations.security.SecurityRequirements
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import io.swagger.v3.oas.annotations.security.SecuritySchemes
 import io.swagger.v3.oas.annotations.servers.Server
@@ -28,13 +29,12 @@ import org.springframework.context.annotation.Configuration
         Server(url = "https://til.qtzz.synology.me", description = "prod")
     ]
 )
-@SecurityRequirements(value = [SecurityRequirement(name = "JSON Web Token Auth")])
 @SecuritySchemes(
     value = [
         SecurityScheme(
             type = SecuritySchemeType.HTTP,
-            name = "JSON Web Token Auth",
-            scheme = "bearer",
+            name = "JWT Auth",
+            scheme = "Bearer",
             bearerFormat = "JWT"
         )
     ]
@@ -51,5 +51,12 @@ class SwaggerConfig {
             .group("API DOCS")
             .pathsToMatch("/api/**")
             .build()
+    }
+
+    @Bean
+    fun modelResolver(
+        objectMapper: ObjectMapper
+    ): ModelResolver {
+        return ModelResolver(objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE))
     }
 }

@@ -28,6 +28,7 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.9")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     /**
      * JPA & mariadb
@@ -36,6 +37,13 @@ dependencies {
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:2.7.4")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+
+    /**
+     * JWT
+     */
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-gson:0.11.5")
 
     /**
      * Swagger
