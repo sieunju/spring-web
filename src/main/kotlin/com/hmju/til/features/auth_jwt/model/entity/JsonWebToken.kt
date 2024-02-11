@@ -31,7 +31,7 @@ data class JsonWebToken(
         id = dto.id ?: 0,
         email = dto.email,
         token = dto.refreshToken,
-        expiredDate = dto.refreshExpiredDate,
+        expiredDate = dto.refreshExpiredAt,
         registerDate = LocalDateTime.now()
     )
 
@@ -39,7 +39,7 @@ data class JsonWebToken(
         id = 0,
         email = info.email,
         token = info.refreshToken,
-        expiredDate = info.refreshExpiredDate,
+        expiredDate = info.refreshExpiredAt,
         registerDate = LocalDateTime.now()
     )
 }

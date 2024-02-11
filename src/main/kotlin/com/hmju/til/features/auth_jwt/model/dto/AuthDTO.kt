@@ -10,23 +10,23 @@ import java.time.LocalDateTime
  */
 data class AuthDTO(
     val accessToken: String,
-    val accessExpiredDate: LocalDateTime,
+    val accessExpiredAt: LocalDateTime,
     val refreshToken: String,
-    val refreshExpiredDate: LocalDateTime
+    val refreshExpiredAt: LocalDateTime
 ) {
     constructor(
         info: JwtInfo
     ) : this(
         accessToken = info.token,
-        accessExpiredDate = info.expiredDate,
+        accessExpiredAt = info.expiredAt,
         refreshToken = info.refreshToken,
-        refreshExpiredDate = info.refreshExpiredDate
+        refreshExpiredAt = info.refreshExpiredAt
     )
 
     constructor(dto: JsonWebTokenDTO) : this(
         accessToken = dto.accessToken,
-        accessExpiredDate = dto.accessExpiredDate,
+        accessExpiredAt = dto.accessExpiredAt,
         refreshToken = dto.refreshToken,
-        refreshExpiredDate = dto.refreshExpiredDate
+        refreshExpiredAt = dto.refreshExpiredAt
     )
 }

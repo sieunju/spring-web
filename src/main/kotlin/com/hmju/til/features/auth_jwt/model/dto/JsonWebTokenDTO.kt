@@ -13,9 +13,9 @@ data class JsonWebTokenDTO(
     val id: Long? = null,
     val email: String,
     val accessToken: String,
-    val accessExpiredDate: LocalDateTime,
+    val accessExpiredAt: LocalDateTime,
     val refreshToken: String,
-    val refreshExpiredDate: LocalDateTime
+    val refreshExpiredAt: LocalDateTime
 ) {
 
     constructor(
@@ -23,8 +23,8 @@ data class JsonWebTokenDTO(
     ) : this(
         email = info.email,
         accessToken = info.token,
-        accessExpiredDate = info.expiredDate,
+        accessExpiredAt = info.expiredAt,
         refreshToken = info.refreshToken,
-        refreshExpiredDate = info.refreshExpiredDate
+        refreshExpiredAt = info.refreshExpiredAt
     )
 }

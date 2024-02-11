@@ -15,16 +15,16 @@ class JwtInfo private constructor(
 
     val email: String
     val token: String
-    val expiredDate: LocalDateTime
+    val expiredAt: LocalDateTime
     val refreshToken: String
-    val refreshExpiredDate: LocalDateTime
+    val refreshExpiredAt: LocalDateTime
 
     init {
         email = builder.email
         token = builder.accessToken
-        expiredDate = builder.accessTokenExpiredAt!!
+        expiredAt = builder.accessTokenExpiredAt!!
         refreshToken = builder.refreshToken
-        refreshExpiredDate = builder.refreshTokenExpiredAt!!
+        refreshExpiredAt = builder.refreshTokenExpiredAt!!
     }
 
     class Builder {
