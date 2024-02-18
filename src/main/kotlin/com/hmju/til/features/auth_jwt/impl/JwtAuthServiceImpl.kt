@@ -10,6 +10,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -23,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional
 internal class JwtAuthServiceImpl @Autowired constructor(
     private val repository: JwtAuthRepository,
     private val jwtComponent: JwtComponent
-) : JwtAuthService {
+) : JwtAuthService, UserDetailsService {
 
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
@@ -56,6 +58,10 @@ internal class JwtAuthServiceImpl @Autowired constructor(
 
     override fun delete(dto: JsonWebTokenDTO) {
         repository.delete(JsonWebToken(dto))
+    }
+
+    override fun loadUserByUsername(username: String?): UserDetails {
+        TODO("Not yet implemented")
     }
 
     @Scheduled(cron = "0 0 0 1/2 * ?", zone = "Asia/Seoul")

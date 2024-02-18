@@ -25,10 +25,10 @@ dependencies {
         exclude(module = "spring-boot-starter-tomcat")
     }
     implementation("org.springframework.boot:spring-boot-starter-undertow")
-    implementation("org.slf4j:slf4j-api:2.0.9")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.slf4j:slf4j-api:2.0.9")
 
     /**
      * JPA & mariadb
@@ -41,6 +41,9 @@ dependencies {
     /**
      * JWT
      */
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-jose")
+
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-gson:0.11.5")

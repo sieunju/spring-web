@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.jwt.JwtEncoder
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.csrf.CsrfFilter
@@ -52,6 +55,9 @@ class SecurityConfig @Autowired constructor(
             }, CsrfFilter::class.java)
             .addFilterBefore(JwtAuthenticationFilter(jwtComponent), UsernamePasswordAuthenticationFilter::class.java)
             .authorizeHttpRequests {
+//                JwtAuthenticationProvider(JwtDecoder {
+//                    return@JwtDecoder
+//                })
                 it.requestMatchers("/api/v1/auth/token").permitAll()
                 it.requestMatchers("/api/v1/auth/refresh").permitAll()
                 it.requestMatchers("/api/v1/memo/aos/**").permitAll()
