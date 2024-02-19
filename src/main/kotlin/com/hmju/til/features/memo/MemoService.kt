@@ -17,7 +17,7 @@ interface MemoService {
      */
     fun fetch(
         pageNo: Int,
-        pageSize: Int
+        pageSize: Int,
     ): List<Memo>
 
     /**
@@ -27,7 +27,7 @@ interface MemoService {
      */
     fun fetchMeta(
         pageNo: Int,
-        pageSize: Int
+        pageSize: Int,
     ): PaginationMeta
 
     /**

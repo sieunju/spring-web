@@ -29,21 +29,20 @@ data class FileEntity(
     @Column(name = "MIME_TYPE", length = 80)
     val mimeType: String? = null,
     @Column(name = "REG_DATE")
-    val registerDate: LocalDateTime? = null
+    val registerDate: LocalDateTime? = null,
 ) {
-
     /**
      * 파일 업로드 이미지 저장이후 Entity 생성자
      */
     constructor(
         file: MultipartFile,
-        uploadPath: String
+        uploadPath: String,
     ) : this(
         id = 0,
         originalName = file.originalFilename,
         path = uploadPath,
         // binary = file.bytes, // 고민후 삭제 할 예정
         mimeType = file.contentType,
-        registerDate = LocalDateTime.now()
+        registerDate = LocalDateTime.now(),
     )
 }

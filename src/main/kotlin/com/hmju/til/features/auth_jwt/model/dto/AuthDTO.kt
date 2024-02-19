@@ -12,21 +12,21 @@ data class AuthDTO(
     val accessToken: String,
     val accessExpiredAt: LocalDateTime,
     val refreshToken: String,
-    val refreshExpiredAt: LocalDateTime
+    val refreshExpiredAt: LocalDateTime,
 ) {
     constructor(
-        info: JwtInfo
+        info: JwtInfo,
     ) : this(
         accessToken = info.token,
         accessExpiredAt = info.expiredAt,
         refreshToken = info.refreshToken,
-        refreshExpiredAt = info.refreshExpiredAt
+        refreshExpiredAt = info.refreshExpiredAt,
     )
 
     constructor(dto: JsonWebTokenDTO) : this(
         accessToken = dto.accessToken,
         accessExpiredAt = dto.accessExpiredAt,
         refreshToken = dto.refreshToken,
-        refreshExpiredAt = dto.refreshExpiredAt
+        refreshExpiredAt = dto.refreshExpiredAt,
     )
 }

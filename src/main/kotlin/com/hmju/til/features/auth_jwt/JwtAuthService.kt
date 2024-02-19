@@ -8,7 +8,6 @@ import com.hmju.til.features.auth_jwt.model.dto.JsonWebTokenDTO
  * Created by juhongmin on 1/26/24
  */
 interface JwtAuthService {
-
     fun save(dto: JsonWebTokenDTO)
 
     fun refresh(token: String): JsonWebTokenDTO

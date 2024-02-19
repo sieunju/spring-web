@@ -21,22 +21,22 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/memo/aos", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")
-class AosMemoController @Autowired constructor(
-    private val service: AosMemoService
-) {
-    @GetMapping
-    fun fetch(): JSendResponse<AosMemoDTO, JSendMeta> {
-        return JSendResponse.Builder<AosMemoDTO, JSendMeta>()
-            .setPayload(service.fetch().map { AosMemoDTO(it) })
-            .build()
-    }
+class AosMemoController
+    @Autowired
+    constructor(
+        private val service: AosMemoService,
+    ) {
+        @GetMapping
+        fun fetch(): JSendResponse<AosMemoDTO, JSendMeta> {
+            return JSendResponse.Builder<AosMemoDTO, JSendMeta>()
+                .setPayload(service.fetch().map { AosMemoDTO(it) })
+                .build()
+        }
 
-    @PostMapping
-    fun post(
-        vo: AosMemoVO
-    ): JSendResponse<AosMemoDTO, JSendMeta> {
-        return JSendResponse.Builder<AosMemoDTO, JSendMeta>()
-            .setPayload(AosMemoDTO(service.post(AosMemoDTO(vo))))
-            .build()
+        @PostMapping
+        fun post(vo: AosMemoVO): JSendResponse<AosMemoDTO, JSendMeta> {
+            return JSendResponse.Builder<AosMemoDTO, JSendMeta>()
+                .setPayload(AosMemoDTO(service.post(AosMemoDTO(vo))))
+                .build()
+        }
     }
-}

@@ -11,14 +11,14 @@ import org.springframework.data.jpa.repository.Query
  */
 @Suppress("unused")
 interface MemoRepository : JpaRepository<Memo, Long> {
-
     /**
      * 범위로 메모 리스트 가져오는 함수
      * @param offset 가져올 인덱스 0부터 시작
      * @param limit 페이지 사이즈
      */
     @Query(
-        value = "SELECT \n" +
+        value =
+            "SELECT \n" +
                 "\t\tmt.memo_id,\n" +
                 "\t\tmt.contents,\n" +
                 "\t\tmt.register_date,\n" +
@@ -29,10 +29,11 @@ interface MemoRepository : JpaRepository<Memo, Long> {
                 "\tfrom\n" +
                 "\t\tMEMO_TB mt\n" +
                 "\torder by mt.MEMO_ID  asc\n" +
-                "\tlimit :limit  OFFSET :offset", nativeQuery = true
+                "\tlimit :limit  OFFSET :offset",
+        nativeQuery = true,
     )
     fun findRange(
         offset: Int,
-        limit: Int
+        limit: Int,
     ): List<Memo>
 }

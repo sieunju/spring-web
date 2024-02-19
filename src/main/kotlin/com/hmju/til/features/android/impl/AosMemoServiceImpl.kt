@@ -14,14 +14,16 @@ import org.springframework.stereotype.Service
  */
 @Service
 @Suppress("unused")
-class AosMemoServiceImpl @Autowired constructor(
-    private val repository: AosMemoRepository
-) : AosMemoService {
-    override fun fetch(): List<AosMemo> {
-        return repository.findAll()
-    }
+class AosMemoServiceImpl
+    @Autowired
+    constructor(
+        private val repository: AosMemoRepository,
+    ) : AosMemoService {
+        override fun fetch(): List<AosMemo> {
+            return repository.findAll()
+        }
 
-    override fun post(vo: AosMemoDTO): AosMemo {
-        return repository.save(AosMemo(vo))
+        override fun post(vo: AosMemoDTO): AosMemo {
+            return repository.save(AosMemo(vo))
+        }
     }
-}

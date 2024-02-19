@@ -14,5 +14,5 @@ data class GoodsVO(
     val id: Long? = null,
     val title: String = "",
     val message: String = "",
-    val imagePath: String = ""
+    val imagePath: String = "",
 )

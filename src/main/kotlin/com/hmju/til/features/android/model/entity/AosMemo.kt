@@ -1,7 +1,12 @@
 package com.hmju.til.features.android.model.entity
 
 import com.hmju.til.features.android.model.dto.AosMemoDTO
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
 import java.time.LocalDateTime
 
 /**
@@ -21,14 +26,14 @@ data class AosMemo(
     @Column(name = "CONTENTS", nullable = false)
     val contents: String = "",
     @Column(name = "REGISTER_DATE")
-    val registerDate: LocalDateTime? = null
+    val registerDate: LocalDateTime? = null,
 ) {
     constructor(
-        dto: AosMemoDTO
+        dto: AosMemoDTO,
     ) : this(
         id = dto.id ?: 0,
         title = dto.title,
         contents = dto.contents,
-        registerDate = dto.registerDate
+        registerDate = dto.registerDate,
     )
 }

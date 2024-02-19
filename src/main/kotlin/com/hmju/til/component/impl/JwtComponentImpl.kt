@@ -21,8 +21,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.time.LocalDateTime
-import java.util.*
-
+import java.util.Date
 
 /**
  * Description : JsonWebToken Provider Class
@@ -32,7 +31,6 @@ import java.util.*
 @Component
 @Suppress("unused")
 internal class JwtComponentImpl : JwtComponent {
-
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @Value("\${jwt.secret-key}")
@@ -51,9 +49,7 @@ internal class JwtComponentImpl : JwtComponent {
      * @param vo RequestBody
      * @return JWT 에 대한 정보를 리턴하는 데이터 모델
      */
-    override fun create(
-        vo: AuthVo
-    ): JwtInfo {
+    override fun create(vo: AuthVo): JwtInfo {
         return JwtInfo.Builder()
             .setEmail(vo.email)
             .setToken(createTokenAndExpired(vo.email, vo.expiredMinute))
@@ -61,9 +57,7 @@ internal class JwtComponentImpl : JwtComponent {
             .build()
     }
 
-    override fun create(
-        entity: JsonWebToken
-    ): JwtInfo {
+    override fun create(entity: JsonWebToken): JwtInfo {
         return JwtInfo.Builder()
             .setEmail(entity.email)
             .setToken(createTokenAndExpired(entity.email, 5))
@@ -75,9 +69,7 @@ internal class JwtComponentImpl : JwtComponent {
         return auth.startsWith("Bearer ")
     }
 
-    override fun getHeaderToken(
-        req: HttpServletRequest
-    ): String? {
+    override fun getHeaderToken(req: HttpServletRequest): String? {
         val auth = req.getHeader(AUTHORIZATION)
         if (auth.isNullOrEmpty()) return null
         if (!isTokenValidate(auth)) throw InvalidAuthException(auth)
@@ -86,11 +78,12 @@ internal class JwtComponentImpl : JwtComponent {
 
     override fun getHeaderToken(auth: String): String {
         // Bearer
-        val originAuth = if (auth.startsWith("Bearer ")) {
-            auth.substring(7)
-        } else {
-            auth
-        }
+        val originAuth =
+            if (auth.startsWith("Bearer ")) {
+                auth.substring(7)
+            } else {
+                auth
+            }
         return originAuth
             .replace(Regex("[+/=]]")) {
                 when (it.value) {
@@ -102,9 +95,7 @@ internal class JwtComponentImpl : JwtComponent {
             }
     }
 
-    override fun isValidate(
-        token: String
-    ): Boolean {
+    override fun isValidate(token: String): Boolean {
         return try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
             true
@@ -116,11 +107,12 @@ internal class JwtComponentImpl : JwtComponent {
 
     override fun isExpired(token: String): Boolean {
         return try {
-            val claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .body
+            val claims =
+                Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .body
             val tokenTime = claims.expiration.toLocalDateTime()
             tokenTime.isBefore(LocalDateTime.now())
         } catch (ex: ExpiredJwtException) {
@@ -131,11 +123,12 @@ internal class JwtComponentImpl : JwtComponent {
     }
 
     override fun getAuthentication(token: String): Authentication {
-        val claims = Jwts.parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(token)
-            .body
+        val claims =
+            Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .body
 //        val authorities: Collection<GrantedAuthority?> =
 //            Arrays.stream(claims["Bearer"].toString().split(",".toRegex()).dropLastWhile { it.isEmpty() }
 //                .toTypedArray())
@@ -145,23 +138,24 @@ internal class JwtComponentImpl : JwtComponent {
         return UsernamePasswordAuthenticationToken(
             claims.subject,
             token,
-            mutableListOf()
+            mutableListOf(),
         )
     }
 
     private fun createTokenAndExpired(
         email: String,
-        expiredMinute: Int
+        expiredMinute: Int,
     ): Pair<String, Date> {
         val now = Date()
         val expired = Date(now.time.plus(expiredMinute * minuteTimeMs))
-        val token = Jwts.builder()
-            .setClaims(mapOf("type" to "JWT"))
-            .setSubject(email)
-            .setIssuedAt(now)
-            .signWith(key)
-            .setExpiration(expired)
-            .compact()
+        val token =
+            Jwts.builder()
+                .setClaims(mapOf("type" to "JWT"))
+                .setSubject(email)
+                .setIssuedAt(now)
+                .signWith(key)
+                .setExpiration(expired)
+                .compact()
         return token to expired
     }
 }

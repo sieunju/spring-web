@@ -27,10 +27,10 @@ data class Memo(
     @Column(name = "CONTENTS", length = 800, nullable = false)
     val contents: String = "",
     @Column(name = "REGISTER_DATE")
-    val registerDate: LocalDateTime? = null
+    val registerDate: LocalDateTime? = null,
 ) {
     constructor(
-        dto: MemoDTO
+        dto: MemoDTO,
     ) : this(
         id = dto.id ?: 0,
         userId = dto.userId ?: "unknown",
@@ -38,6 +38,6 @@ data class Memo(
         num = null,
         title = dto.title,
         contents = dto.contents,
-        registerDate = dto.registerDate
+        registerDate = dto.registerDate,
     )
 }

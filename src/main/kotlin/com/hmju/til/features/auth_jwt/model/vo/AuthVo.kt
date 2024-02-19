@@ -7,5 +7,5 @@ package com.hmju.til.features.auth_jwt.model.vo
  */
 data class AuthVo(
     val email: String = "",
-    val expiredMinute: Int = 5 // 5
+    val expiredMinute: Int = 5, // 5
 )

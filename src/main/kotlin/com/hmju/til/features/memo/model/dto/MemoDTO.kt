@@ -15,27 +15,27 @@ data class MemoDTO(
     val tag: Int? = null,
     val title: String,
     val contents: String,
-    val registerDate: LocalDateTime? = null
+    val registerDate: LocalDateTime? = null,
 ) {
     constructor(
-        entity: Memo
+        entity: Memo,
     ) : this(
         id = entity.id,
         userId = entity.userId,
         tag = entity.tag,
         title = entity.title,
         contents = entity.contents,
-        registerDate = entity.registerDate
+        registerDate = entity.registerDate,
     )
 
     constructor(
-        entity: MemoVO
+        entity: MemoVO,
     ) : this(
         id = entity.id ?: 0,
         userId = entity.userId,
         tag = entity.tag,
         title = entity.title,
         contents = entity.contents,
-        registerDate = LocalDateTime.now()
+        registerDate = LocalDateTime.now(),
     )
 }

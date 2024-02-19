@@ -10,9 +10,8 @@ import java.util.*
  * Created by juhongmin on 1/21/24
  */
 class JwtInfo private constructor(
-    builder: Builder
+    builder: Builder,
 ) {
-
     val email: String
     val token: String
     val expiredAt: LocalDateTime
@@ -60,7 +59,9 @@ class JwtInfo private constructor(
             if (email.isEmpty() ||
                 accessToken.isEmpty() ||
                 refreshToken.isEmpty()
-            ) throw IllegalArgumentException("Token 정보가 부족합니다.")
+            ) {
+                throw IllegalArgumentException("Token 정보가 부족합니다.")
+            }
             return JwtInfo(this)
         }
     }

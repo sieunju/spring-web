@@ -22,52 +22,57 @@ import org.springframework.web.filter.CharacterEncodingFilter
 @Configuration
 @EnableWebSecurity
 @Suppress("unused")
-class SecurityConfig @Autowired constructor(
-    private val jwtComponent: JwtComponent
-) {
-
-    @Bean
-    fun securityFilterChain(
-        http: HttpSecurity
-    ): SecurityFilterChain {
-        return http
-            .cors {
-                it.configurationSource {
-                    val cors = CorsConfiguration()
-                    cors.allowedOrigins = listOf("*")
-                    cors.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                    cors.allowedHeaders = listOf("*")
-                    cors
+class SecurityConfig
+    @Autowired
+    constructor(
+        private val jwtComponent: JwtComponent,
+    ) {
+        @Bean
+        fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+            return http
+                .cors {
+                    it.configurationSource {
+                        val cors = CorsConfiguration()
+                        cors.allowedOrigins = listOf("*")
+                        cors.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        cors.allowedHeaders = listOf("*")
+                        cors
+                    }
                 }
-            }
-            .csrf { it.disable() }
-            .formLogin { it.disable() }
-            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .headers { headers ->
-                headers.frameOptions { it.sameOrigin() }
-                headers.cacheControl { it.disable() }
-            }
-            .addFilterBefore(CharacterEncodingFilter(Charsets.UTF_8.toString()).apply {
-                setForceEncoding(true)
-            }, CsrfFilter::class.java)
-            .addFilterBefore(JwtAuthenticationFilter(jwtComponent), UsernamePasswordAuthenticationFilter::class.java)
-            .authorizeHttpRequests {
-                it.requestMatchers("/api/v1/auth/token").permitAll()
-                it.requestMatchers("/api/v1/auth/refresh").permitAll()
-                it.requestMatchers("/api/v1/memo/aos/**").permitAll()
+                .csrf { it.disable() }
+                .formLogin { it.disable() }
+                .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+                .headers { headers ->
+                    headers.frameOptions { it.sameOrigin() }
+                    headers.cacheControl { it.disable() }
+                }
+                .addFilterBefore(
+                    CharacterEncodingFilter(Charsets.UTF_8.toString()).apply {
+                        setForceEncoding(true)
+                    },
+                    CsrfFilter::class.java,
+                )
+                .addFilterBefore(
+                    JwtAuthenticationFilter(jwtComponent),
+                    UsernamePasswordAuthenticationFilter::class.java,
+                )
+                .authorizeHttpRequests {
+                    it.requestMatchers("/api/v1/auth/token").permitAll()
+                    it.requestMatchers("/api/v1/auth/refresh").permitAll()
+                    it.requestMatchers("/api/v1/memo/aos/**").permitAll()
 
-                // it.requestMatchers("/api/**").authenticated()
-                it.requestMatchers("/v3/api-docs/**").permitAll()
-                it.requestMatchers("/swagger-ui/**").permitAll()
-                it.requestMatchers("/resources/**").permitAll()
+                    // it.requestMatchers("/api/**").authenticated()
+                    it.requestMatchers("/v3/api-docs/**").permitAll()
+                    it.requestMatchers("/swagger-ui/**").permitAll()
+                    it.requestMatchers("/resources/**").permitAll()
 
-                // View Config
-                it.requestMatchers("/views/**").permitAll()
-                it.requestMatchers("/public/css/**").permitAll()
-                it.requestMatchers("/public/js/**").permitAll()
-                it.requestMatchers("/public/resource/**").permitAll()
-                it.anyRequest().authenticated()
-            }
-            .build()
+                    // View Config
+                    it.requestMatchers("/views/**").permitAll()
+                    it.requestMatchers("/public/css/**").permitAll()
+                    it.requestMatchers("/public/js/**").permitAll()
+                    it.requestMatchers("/public/resource/**").permitAll()
+                    it.anyRequest().authenticated()
+                }
+                .build()
+        }
     }
-}

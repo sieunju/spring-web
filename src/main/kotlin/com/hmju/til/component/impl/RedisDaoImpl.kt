@@ -1,23 +1,23 @@
-//package com.hmju.til.component.impl
+// package com.hmju.til.component.impl
 //
-//import com.hmju.til.component.RedisDao
-//import org.springframework.beans.factory.annotation.Autowired
-//import org.springframework.data.redis.core.RedisTemplate
-//import org.springframework.data.redis.core.SetOperations
-//import org.springframework.data.redis.core.ValueOperations
-//import org.springframework.stereotype.Component
-//import java.io.Serializable
+// import com.hmju.til.component.RedisDao
+// import org.springframework.beans.factory.annotation.Autowired
+// import org.springframework.data.redis.core.RedisTemplate
+// import org.springframework.data.redis.core.SetOperations
+// import org.springframework.data.redis.core.ValueOperations
+// import org.springframework.stereotype.Component
+// import java.io.Serializable
 //
-///**
+// /**
 // * Description : Redis Dao Implement Class
 // * 레디스는 아직 추가할 기능이 아니므로 주석 처리합니다.
 // * Created by juhongmin on 1/21/24
 // */
-//@Component
-//@Suppress("unused")
-//internal class RedisDaoImpl @Autowired constructor(
+// @Component
+// @Suppress("unused")
+// internal class RedisDaoImpl @Autowired constructor(
 //    private val template: RedisTemplate<String, String>
-//) : RedisDao {
+// ) : RedisDao {
 //
 //    private val stringOperations: ValueOperations<String, String> by lazy { template.opsForValue() }
 //    private val setOperations: SetOperations<String, String> by lazy { template.opsForSet() }
@@ -46,4 +46,4 @@
 //    override fun removeKey(key: String) {
 //        template.delete(key)
 //    }
-//}
+// }

@@ -14,7 +14,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 @EnableAsync
 @Configuration
 class AsyncConfig {
-
     @Bean(name = ["controllerExecutor"], destroyMethod = "shutdown")
     fun initControllerTaskExecutor(): ThreadPoolTaskExecutor {
         val executor = ThreadPoolTaskExecutor()

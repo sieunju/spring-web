@@ -8,5 +8,5 @@ package com.hmju.til.features.android.model.vo
 data class AosMemoVO(
     val id: Long? = null,
     val title: String = "",
-    val contents: String = ""
+    val contents: String = "",
 )

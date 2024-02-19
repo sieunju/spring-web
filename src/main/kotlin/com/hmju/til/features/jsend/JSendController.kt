@@ -27,7 +27,6 @@ import kotlin.random.Random
 @RequestMapping("/api/v1/til/jsend", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")
 class JSendController {
-
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @GetMapping

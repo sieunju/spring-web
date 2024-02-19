@@ -18,13 +18,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @ControllerAdvice
 @Suppress("unused")
 class ExceptionHandlers {
-
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @ExceptionHandler(JSendException::class)
-    fun handleJSendException(
-        ex: JSendException
-    ): JSendResponse<Any, JSendMeta> {
+    fun handleJSendException(ex: JSendException): JSendResponse<Any, JSendMeta> {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage(ex.msg)
@@ -32,9 +29,7 @@ class ExceptionHandlers {
     }
 
     @ExceptionHandler(JpaSystemException::class)
-    fun handleJpaSystemException(
-        ex: JpaSystemException
-    ): JSendResponse<Any, JSendMeta> {
+    fun handleJpaSystemException(ex: JpaSystemException): JSendResponse<Any, JSendMeta> {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage("올바르지 않은 데이터 입니다.")
@@ -42,9 +37,7 @@ class ExceptionHandlers {
     }
 
     @ExceptionHandler(Exception::class)
-    fun handleException(
-        ex: Exception
-    ): JSendResponse<Any, JSendMeta> {
+    fun handleException(ex: Exception): JSendResponse<Any, JSendMeta> {
         logger.info("HandleException $ex")
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -53,9 +46,7 @@ class ExceptionHandlers {
     }
 
     @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgumentException(
-        ex: IllegalArgumentException
-    ): JSendResponse<Any, JSendMeta> {
+    fun handleIllegalArgumentException(ex: IllegalArgumentException): JSendResponse<Any, JSendMeta> {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage(ex.message ?: "")
@@ -63,9 +54,7 @@ class ExceptionHandlers {
     }
 
     @ExceptionHandler(InvalidAuthException::class)
-    fun handleJwtException(
-        ex: InvalidAuthException
-    ): JSendResponse<Any, JSendMeta> {
+    fun handleJwtException(ex: InvalidAuthException): JSendResponse<Any, JSendMeta> {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
             .setMessage(ex.message ?: "")
@@ -73,9 +62,7 @@ class ExceptionHandlers {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleNotValidException(
-        ex: MethodArgumentNotValidException
-    ): JSendResponse<Any, JSendMeta> {
+    fun handleNotValidException(ex: MethodArgumentNotValidException): JSendResponse<Any, JSendMeta> {
         return JSendResponse.Builder<Any, JSendMeta>()
             .setStatus(HttpStatus.BAD_REQUEST)
             .setMessage("유효한 값이 없습니다.")

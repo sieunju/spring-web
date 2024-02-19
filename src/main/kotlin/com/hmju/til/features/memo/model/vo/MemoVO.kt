@@ -16,5 +16,5 @@ data class MemoVO(
     val userId: String? = null,
     val tag: Int? = null,
     val title: String = "",
-    val contents: String = ""
+    val contents: String = "",
 )

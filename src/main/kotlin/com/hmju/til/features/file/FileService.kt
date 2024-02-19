@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile
  * Created by juhongmin on 12/31/23
  */
 interface FileService {
-
     /**
      * 업로드한 파일 데이터 조회
      * @param pageNo 페이지 번호 (1부터 시작)
@@ -18,7 +17,7 @@ interface FileService {
      */
     fun fetch(
         pageNo: Int,
-        pageSize: Int
+        pageSize: Int,
     ): List<FileEntity>
 
     /**
@@ -28,14 +27,12 @@ interface FileService {
      */
     fun fetchMeta(
         pageNo: Int,
-        pageSize: Int
+        pageSize: Int,
     ): PaginationMeta
 
     /**
      * 업로드할 파일 넣기
      * @param list DB에 넣을 정보
      */
-    fun postAll(
-        list: List<MultipartFile>
-    ): List<FileEntity>
+    fun postAll(list: List<MultipartFile>): List<FileEntity>
 }
