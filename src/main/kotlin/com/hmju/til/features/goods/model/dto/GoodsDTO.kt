@@ -12,23 +12,23 @@ data class GoodsDTO(
     val id: Long? = null,
     val title: String,
     val message: String,
-    val imagePath: String
+    val imagePath: String,
 ) {
     constructor(
-        entity: Goods
+        entity: Goods,
     ) : this(
         id = entity.id,
         title = entity.title,
         message = entity.message,
-        imagePath = entity.imagePath
+        imagePath = entity.imagePath,
     )
 
     constructor(
-        vo: GoodsVO
+        vo: GoodsVO,
     ) : this(
         id = vo.id,
         title = vo.title,
         message = vo.message,
-        imagePath = vo.imagePath
+        imagePath = vo.imagePath,
     )
 }

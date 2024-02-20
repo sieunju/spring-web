@@ -12,5 +12,5 @@ package com.hmju.til.core.model
 open class PaginationMeta(
     open val totalCount: Int = 0,
     open val nextPage: Int? = null,
-    open val currentPage: Int = 1
+    open val currentPage: Int = 1,
 ) : JSendMeta()

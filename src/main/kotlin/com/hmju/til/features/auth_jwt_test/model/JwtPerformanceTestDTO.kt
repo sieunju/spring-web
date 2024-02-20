@@ -7,5 +7,5 @@ package com.hmju.til.features.auth_jwt_test.model
  */
 data class JwtPerformanceTestDTO(
     val message: String = "",
-    val activeCount: Int = 0
+    val activeCount: Int = 0,
 )

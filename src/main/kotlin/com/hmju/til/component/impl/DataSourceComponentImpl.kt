@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component
 @Component
 @Suppress("unused")
 internal class DataSourceComponentImpl : DataSourceComponent {
-
     override fun getPropertiesMap(): Map<String, Any> {
         val map = hashMapOf<String, Any>()
         map["hibernate.use-new-id-generator-mappings"] = false
@@ -23,5 +22,4 @@ internal class DataSourceComponentImpl : DataSourceComponent {
         map["hibernate.use_query_cache"] = false
         return map
     }
-
 }

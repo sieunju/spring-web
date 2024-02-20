@@ -8,5 +8,5 @@ import com.hmju.til.core.model.JSendMeta
  * Created by juhongmin on 1/13/24
  */
 data class TestNoticeMeta(
-    val notice: String
+    val notice: String,
 ) : JSendMeta()

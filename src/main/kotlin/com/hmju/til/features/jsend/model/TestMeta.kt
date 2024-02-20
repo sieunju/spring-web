@@ -9,5 +9,5 @@ import kotlin.random.Random
  * Created by juhongmin on 1/13/24
  */
 data class TestMeta(
-    val metaSize: Int = Random.nextInt()
+    val metaSize: Int = Random.nextInt(),
 ) : JSendMeta()

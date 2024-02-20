@@ -17,13 +17,12 @@ import org.springframework.web.filter.GenericFilterBean
  * Created by juhongmin on 1/16/24
  */
 internal class JwtAuthenticationFilter(
-    private val jwtComponent: JwtComponent
+    private val jwtComponent: JwtComponent,
 ) : GenericFilterBean() {
-
     override fun doFilter(
         req: ServletRequest,
         res: ServletResponse,
-        chain: FilterChain
+        chain: FilterChain,
     ) {
         if (req !is HttpServletRequest) {
             chain.doFilter(req, res)

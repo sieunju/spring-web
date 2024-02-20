@@ -11,15 +11,12 @@ import org.springframework.data.jpa.repository.Query
  */
 @Suppress("unused")
 interface JwtAuthRepository : JpaRepository<JsonWebToken, Long> {
-
     /**
      * Token DB 조회하는 함수
      * @param token 조회할 토큰
      */
     @Query(value = "SELECT * FROM JWT_TB WHERE REFRESH_TOKEN = :token", nativeQuery = true)
-    fun findByToken(
-        token: String
-    ): JsonWebToken?
+    fun findByToken(token: String): JsonWebToken?
 
     /**
      * 삭제할 데이터들 조회 하는 함수

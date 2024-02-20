@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter
 @Component
 @Suppress("unused")
 class UploadFileComponentImpl : UploadFileComponent {
-
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @Value("\${upload-path.image}")
@@ -45,9 +44,7 @@ class UploadFileComponentImpl : UploadFileComponent {
      * MultipartFile contentType 에 따라 정의된 MimeType 리턴하는 함수
      * @param contentType image/jpg, image,png
      */
-    override fun getMimeType(
-        contentType: String?
-    ): UploadFileComponent.MimeType {
+    override fun getMimeType(contentType: String?): UploadFileComponent.MimeType {
         if (contentType.isNullOrEmpty()) return UploadFileComponent.MimeType.ETC
         return UploadFileComponent.MimeType.entries.toTypedArray()
             .firstOrNull { contentType.startsWith(it.value ?: "") }
@@ -75,16 +72,15 @@ class UploadFileComponentImpl : UploadFileComponent {
      * 확장자 타입에 따라 디렉토리 생성하는 함수
      * @param mimeType [image, text, audio, etc]
      */
-    override fun createTypeDirectory(
-        mimeType: UploadFileComponent.MimeType
-    ): String? {
-        val directory = when (mimeType) {
-            UploadFileComponent.MimeType.IMAGE -> imageDirectory
-            UploadFileComponent.MimeType.TEXT -> textDirectory
-            UploadFileComponent.MimeType.AUDIO -> audioDirectory
-            UploadFileComponent.MimeType.ETC -> etcDirectory
-        }
-        val basePath = "${directory}/${LocalDateTime.now().format(dateFormat)}/"
+    override fun createTypeDirectory(mimeType: UploadFileComponent.MimeType): String? {
+        val directory =
+            when (mimeType) {
+                UploadFileComponent.MimeType.IMAGE -> imageDirectory
+                UploadFileComponent.MimeType.TEXT -> textDirectory
+                UploadFileComponent.MimeType.AUDIO -> audioDirectory
+                UploadFileComponent.MimeType.ETC -> etcDirectory
+            }
+        val basePath = "$directory/${LocalDateTime.now().format(dateFormat)}/"
         val path = Paths.get(basePath)
         return if (!Files.exists(path)) {
             try {
@@ -105,7 +101,7 @@ class UploadFileComponentImpl : UploadFileComponent {
      */
     override fun moveToFile(
         file: MultipartFile,
-        targetDirectory: String
+        targetDirectory: String,
     ): String {
         if (file.isEmpty) throw FileNotFoundException("파일이 없습니다.")
         val currentTimeMs = System.currentTimeMillis()
@@ -114,6 +110,6 @@ class UploadFileComponentImpl : UploadFileComponent {
         val destFile = File(path)
         Files.write(Paths.get(destFile.path), file.bytes)
         // 불필요한 디렉토리 경로 지우기
-        return path.replace(baseDirectory,"/resources")
+        return path.replace(baseDirectory, "/resources")
     }
 }

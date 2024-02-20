@@ -13,23 +13,23 @@ data class AosMemoDTO(
     val id: Long? = null,
     val title: String,
     val contents: String,
-    val registerDate: LocalDateTime? = null
+    val registerDate: LocalDateTime? = null,
 ) {
     constructor(
-        entity: AosMemo
+        entity: AosMemo,
     ) : this(
         id = entity.id,
         title = entity.title,
         contents = entity.contents,
-        registerDate = entity.registerDate
+        registerDate = entity.registerDate,
     )
 
     constructor(
-        vo: AosMemoVO
+        vo: AosMemoVO,
     ) : this(
         id = vo.id ?: 0,
         title = vo.title,
         contents = vo.contents,
-        registerDate = LocalDateTime.now()
+        registerDate = LocalDateTime.now(),
     )
 }

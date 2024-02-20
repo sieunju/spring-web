@@ -3,7 +3,7 @@ package com.hmju.til
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
+import java.util.Date
 
 /**
  * Description : Util 확장 함수

@@ -8,6 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository
  *
  * Created by juhongmin on 12/31/23
  */
-interface FileRepository : JpaRepository<FileEntity, Int> {
-
-}
+interface FileRepository : JpaRepository<FileEntity, Int>

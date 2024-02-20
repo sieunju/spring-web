@@ -12,24 +12,19 @@ import org.springframework.security.core.Authentication
  * Created by juhongmin on 1/16/24
  */
 interface JwtComponent {
-
     fun create(vo: AuthVo): JwtInfo
 
-    fun create(entity: JsonWebToken) : JwtInfo
+    fun create(entity: JsonWebToken): JwtInfo
 
-    fun isTokenValidate(auth: String) : Boolean
+    fun isTokenValidate(auth: String): Boolean
 
-    fun getHeaderToken(
-        req: HttpServletRequest
-    ): String?
+    fun getHeaderToken(req: HttpServletRequest): String?
 
-    fun getHeaderToken(
-        auth: String
-    ) : String
+    fun getHeaderToken(auth: String): String
 
     fun isValidate(token: String): Boolean
 
-    fun isExpired(token: String) : Boolean
+    fun isExpired(token: String): Boolean
 
     fun getAuthentication(token: String): Authentication
 }

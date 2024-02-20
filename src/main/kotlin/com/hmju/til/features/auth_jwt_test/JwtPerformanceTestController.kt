@@ -34,39 +34,46 @@ class JwtPerformanceTestController @Autowired constructor(
     @Async("controllerExecutor")
     @GetMapping("/test")
     fun fetchTest(
-        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int
+        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int,
     ): CompletableFuture<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
-        Thread.sleep(delay.toLong())
-        return CompletableFuture.completedFuture(
-            JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
-                .setPayload(JwtPerformanceTestDTO("JWT Token Test ActiveCount", executor.activeCount))
+        return executor.submitCompletable<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
+            Thread.sleep(delay.toLong())
+            return@submitCompletable JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
+                .setPayload(JwtPerformanceTestDTO("JWT Token Test", executor.activeCount))
                 .build()
-        )
+        }
+
+//        Thread.sleep(delay.toLong())
+//        return CompletableFuture.completedFuture(
+//            JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
+//                .setPayload(JwtPerformanceTestDTO("JWT Token Test ActiveCount", executor.activeCount))
+//                .build(),
+//        )
     }
 
     @Async("controllerExecutor")
     @GetMapping("/test1")
     fun fetchTest1(
-        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int
+        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int,
     ): CompletableFuture<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
-        Thread.sleep(delay.toLong())
-        return CompletableFuture.completedFuture(
-            JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
+        return executor.submitCompletable<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
+            Thread.sleep(delay.toLong())
+            return@submitCompletable JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
                 .setPayload(JwtPerformanceTestDTO("JWT Token Test1", executor.activeCount))
                 .build()
-        )
+        }
     }
 
     @Async("controllerExecutor")
     @GetMapping("/test2")
     fun fetchTest2(
-        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int
+        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int,
     ): CompletableFuture<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
-        Thread.sleep(delay.toLong())
-        return CompletableFuture.completedFuture(
-            JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
-                .setPayload(JwtPerformanceTestDTO("JWT Token Test2 ActiveCount", executor.activeCount))
+        return executor.submitCompletable<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
+            Thread.sleep(delay.toLong())
+            return@submitCompletable JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
+                .setPayload(JwtPerformanceTestDTO("JWT Token Test2", executor.activeCount))
                 .build()
-        )
+        }
     }
 }

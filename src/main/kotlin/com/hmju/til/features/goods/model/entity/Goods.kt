@@ -20,14 +20,14 @@ data class Goods(
     @Column(name = "MESSAGE", nullable = false)
     val message: String = "",
     @Column(name = "IMAGE_PATH", nullable = false)
-    val imagePath: String = ""
+    val imagePath: String = "",
 ) {
     constructor(
-        dto: GoodsDTO
+        dto: GoodsDTO,
     ) : this(
         id = dto.id ?: 0,
         title = dto.title,
         message = dto.message,
-        imagePath = dto.imagePath
+        imagePath = dto.imagePath,
     )
 }

@@ -14,16 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping
  */
 @Controller
 @Suppress("unused")
-class WebViewController @Autowired constructor(
-    private val aosMemoService: AosMemoService
-) {
+class WebViewController
+    @Autowired
+    constructor(
+        private val aosMemoService: AosMemoService,
+    ) {
+        private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
-    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
-
-    @GetMapping("/views/memo")
-    fun memoPage(): String {
-        return "memo/index.html"
-    }
+        @GetMapping("/views/memo")
+        fun memoPage(): String {
+            return "memo/index.html"
+        }
 
 //    @GetMapping("/views/android")
 //    fun androidPage(
@@ -41,4 +42,4 @@ class WebViewController @Autowired constructor(
 //        // response.sendRedirect("android/add.html")
 //        response.sendRedirect("./android/add.html")
 //    }
-}
+    }

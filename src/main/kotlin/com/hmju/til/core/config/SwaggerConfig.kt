@@ -15,7 +15,6 @@ import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-
 /**
  * Description : Swagger Config
  *
@@ -26,8 +25,8 @@ import org.springframework.context.annotation.Configuration
     info = Info(title = "TIL API 문서", version = "v1.0.0"),
     servers = [
         Server(url = "http://localhost:10004", description = "local"),
-        Server(url = "https://til.qtzz.synology.me", description = "prod")
-    ]
+        Server(url = "https://til.qtzz.synology.me", description = "prod"),
+    ],
 )
 @SecuritySchemes(
     value = [
@@ -35,13 +34,12 @@ import org.springframework.context.annotation.Configuration
             type = SecuritySchemeType.HTTP,
             name = "JWT Auth",
             scheme = "Bearer",
-            bearerFormat = "JWT"
-        )
-    ]
+            bearerFormat = "JWT",
+        ),
+    ],
 )
 @Suppress("unused")
 class SwaggerConfig {
-
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     @Bean
@@ -54,9 +52,7 @@ class SwaggerConfig {
     }
 
     @Bean
-    fun modelResolver(
-        objectMapper: ObjectMapper
-    ): ModelResolver {
+    fun modelResolver(objectMapper: ObjectMapper): ModelResolver {
         return ModelResolver(objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE))
     }
 }

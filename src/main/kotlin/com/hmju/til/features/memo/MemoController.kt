@@ -23,65 +23,66 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/memo", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")
-class MemoController @Autowired constructor(
-    private val service: MemoService
-) {
+class MemoController
+    @Autowired
+    constructor(
+        private val service: MemoService,
+    ) {
+        private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
-    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
+        /**
+         * 메모 추가 bulk 형식
+         * @param list 추가할 메모 데이터
+         */
+        @PostMapping
+        fun post(
+            @RequestBody list: List<MemoVO>,
+        ): JSendResponse<MemoDTO, JSendMeta> {
+            return JSendResponse.Builder<MemoDTO, JSendMeta>()
+                .setPayload(service.postAll(list.map { MemoDTO(it) }).map { MemoDTO(it) })
+                .build()
+        }
 
-    /**
-     * 메모 추가 bulk 형식
-     * @param list 추가할 메모 데이터
-     */
-    @PostMapping
-    fun post(
-        @RequestBody list: List<MemoVO>
-    ): JSendResponse<MemoDTO, JSendMeta> {
-        return JSendResponse.Builder<MemoDTO, JSendMeta>()
-            .setPayload(service.postAll(list.map { MemoDTO(it) }).map { MemoDTO(it) })
-            .build()
+        /**
+         * 메모 조회
+         * @param pageNo 페이지 번호
+         * @param pageSize 페이지 사이즈
+         */
+        @GetMapping
+        fun fetch(
+            @RequestParam(name = "pageNo", defaultValue = "1") pageNo: Int,
+            @RequestParam(name = "pageSize", defaultValue = "30") pageSize: Int,
+        ): JSendResponse<MemoDTO, PaginationMeta> {
+            return JSendResponse.Builder<MemoDTO, PaginationMeta>()
+                .setMeta(service.fetchMeta(pageNo, pageSize))
+                .setPayload(service.fetch(pageNo, pageSize).map { MemoDTO(it) })
+                .build()
+        }
+
+        /**
+         * 메모 데이터 업데이트
+         * @param list 업데이트할 메모 데이터
+         */
+        @PutMapping
+        fun update(
+            @RequestBody list: List<MemoVO>,
+        ): JSendResponse<MemoDTO, JSendMeta> {
+            return JSendResponse.Builder<MemoDTO, JSendMeta>()
+                .setPayload(service.updateAll(list.map { MemoDTO(it) }).map { MemoDTO(it) })
+                .build()
+        }
+
+        /**
+         * 메모 삭제 bulk 형식
+         * @param ids 삭제할 메모 아이디들
+         */
+        @DeleteMapping
+        fun delete(
+            @RequestParam(name = "ids") ids: List<Long>,
+        ): JSendResponse<MemoDTO, JSendMeta> {
+            return JSendResponse.Builder<MemoDTO, JSendMeta>()
+                .setPayload(service.deleteAll(ids).map { MemoDTO(it) })
+                .setMessage("성공적으로 삭제 완료 했습니다.")
+                .build()
+        }
     }
-
-    /**
-     * 메모 조회
-     * @param pageNo 페이지 번호
-     * @param pageSize 페이지 사이즈
-     */
-    @GetMapping
-    fun fetch(
-        @RequestParam(name = "pageNo", defaultValue = "1") pageNo: Int,
-        @RequestParam(name = "pageSize", defaultValue = "30") pageSize: Int
-    ): JSendResponse<MemoDTO, PaginationMeta> {
-        return JSendResponse.Builder<MemoDTO, PaginationMeta>()
-            .setMeta(service.fetchMeta(pageNo, pageSize))
-            .setPayload(service.fetch(pageNo, pageSize).map { MemoDTO(it) })
-            .build()
-    }
-
-    /**
-     * 메모 데이터 업데이트
-     * @param list 업데이트할 메모 데이터
-     */
-    @PutMapping
-    fun update(
-        @RequestBody list: List<MemoVO>
-    ): JSendResponse<MemoDTO, JSendMeta> {
-        return JSendResponse.Builder<MemoDTO, JSendMeta>()
-            .setPayload(service.updateAll(list.map { MemoDTO(it) }).map { MemoDTO(it) })
-            .build()
-    }
-
-    /**
-     * 메모 삭제 bulk 형식
-     * @param ids 삭제할 메모 아이디들
-     */
-    @DeleteMapping
-    fun delete(
-        @RequestParam(name = "ids") ids: List<Long>
-    ): JSendResponse<MemoDTO, JSendMeta> {
-        return JSendResponse.Builder<MemoDTO, JSendMeta>()
-            .setPayload(service.deleteAll(ids).map { MemoDTO(it) })
-            .setMessage("성공적으로 삭제 완료 했습니다.")
-            .build()
-    }
-}

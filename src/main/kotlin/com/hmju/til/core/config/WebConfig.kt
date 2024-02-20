@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit
 @Configuration
 @Suppress("unused")
 class WebConfig : WebMvcConfigurer {
-
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {

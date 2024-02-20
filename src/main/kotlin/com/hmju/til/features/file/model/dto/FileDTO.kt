@@ -13,26 +13,26 @@ data class FileDTO(
     val originalName: String? = null,
     val path: String,
     val mimeType: String? = null,
-    val registerDate: LocalDateTime? = null
+    val registerDate: LocalDateTime? = null,
 ) {
     constructor(
-        entity: FileEntity
+        entity: FileEntity,
     ) : this(
         id = entity.id,
         originalName = entity.originalName,
         path = entity.path,
         mimeType = entity.mimeType,
-        registerDate = entity.registerDate
+        registerDate = entity.registerDate,
     )
 
     constructor(
         host: String,
-        entity: FileEntity
+        entity: FileEntity,
     ) : this(
         id = entity.id,
         originalName = entity.originalName,
         path = host.plus(entity.path),
         mimeType = entity.mimeType,
-        registerDate = entity.registerDate
+        registerDate = entity.registerDate,
     )
 }

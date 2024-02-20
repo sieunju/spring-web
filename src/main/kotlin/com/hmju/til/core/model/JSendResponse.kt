@@ -9,12 +9,11 @@ import org.springframework.http.ResponseEntity
  * Created by juhongmin on 12/22/23
  */
 class JSendResponse<T, M : JSendMeta> private constructor(
-    builder: Builder<T, M>
+    builder: Builder<T, M>,
 ) : ResponseEntity<Any>(
-    builder.getBody(),
-    builder.status
-) {
-
+        builder.getBody(),
+        builder.status,
+    ) {
     @Suppress("unused")
     class Builder<T, M : JSendMeta> {
         var status: HttpStatus = HttpStatus.OK
@@ -85,24 +84,24 @@ class JSendResponse<T, M : JSendMeta> private constructor(
                 JSendObj(
                     status = this.status == HttpStatus.OK,
                     message = this.message,
-                    data = PayloadObj(obj, this.meta)
+                    data = PayloadObj(obj, this.meta),
                 )
             } else if (list != null) {
                 JSendList(
                     status = this.status == HttpStatus.OK,
                     message = this.message,
-                    data = PayloadList(list, this.meta)
+                    data = PayloadList(list, this.meta),
                 )
             } else if (meta != null) {
                 JSendOnlyMeta(
                     status = this.status == HttpStatus.OK,
                     message = this.message,
-                    data = OnlyMeta(this.meta)
+                    data = OnlyMeta(this.meta),
                 )
             } else {
                 JSendEmpty(
                     status = this.status == HttpStatus.OK,
-                    message = this.message
+                    message = this.message,
                 )
             }
         }
@@ -110,38 +109,38 @@ class JSendResponse<T, M : JSendMeta> private constructor(
         data class JSendList<T, M : JSendMeta>(
             val status: Boolean = true,
             val message: String? = null,
-            val data: PayloadList<T, M>
+            val data: PayloadList<T, M>,
         )
 
         data class JSendObj<T, M : JSendMeta>(
             val status: Boolean = true,
             val message: String? = null,
-            val data: PayloadObj<T, M>
+            val data: PayloadObj<T, M>,
         )
 
         data class PayloadList<T, M : JSendMeta>(
             val payload: List<T>,
-            val meta: M? = null
+            val meta: M? = null,
         )
 
         data class PayloadObj<T, M : JSendMeta>(
             val payload: T,
-            val meta: M? = null
+            val meta: M? = null,
         )
 
         data class OnlyMeta<M : JSendMeta>(
-            val meta: M? = null
+            val meta: M? = null,
         )
 
         data class JSendOnlyMeta<M : JSendMeta>(
             val status: Boolean = true,
             val message: String? = null,
-            val data: OnlyMeta<M>
+            val data: OnlyMeta<M>,
         )
 
         data class JSendEmpty(
             val status: Boolean = true,
-            val message: String? = null
+            val message: String? = null,
         )
 
         /**
