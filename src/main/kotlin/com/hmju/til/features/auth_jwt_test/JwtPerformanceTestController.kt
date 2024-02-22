@@ -8,8 +8,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
@@ -29,9 +29,9 @@ class JwtPerformanceTestController {
 
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
-    @GetMapping("/test")
+    @GetMapping("/test/{delay}")
     fun fetchTest(
-        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int,
+        @PathVariable(name = "delay") delay: Int
     ): Mono<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
         val startTime = System.currentTimeMillis()
         return Mono.delay(Duration.ofMillis(delay.toLong()))
@@ -43,9 +43,9 @@ class JwtPerformanceTestController {
             }
     }
 
-    @GetMapping("/test1")
+    @GetMapping("/test1/{delay}")
     fun fetchTest1(
-        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int,
+        @PathVariable(name = "delay") delay: Int
     ): Mono<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
         val startTime = System.currentTimeMillis()
         return Mono.delay(Duration.ofMillis(delay.toLong()))
@@ -57,23 +57,9 @@ class JwtPerformanceTestController {
             }
     }
 
-    @GetMapping("/test2")
+    @GetMapping("/test2/{delay}")
     fun fetchTest2(
-        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int,
-    ): Mono<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
-        val startTime = System.currentTimeMillis()
-        return Mono.delay(Duration.ofMillis(delay.toLong()))
-            .publishOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
-            .map {
-                JSendResponse.Builder<JwtPerformanceTestDTO, JSendMeta>()
-                    .setPayload(JwtPerformanceTestDTO(startTime))
-                    .build()
-            }
-    }
-
-    @GetMapping("/test3")
-    fun fetchTest3(
-        @RequestParam(name = "time_delay", defaultValue = "0") delay: Int
+        @PathVariable(name = "delay") delay: Int
     ): Mono<JSendResponse<JwtPerformanceTestDTO, JSendMeta>> {
         val startTime = System.currentTimeMillis()
         return Mono.delay(Duration.ofMillis(delay.toLong()))
