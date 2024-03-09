@@ -24,33 +24,31 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/api/v1/uploads", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Suppress("unused")
-class FileController
-    @Autowired
-    constructor(
-        private val service: FileService,
-    ) {
-        private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
+class FileController @Autowired constructor(
+    private val service: FileService
+) {
+    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
-        @Value("\${remote_host}")
-        private lateinit var remoteHost: String
+    @Value("\${remote_host}")
+    private lateinit var remoteHost: String
 
-        @GetMapping
-        fun fetch(
-            @RequestParam(name = "pageNo", defaultValue = "1") pageNo: Int,
-            @RequestParam(name = "pageSize", defaultValue = "30") pageSize: Int,
-        ): JSendResponse<FileDTO, PaginationMeta> {
-            return JSendResponse.Builder<FileDTO, PaginationMeta>()
-                .setPayload(service.fetch(pageNo, pageSize).map { FileDTO(remoteHost, it) })
-                .setMeta(service.fetchMeta(pageNo, pageSize))
-                .build()
-        }
-
-        @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-        fun post(
-            @RequestPart("files", required = true) files: List<MultipartFile>,
-        ): JSendResponse<FileDTO, JSendMeta> {
-            return JSendResponse.Builder<FileDTO, JSendMeta>()
-                .setPayload(service.postAll(files).map { FileDTO(it) })
-                .build()
-        }
+    @GetMapping
+    fun fetch(
+        @RequestParam(name = "pageNo", defaultValue = "1") pageNo: Int,
+        @RequestParam(name = "pageSize", defaultValue = "30") pageSize: Int,
+    ): JSendResponse<FileDTO, PaginationMeta> {
+        return JSendResponse.Builder<FileDTO, PaginationMeta>()
+            .setPayload(service.fetch(pageNo, pageSize).map { FileDTO(remoteHost, it) })
+            .setMeta(service.fetchMeta(pageNo, pageSize))
+            .build()
     }
+
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    fun post(
+        @RequestPart("files", required = true) files: List<MultipartFile>,
+    ): JSendResponse<FileDTO, JSendMeta> {
+        return JSendResponse.Builder<FileDTO, JSendMeta>()
+            .setPayload(service.postAll(files).map { FileDTO(it) })
+            .build()
+    }
+}
