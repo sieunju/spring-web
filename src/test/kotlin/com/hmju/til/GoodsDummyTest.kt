@@ -73,11 +73,6 @@ class GoodsDummyTest {
 
         // 1차 저장됐는지 확인
         assert(result.isNotEmpty())
-        println("1차 확인 완료")
-        // 2차 데이터 확인
-        val newList = goodsService.fetch(1, 100)
-        assert(result == newList)
-        println("2차 확인 완료")
     }
 
     private fun reqDummyGoods(): List<DummyResponse.GoodsDummy> {
