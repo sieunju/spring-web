@@ -1,6 +1,7 @@
 package com.hmju.til.features.file
 
 import com.hmju.til.core.model.PaginationMeta
+import com.hmju.til.features.file.model.dto.FileDTO
 import com.hmju.til.features.file.model.entity.FileEntity
 import org.springframework.web.multipart.MultipartFile
 
@@ -35,4 +36,10 @@ interface FileService {
      * @param list DB에 넣을 정보
      */
     fun postAll(list: List<MultipartFile>): List<FileEntity>
+
+    /**
+     * 파일 삭제
+     *
+     */
+    fun cleaning() : Boolean
 }

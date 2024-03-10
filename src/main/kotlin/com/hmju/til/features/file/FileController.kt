@@ -1,9 +1,12 @@
 package com.hmju.til.features.file
 
+import com.hmju.til.core.exception.JSendException
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.features.file.model.dto.FileDTO
+import com.hmju.til.features.file.model.vo.FileCleaningVO
+import io.swagger.v3.oas.annotations.Hidden
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
@@ -32,6 +35,12 @@ class FileController @Autowired constructor(
     @Value("\${remote_host}")
     private lateinit var remoteHost: String
 
+    @Value("\${file_cleaning.user}")
+    private lateinit var fileCleaningUser: String
+
+    @Value("\${file_cleaning.password}")
+    private lateinit var fileCleaningPassword: String
+
     @GetMapping
     fun fetch(
         @RequestParam(name = "pageNo", defaultValue = "1") pageNo: Int,
@@ -49,6 +58,20 @@ class FileController @Autowired constructor(
     ): JSendResponse<FileDTO, JSendMeta> {
         return JSendResponse.Builder<FileDTO, JSendMeta>()
             .setPayload(service.postAll(files).map { FileDTO(it) })
+            .build()
+    }
+
+    @PostMapping("/cleaning")
+    // @Hidden
+    fun deleteList(
+        @RequestBody body: FileCleaningVO
+    ): JSendResponse<String, JSendMeta> {
+        if (body.user != fileCleaningUser ||
+            body.password != fileCleaningPassword
+        ) throw JSendException(404, "유효하지 않습니다.")
+        service.cleaning()
+        return JSendResponse.Builder<String, JSendMeta>()
+            .setPayload("성공입니다.")
             .build()
     }
 }
