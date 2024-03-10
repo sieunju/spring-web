@@ -2,7 +2,10 @@ package com.hmju.til.features.file.model.entity
 
 import jakarta.persistence.*
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
+import java.nio.file.Files
 import java.time.LocalDateTime
+import kotlin.io.path.toPath
 
 /**
  * Description : File Entity
@@ -29,7 +32,7 @@ data class FileEntity(
     @Column(name = "MIME_TYPE", length = 80)
     val mimeType: String? = null,
     @Column(name = "REG_DATE")
-    val registerDate: LocalDateTime? = null,
+    val registerDate: LocalDateTime? = null
 ) {
     /**
      * 파일 업로드 이미지 저장이후 Entity 생성자
@@ -43,6 +46,23 @@ data class FileEntity(
         path = uploadPath,
         // binary = file.bytes, // 고민후 삭제 할 예정
         mimeType = file.contentType,
-        registerDate = LocalDateTime.now(),
+        registerDate = LocalDateTime.now()
+    )
+
+    constructor(
+        file: File
+    ) : this(
+        id = 0,
+        originalName = file.name.let {
+            val idx = it.lastIndexOf(".")
+            if (idx > 0) {
+                it.substring(0, idx)
+            } else {
+                it
+            }
+        },
+        path = file.path.replace("src/main/resources/files", "/resources"),
+        mimeType = Files.probeContentType(file.toURI().toPath()),
+        registerDate = LocalDateTime.now()
     )
 }

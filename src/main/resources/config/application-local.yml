@@ -3,6 +3,7 @@ server:
   undertow:
     # WAS 는 undertow
     worker-threads: 4
+    max-http-post-size: 300MB
 
 # Local DB Config
 spring:
@@ -24,3 +25,8 @@ remote_host: http://localhost:10004
 # JWT Secret-key
 jwt:
   secret-key: SmdlZzB4bmNBUGdWeWE2TmhwU0hobHBoV20yNTRZQ0xIWlIvQ2dlRGdNOD0K
+
+# File Cleaning
+file_cleaning:
+    user: hello
+    password: 1111
