@@ -3,6 +3,7 @@ server:
   undertow:
     # WAS 는 undertow
     worker-threads: 4
+    max-http-post-size: 300MB
 
 # Local DB Config
 spring:
