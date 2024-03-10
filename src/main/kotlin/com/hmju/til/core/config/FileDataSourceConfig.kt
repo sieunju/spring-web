@@ -71,6 +71,7 @@ class FileDataSourceConfig
             )
             em.persistenceUnitName = "fileEntityManager"
             val adapter = HibernateJpaVendorAdapter()
+            adapter.setGenerateDdl(true)
             em.jpaVendorAdapter = adapter
             em.setJpaPropertyMap(dbComponent.getPropertiesMap())
             return em

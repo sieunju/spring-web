@@ -13,7 +13,7 @@ data class FileDTO(
     val originalName: String? = null,
     val path: String,
     val mimeType: String? = null,
-    val registerDate: LocalDateTime? = null,
+    val registerDate: LocalDateTime? = null
 ) {
     constructor(
         entity: FileEntity,

@@ -25,7 +25,8 @@ spring:
     # File Upload Max Size
   servlet:
     multipart:
-      max-file-size: 50MB
+      max-file-size: 300MB
+      max-request-size: 300MB
 #  redis:
 #    host: localhost
 #    port: 6379
