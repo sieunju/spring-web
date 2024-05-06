@@ -22,7 +22,7 @@ data class FileEntity(
     val id: Long = 0,
     @Column(name = "ORG_NAME")
     val originalName: String? = null,
-    @Column(name = "PATH", length = 80, nullable = false)
+    @Column(name = "PATH", length = 200, nullable = false)
     val path: String = "",
 //    @Lob
 //    @Column(name = "OBJ")
