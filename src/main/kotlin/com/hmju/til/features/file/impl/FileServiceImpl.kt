@@ -5,12 +5,12 @@ import com.hmju.til.core.exception.FileCleaningException
 import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.features.file.FileRepository
 import com.hmju.til.features.file.FileService
+import com.hmju.til.features.file.model.dto.FileCleaningDTO
 import com.hmju.til.features.file.model.entity.FileEntity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -41,12 +41,16 @@ class FileServiceImpl @Autowired constructor(
         pageNo: Int,
         pageSize: Int,
     ): List<FileEntity> {
-        val pageable = PageRequest.of(
-            pageNo.minus(1).coerceAtLeast(0),
-            pageSize,
-            Sort.by("id").ascending(),
-        )
-        return repository.findAll(pageable).content
+//        val pageable = PageRequest.of(
+//            pageNo.minus(1).coerceAtLeast(0),
+//            pageSize,
+//            Sort.by("id").ascending(),
+//        )
+//        return repository.findAll(pageable).content
+        // Start Index 계산
+        var offset = Math.max(pageNo.minus(1), 0)
+        offset *= pageSize
+        return repository.findRange(offset, pageSize)
     }
 
     /**
@@ -91,23 +95,26 @@ class FileServiceImpl @Autowired constructor(
      * 파일 리소스 클리닝 작업 하는 함수
      */
     @Transactional(value = "fileTransactionManagerFactory", rollbackFor = [FileCleaningException::class])
-    override fun cleaning(): Boolean {
-        val findAllFiles = getResourceFiles()
-        val findAllDb = repository.findAll()
+    override fun cleaning(): FileCleaningDTO {
+        val findAllFiles = getResourceFiles(40)
+        val findAllDb = repository.findAll(PageRequest.of(0, 20))
         val addEntityList = mutableListOf<FileEntity>()
         val removeEntityList = mutableListOf<FileEntity>()
         // 전체 파일등중 DB에 없는 리소스 파일 추가
         findAllFiles.forEach { file ->
             val newPath = file.path.replace("src/main/resources/files", "")
             val findDb = findAllDb.find { it.path.contains(newPath) }
-            if (findDb == null) {
+            if (findDb?.binary == null) {
                 addEntityList.add(FileEntity(file))
             }
         }
-        try {
-            repository.saveAll(addEntityList)
-        } catch (ex: Exception) {
-            throw FileCleaningException.Code.SAVE_ADD()
+
+        addEntityList.forEach {
+            try {
+                repository.save(it)
+            } catch (ex: Exception) {
+                logger.error("SaveEntity ${it.id} ${it.path}")
+            }
         }
 
         // DB에서 실제 리스소 파일에 없는 것들 제거
@@ -120,13 +127,18 @@ class FileServiceImpl @Autowired constructor(
                 removeEntityList.add(entity)
             }
         }
+
         try {
             repository.deleteAll(removeEntityList)
         } catch (ex: Exception) {
+            logger.error("Delete Entity Error $ex")
             throw FileCleaningException.Code.DELETE()
         }
 
-        return true
+        return FileCleaningDTO(
+            addFileSize = addEntityList.size,
+            removeFileSize = removeEntityList.size
+        )
     }
 
     /**
@@ -145,7 +157,7 @@ class FileServiceImpl @Autowired constructor(
      * 실제 리소스 디렉토리에 파일들 조회 하는 함수
      */
     @Throws(FileCleaningException::class)
-    private fun getResourceFiles(): List<File> {
+    private fun getResourceFiles(limitSize: Int): List<File> {
         return try {
             val path = Paths.get("./src/main/resources/files")
             Files.walk(path)
@@ -153,6 +165,7 @@ class FileServiceImpl @Autowired constructor(
                 .filter { Files.isRegularFile(it) && !it.endsWith(".DS_Store") }
                 .map { it.toFile() }
                 .toList()
+                .take(limitSize)
         } catch (e: Exception) {
             throw FileCleaningException.Code.FILE_RESOURCE()
         }

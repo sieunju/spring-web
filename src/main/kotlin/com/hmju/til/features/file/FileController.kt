@@ -4,9 +4,9 @@ import com.hmju.til.core.exception.JSendException
 import com.hmju.til.core.model.JSendMeta
 import com.hmju.til.core.model.JSendResponse
 import com.hmju.til.core.model.PaginationMeta
+import com.hmju.til.features.file.model.dto.FileCleaningDTO
 import com.hmju.til.features.file.model.dto.FileDTO
 import com.hmju.til.features.file.model.vo.FileCleaningVO
-import io.swagger.v3.oas.annotations.Hidden
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
@@ -61,17 +61,35 @@ class FileController @Autowired constructor(
             .build()
     }
 
+//    @PostMapping("/cleaning")
+//    // @Hidden
+//    fun fileCleaning(
+//        @RequestBody body: FileCleaningVO
+//    ): Mono<JSendResponse<FileCleaningDTO, JSendMeta>> {
+//        if (body.user != fileCleaningUser ||
+//            body.password != fileCleaningPassword
+//        ) throw JSendException(404, "유효하지 않습니다.")
+//        return Mono.create { emitter ->
+//            val payload = service.cleaning()
+//            emitter.success(payload)
+//        }.subscribeOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
+//            .map {
+//                JSendResponse.Builder<FileCleaningDTO, JSendMeta>()
+//                    .setPayload(it)
+//                    .build()
+//            }
+//    }
+
     @PostMapping("/cleaning")
     // @Hidden
-    fun deleteList(
+    fun fileCleaning(
         @RequestBody body: FileCleaningVO
-    ): JSendResponse<String, JSendMeta> {
+    ): JSendResponse<FileCleaningDTO, JSendMeta> {
         if (body.user != fileCleaningUser ||
             body.password != fileCleaningPassword
         ) throw JSendException(404, "유효하지 않습니다.")
-        service.cleaning()
-        return JSendResponse.Builder<String, JSendMeta>()
-            .setPayload("성공입니다.")
+        return JSendResponse.Builder<FileCleaningDTO, JSendMeta>()
+            .setPayload(service.cleaning())
             .build()
     }
 }
