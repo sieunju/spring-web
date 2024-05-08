@@ -51,6 +51,8 @@ class FileServiceImpl @Autowired constructor(
         var offset = Math.max(pageNo.minus(1), 0)
         offset *= pageSize
         return repository.findRange(offset, pageSize)
+            .map { FileEntity(it) }
+
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.hmju.til.features.file
 
 import com.hmju.til.features.file.model.entity.FileEntity
+import com.hmju.til.features.file.model.entity.FileEntitySkipBinary
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
@@ -25,5 +26,5 @@ interface FileRepository : JpaRepository<FileEntity, Int> {
     fun findRange(
         offset: Int,
         limit: Int
-    ): List<FileEntity>
+    ): List<FileEntitySkipBinary>
 }

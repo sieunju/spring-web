@@ -67,6 +67,16 @@ data class FileEntity(
         registerDate = LocalDateTime.now()
     )
 
+    constructor(
+        entity: FileEntitySkipBinary
+    ) : this(
+        id = entity.id,
+        originalName = entity.org_name,
+        path = entity.path,
+        mimeType = entity.mime_type,
+        registerDate = entity.reg_date
+    )
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
