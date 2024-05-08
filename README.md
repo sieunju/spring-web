@@ -15,7 +15,7 @@
 ## 빌드후 환경별로 서버 실행하는 방법
 1. Build를 실행하고 jar 파일을 특정 디렉토리에 이동합니다.
 ```shell
-./gradlew clean build
+./gradlew clean build -x test
 ./gradlew releaseJar
 ```
 2. 개발 버전
