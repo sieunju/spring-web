@@ -148,7 +148,7 @@ class FileServiceImpl @Autowired constructor(
             try {
                 repository.save(it)
             } catch (ex: Exception) {
-                logger.error("SaveEntity ${it.id} ${it.path}")
+                logger.error("SaveEntity ${it.id} ${it.path} $ex")
             }
         }
 
