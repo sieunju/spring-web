@@ -10,7 +10,6 @@ import com.hmju.til.features.file.model.entity.FileEntity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -98,16 +97,31 @@ class FileServiceImpl @Autowired constructor(
      */
     @Transactional(value = "fileTransactionManagerFactory", rollbackFor = [FileCleaningException::class])
     override fun cleaning(): FileCleaningDTO {
-        val findAllFiles = getResourceFiles(40)
-        val findAllDb = repository.findAll(PageRequest.of(0, 20))
+        val findAllFiles = getResourceFiles()
+        val findAllDb = repository.findAll()
         val addEntityList = mutableListOf<FileEntity>()
         val removeEntityList = mutableListOf<FileEntity>()
+        // [s] 중복된 이미지 경로 삭제 처리
+//        val duplicateList = mutableListOf<String>()
+//        findAllDb.forEach {
+//            if (duplicateList.contains(it.path)) {
+//                repository.deleteById(it.id.toInt())
+//            } else {
+//                duplicateList.add(it.path)
+//            }
+//        }
+        // [e] 중복된 이미지 경로 삭제 처리
+
         // 전체 파일등중 DB에 없는 리소스 파일 추가
         findAllFiles.forEach { file ->
             val newPath = file.path.replace("src/main/resources/files", "")
             val findDb = findAllDb.find { it.path.contains(newPath) }
-            if (findDb?.binary == null) {
+            if (findDb == null) {
+                // 전체 파일중 DB에 없는 타입
                 addEntityList.add(FileEntity(file))
+            } else if (findDb.binary == null) {
+                // 바이너리가 없는 경우
+                addEntityList.add(findDb.copy(binary = Files.readAllBytes(file.toPath())))
             }
         }
 
@@ -119,13 +133,15 @@ class FileServiceImpl @Autowired constructor(
             }
         }
 
+        val resourceFilePaths = findAllFiles
+            .map { it.path.replace("src/main/resources/files", "") }
+            .toMutableSet()
+
         // DB에서 실제 리스소 파일에 없는 것들 제거
         findAllDb.forEach { entity ->
-            val findFile = findAllFiles.find {
-                val newPath = it.path.replace("src/main/resources/files", "")
-                entity.path.contains(newPath)
-            }
-            if (findFile == null) {
+            val findEntity = resourceFilePaths
+                .find { entity.path.contains(it) }
+            if (findEntity == null) {
                 removeEntityList.add(entity)
             }
         }
@@ -159,7 +175,7 @@ class FileServiceImpl @Autowired constructor(
      * 실제 리소스 디렉토리에 파일들 조회 하는 함수
      */
     @Throws(FileCleaningException::class)
-    private fun getResourceFiles(limitSize: Int): List<File> {
+    private fun getResourceFiles(): List<File> {
         return try {
             val path = Paths.get("./src/main/resources/files")
             Files.walk(path)
@@ -167,7 +183,6 @@ class FileServiceImpl @Autowired constructor(
                 .filter { Files.isRegularFile(it) && !it.endsWith(".DS_Store") }
                 .map { it.toFile() }
                 .toList()
-                .take(limitSize)
         } catch (e: Exception) {
             throw FileCleaningException.Code.FILE_RESOURCE()
         }
