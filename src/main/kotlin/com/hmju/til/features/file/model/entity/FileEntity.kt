@@ -24,9 +24,9 @@ data class FileEntity(
     val originalName: String? = null,
     @Column(name = "PATH", length = 200, nullable = false)
     val path: String = "",
-//    @Lob
-//    @Column(name = "OBJ")
-//    val binary: ByteArray? = null,
+    @Lob
+    @Column(name = "OBJ", columnDefinition = "LONGBLOB")
+    val binary: ByteArray? = null,
     @Column(name = "IS_LOCK", nullable = false)
     val isLock: Boolean = false,
     @Column(name = "MIME_TYPE", length = 80)
@@ -44,7 +44,7 @@ data class FileEntity(
         id = 0,
         originalName = file.originalFilename,
         path = uploadPath,
-        // binary = file.bytes, // 고민후 삭제 할 예정
+        binary = file.bytes,
         mimeType = file.contentType,
         registerDate = LocalDateTime.now()
     )
@@ -62,7 +62,49 @@ data class FileEntity(
             }
         },
         path = file.path.replace("src/main/resources/files", "/resources"),
+        binary = Files.readAllBytes(file.toPath()),
         mimeType = Files.probeContentType(file.toURI().toPath()),
         registerDate = LocalDateTime.now()
     )
+
+    constructor(
+        entity: FileEntitySkipBinary
+    ) : this(
+        id = entity.id,
+        originalName = entity.org_name,
+        path = entity.path,
+        mimeType = entity.mime_type,
+        registerDate = entity.reg_date
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as FileEntity
+
+        if (id != other.id) return false
+        if (originalName != other.originalName) return false
+        if (path != other.path) return false
+        if (binary != null) {
+            if (other.binary == null) return false
+            if (!binary.contentEquals(other.binary)) return false
+        } else if (other.binary != null) return false
+        if (isLock != other.isLock) return false
+        if (mimeType != other.mimeType) return false
+        if (registerDate != other.registerDate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + (originalName?.hashCode() ?: 0)
+        result = 31 * result + path.hashCode()
+        result = 31 * result + (binary?.contentHashCode() ?: 0)
+        result = 31 * result + isLock.hashCode()
+        result = 31 * result + (mimeType?.hashCode() ?: 0)
+        result = 31 * result + (registerDate?.hashCode() ?: 0)
+        return result
+    }
 }

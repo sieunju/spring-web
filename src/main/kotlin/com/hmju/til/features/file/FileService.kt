@@ -1,7 +1,7 @@
 package com.hmju.til.features.file
 
 import com.hmju.til.core.model.PaginationMeta
-import com.hmju.til.features.file.model.dto.FileDTO
+import com.hmju.til.features.file.model.dto.FileCleaningDTO
 import com.hmju.til.features.file.model.entity.FileEntity
 import org.springframework.web.multipart.MultipartFile
 
@@ -41,5 +41,5 @@ interface FileService {
      * 파일 삭제
      *
      */
-    fun cleaning() : Boolean
+    fun cleaning() : FileCleaningDTO
 }
