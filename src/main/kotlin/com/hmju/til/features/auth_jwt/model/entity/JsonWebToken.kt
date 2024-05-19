@@ -25,7 +25,7 @@ data class JsonWebToken(
     @Column(name = "REGISTER_DATE", nullable = false)
     val registerDate: LocalDateTime = LocalDateTime.now(),
     @Column(name = "IS_DELETE", nullable = false)
-    val isDelete: Boolean = false, // true 인 경우 하루뒤 삭제하는 스크립트 작성 예정
+    val isDelete: Boolean = false
 ) {
     constructor(dto: JsonWebTokenDTO) : this(
         id = dto.id ?: 0,
