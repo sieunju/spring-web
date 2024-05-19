@@ -16,7 +16,7 @@ interface JwtAuthRepository : JpaRepository<JsonWebToken, Long> {
      * @param token 조회할 토큰
      */
     @Query(value = "SELECT * FROM JWT_TB WHERE REFRESH_TOKEN = :token", nativeQuery = true)
-    fun findByToken(token: String): JsonWebToken?
+    fun findByToken(token: String): List<JsonWebToken>
 
     /**
      * 삭제할 데이터들 조회 하는 함수

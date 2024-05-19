@@ -38,12 +38,15 @@ internal class JwtAuthServiceImpl @Autowired constructor(
     @Transactional(value = "mainTransactionManagerFactory", rollbackFor = [InvalidAuthException::class])
     @Throws(InvalidAuthException::class)
     override fun refresh(token: String): JsonWebTokenDTO {
-        val entity = repository.findByToken(token) ?: throw InvalidAuthException(token)
-        // 1. 삭제 예정으로 변경
-        if (!entity.isDelete) {
-            repository.save(entity.copy(isDelete = true))
+        val list = repository.findByToken(token)
+        list.forEach {
+            // 1. 삭제 예정으로 변경
+            if (!it.isDelete) {
+                repository.save(it.copy(isDelete = true))
+            }
         }
         // 2. Token 재발급
+        val entity = list.getOrNull(0) ?: throw InvalidAuthException(token)
         val info = jwtComponent.create(entity)
         repository.save(JsonWebToken(info))
         return JsonWebTokenDTO(info)
