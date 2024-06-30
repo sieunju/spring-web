@@ -11,6 +11,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -102,7 +103,12 @@ class FileServiceImpl @Autowired constructor(
     @Transactional(value = "fileTransactionManagerFactory", rollbackFor = [FileCleaningException::class])
     override fun cleaning(): FileCleaningDTO {
         val findAllFiles = getResourceFiles()
-        val findAllDb = repository.findAll()
+        val pageable = PageRequest.of(
+            0,
+            20,
+            Sort.by("id").ascending()
+        )
+        val findAllDb = repository.findAll(pageable)
         // [s] DB 에 있는 바이너리들 리소스에 저장
         val filePaths = findAllFiles
             .map { it.path.replace("src/main/resources/files", "/resources") }
