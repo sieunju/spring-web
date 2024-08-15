@@ -39,6 +39,7 @@ internal class JwtAuthServiceImpl @Autowired constructor(
     @Throws(InvalidAuthException::class)
     override fun refresh(token: String): JsonWebTokenDTO {
         val list = repository.findByToken(token)
+        logger.info("Refresh Service List ${list.map { it.id }}")
         list.forEach {
             // 1. 삭제 예정으로 변경
             if (!it.isDelete) {
