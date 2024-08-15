@@ -7,6 +7,7 @@ import com.hmju.til.core.model.PaginationMeta
 import com.hmju.til.features.file.model.dto.FileCleaningDTO
 import com.hmju.til.features.file.model.dto.FileDTO
 import com.hmju.til.features.file.model.vo.FileCleaningVO
+import io.swagger.v3.oas.annotations.Hidden
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.Logger
@@ -81,7 +82,7 @@ class FileController @Autowired constructor(
 //    }
 
     @PostMapping("/cleaning")
-    // @Hidden
+    @Hidden
     fun fileCleaning(
         @RequestBody body: FileCleaningVO
     ): JSendResponse<FileCleaningDTO, JSendMeta> {

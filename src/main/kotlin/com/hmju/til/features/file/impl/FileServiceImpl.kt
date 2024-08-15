@@ -10,6 +10,9 @@ import com.hmju.til.features.file.model.entity.FileEntity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -100,14 +103,25 @@ class FileServiceImpl @Autowired constructor(
     @Transactional(value = "fileTransactionManagerFactory", rollbackFor = [FileCleaningException::class])
     override fun cleaning(): FileCleaningDTO {
         val findAllFiles = getResourceFiles()
-        val findAllDb = repository.findAll()
+        val pageable = PageRequest.of(
+            0,
+            20,
+            Sort.by("id").ascending()
+        )
+        val findAllDb = repository.findAll(pageable)
         // [s] DB 에 있는 바이너리들 리소스에 저장
-       /* val filePaths = findAllFiles
-            .map { it.path.replace("src/main/resources/files","/resources") }
-        findAllDb.forEach { entity->
+        val filePaths = findAllFiles
+            .map { it.path.replace("src/main/resources/files", "/resources") }
+        findAllDb.forEach { entity ->
             if (entity.binary != null && !filePaths.contains(entity.path)) {
                 try {
-                    Files.createFile(Paths.get("./src/main/resources/files${entity.path.replace("/resources","")}"))
+                    val path = "./src/main/resources/files${entity.path.replace("/resources", "")}"
+                    try {
+                        Paths.get(path.substring(0, path.lastIndexOf("/"))).toFile().mkdirs()
+                    } catch (ex: Exception) {
+                        // ignore
+                    }
+                    Files.createFile(Paths.get(path))
                         .runCatching { this.writeBytes(entity.binary) }
                         .onSuccess { logger.info("파일 저장 성공 ${entity.path}") }
                         .onFailure { logger.error("파일 저장 실패 ${entity.path}") }
@@ -115,7 +129,7 @@ class FileServiceImpl @Autowired constructor(
                     logger.info("경로 생성 ${ex.file}")
                 }
             }
-        }*/
+        }
         // [e] DB 에 있는 바이너리들 리소스에 저장
 
         val addEntityList = mutableListOf<FileEntity>()
@@ -132,7 +146,7 @@ class FileServiceImpl @Autowired constructor(
         // [e] 중복된 이미지 경로 삭제 처리
 
         // 전체 파일등중 DB에 없는 리소스 파일 추가
-        findAllFiles.forEach { file ->
+        /*findAllFiles.forEach { file ->
             val newPath = file.path.replace("src/main/resources/files", "")
             val findDb = findAllDb.find { it.path.contains(newPath) }
             if (findDb == null) {
@@ -170,7 +184,7 @@ class FileServiceImpl @Autowired constructor(
         } catch (ex: Exception) {
             logger.error("Delete Entity Error $ex")
             throw FileCleaningException.Code.DELETE()
-        }
+        }*/
 
         return FileCleaningDTO(
             addFileSize = addEntityList.size,

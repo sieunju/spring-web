@@ -43,7 +43,7 @@ dependencies {
      * JPA & mariadb
      */
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:2.7.4")
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.1.4")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
