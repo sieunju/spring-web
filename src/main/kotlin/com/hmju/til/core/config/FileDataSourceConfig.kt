@@ -28,59 +28,59 @@ import javax.sql.DataSource
         "com.hmju.til.features.file",
     ],
     entityManagerFactoryRef = "fileEntityManagerFactory",
-    transactionManagerRef = "fileTransactionManagerFactory",
+    transactionManagerRef = "fileTransactionManagerFactory"
 )
 @Suppress("unused")
 class FileDataSourceConfig
-    @Autowired
-    constructor(
-        private val dbComponent: DataSourceComponent,
-    ) {
-        private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
+@Autowired
+constructor(
+    private val dbComponent: DataSourceComponent,
+) {
+    private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
-        @Value("\${spring.datasource.file.driverClassName}")
-        private lateinit var driverClassName: String
+    @Value("\${spring.datasource.file.driverClassName}")
+    private lateinit var driverClassName: String
 
-        @Value("\${spring.datasource.file.url}")
-        private lateinit var url: String
+    @Value("\${spring.datasource.file.url}")
+    private lateinit var url: String
 
-        @Value("\${spring.datasource.file.username}")
-        private lateinit var username: String
+    @Value("\${spring.datasource.file.username}")
+    private lateinit var username: String
 
-        @Value("\${spring.datasource.file.password}")
-        private lateinit var password: String
+    @Value("\${spring.datasource.file.password}")
+    private lateinit var password: String
 
-        @Bean("fileDataSource")
-        fun getFileDataSource(): DataSource {
-            return DataSourceBuilder.create()
-                .url(url)
-                .driverClassName(driverClassName)
-                .username(username)
-                .password(password)
-                .build()
-        }
-
-        @Bean("fileEntityManagerFactory")
-        fun getFileEntityManager(
-            @Qualifier("fileDataSource") dataSource: DataSource,
-        ): LocalContainerEntityManagerFactoryBean {
-            val em = LocalContainerEntityManagerFactoryBean()
-            em.dataSource = dataSource
-            em.setPackagesToScan(
-                "com.hmju.til.features.file",
-            )
-            em.persistenceUnitName = "fileEntityManager"
-            val adapter = HibernateJpaVendorAdapter()
-            adapter.setGenerateDdl(true)
-            em.jpaVendorAdapter = adapter
-            em.setJpaPropertyMap(dbComponent.getPropertiesMap())
-            return em
-        }
-
-        @Bean("fileTransactionManagerFactory")
-        fun getFileTransactionManager(
-            @Qualifier("fileEntityManagerFactory") factory: EntityManagerFactory,
-        ): PlatformTransactionManager {
-            return JpaTransactionManager(factory)
-        }
+    @Bean("fileDataSource")
+    fun getFileDataSource(): DataSource {
+        return DataSourceBuilder.create()
+            .url(url)
+            .driverClassName(driverClassName)
+            .username(username)
+            .password(password)
+            .build()
     }
+
+    @Bean("fileEntityManagerFactory")
+    fun getFileEntityManager(
+        @Qualifier("fileDataSource") dataSource: DataSource,
+    ): LocalContainerEntityManagerFactoryBean {
+        val em = LocalContainerEntityManagerFactoryBean()
+        em.dataSource = dataSource
+        em.setPackagesToScan(
+            "com.hmju.til.features.file",
+        )
+        em.persistenceUnitName = "fileEntityManager"
+        val adapter = HibernateJpaVendorAdapter()
+        adapter.setGenerateDdl(true)
+        em.jpaVendorAdapter = adapter
+        em.setJpaPropertyMap(dbComponent.getPropertiesMap())
+        return em
+    }
+
+    @Bean("fileTransactionManagerFactory")
+    fun getFileTransactionManager(
+        @Qualifier("fileEntityManagerFactory") factory: EntityManagerFactory
+    ): PlatformTransactionManager {
+        return JpaTransactionManager(factory)
+    }
+}
