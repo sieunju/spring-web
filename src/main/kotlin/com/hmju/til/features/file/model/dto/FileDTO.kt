@@ -16,7 +16,7 @@ data class FileDTO(
     val registerDate: LocalDateTime? = null
 ) {
     constructor(
-        entity: FileEntity,
+        entity: FileEntity
     ) : this(
         id = entity.id,
         originalName = entity.originalName,
@@ -27,7 +27,7 @@ data class FileDTO(
 
     constructor(
         host: String,
-        entity: FileEntity,
+        entity: FileEntity
     ) : this(
         id = entity.id,
         originalName = entity.originalName,
