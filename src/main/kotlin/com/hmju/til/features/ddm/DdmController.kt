@@ -31,15 +31,14 @@ class DdmController @Autowired constructor(
 
     @GetMapping
     fun fetch(): JSendResponse<DdmDTO, JSendMeta> {
-        val list = service.fetch().map { DdmDTO(remoteHost,it) }
-        logger.info("LIST ${list.size}")
+        val list = service.fetch().map { DdmDTO(remoteHost, it) }
         return JSendResponse.Builder<DdmDTO, JSendMeta>()
             .setPayload(service.fetch().map { DdmDTO(remoteHost, it) })
             .build()
     }
 
     @PostMapping(
-        name = "/upload",
+        path = ["/upload"],
         consumes = [MediaType.MULTIPART_FORM_DATA_VALUE]
     )
     fun post(

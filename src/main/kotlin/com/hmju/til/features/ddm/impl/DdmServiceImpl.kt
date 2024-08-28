@@ -24,7 +24,7 @@ class DdmServiceImpl @Autowired constructor(
     private val logger: Logger by lazy { LoggerFactory.getLogger(this.javaClass) }
 
     companion object {
-        const val DIRECTORY = "./src/main/resources/files/ddm"
+        const val DIRECTORY = "./src/main/resources/files"
     }
 
     override fun fetch(): List<DdmEntity> {
@@ -41,7 +41,7 @@ class DdmServiceImpl @Autowired constructor(
         val currentTimeMs = System.currentTimeMillis()
         val originName = removeAfterLastDot(file.originalFilename ?: "")
         val fileName = originName.plus("_${currentTimeMs / 1000}${currentTimeMs % 1000}")
-        val path = DIRECTORY.plus("/${fileName}").plus(".").plus(getFileExtension(file))
+        val path = DIRECTORY.plus("/ddm/").plus(fileName).plus(".").plus(getFileExtension(file))
         val destFile = File(path)
         Files.write(Paths.get(destFile.path), file.bytes)
         val entity = DdmEntity(
@@ -57,7 +57,7 @@ class DdmServiceImpl @Autowired constructor(
     }
 
     private fun createBasePath() {
-        val path = Paths.get(DIRECTORY)
+        val path = Paths.get(DIRECTORY.plus("/ddm"))
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path)
