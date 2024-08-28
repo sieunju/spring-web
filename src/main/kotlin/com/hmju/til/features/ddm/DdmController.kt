@@ -31,7 +31,6 @@ class DdmController @Autowired constructor(
 
     @GetMapping
     fun fetch(): JSendResponse<DdmDTO, JSendMeta> {
-        val list = service.fetch().map { DdmDTO(remoteHost, it) }
         return JSendResponse.Builder<DdmDTO, JSendMeta>()
             .setPayload(service.fetch().map { DdmDTO(remoteHost, it) })
             .build()
@@ -42,12 +41,12 @@ class DdmController @Autowired constructor(
         consumes = [MediaType.MULTIPART_FORM_DATA_VALUE]
     )
     fun post(
-        @RequestPart("files", required = true) file: MultipartFile,
-        @RequestPart("type", required = true) type: String,
-        @RequestPart("version", required = true) version: String
+        @RequestPart("files") file: MultipartFile,
+        @RequestPart("type") type: String,
+        @RequestPart("version", required = false) version: String? = null
     ): JSendResponse<DdmDTO, JSendMeta> {
         return JSendResponse.Builder<DdmDTO, JSendMeta>()
-            .setPayload(DdmDTO(service.save(type, version, file)))
+            .setPayload(DdmDTO(service.save(type, version ?: "unknown", file)))
             .build()
     }
 }
