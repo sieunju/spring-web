@@ -47,7 +47,7 @@ class SwaggerConfig {
         // URL swagger-ui/index.html
         return GroupedOpenApi.builder()
             .group("API DOCS")
-            .pathsToMatch("/api/**")
+            .pathsToMatch("/api/**","/firmware/**")
             .build()
     }
 
