@@ -33,7 +33,7 @@ class DdmServiceImpl @Autowired constructor(
 
     override fun save(
         deviceType: String,
-        version: String,
+        name: String,
         file: MultipartFile
     ): DdmEntity {
         createBasePath()
@@ -46,9 +46,9 @@ class DdmServiceImpl @Autowired constructor(
         Files.write(Paths.get(destFile.path), file.bytes)
         val entity = DdmEntity(
             id = 0,
-            name = file.originalFilename ?: "unknown",
+            name = name,
             type = deviceType,
-            version = version,
+            version = "deprecated",
             path = path.replace(DIRECTORY, "/resources"),
             registerDate = LocalDateTime.now()
         )

@@ -58,7 +58,7 @@ class SecurityConfig @Autowired constructor(
                 it.requestMatchers("/api/v1/auth/token").permitAll()
                 it.requestMatchers("/api/v1/auth/refresh").permitAll()
                 it.requestMatchers("/api/v1/memo/aos/**").permitAll()
-                it.requestMatchers("/api/v1/firmwares/**").permitAll()
+                it.requestMatchers("/firmware/**").permitAll()
 
                 // it.requestMatchers("/api/**").authenticated()
                 it.requestMatchers("/v3/api-docs/**").permitAll()

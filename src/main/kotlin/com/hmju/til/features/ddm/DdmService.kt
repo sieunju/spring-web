@@ -13,7 +13,7 @@ interface DdmService {
 
     fun save(
         deviceType: String,
-        version: String,
+        name: String,
         file: MultipartFile
     ): DdmEntity
 }
