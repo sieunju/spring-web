@@ -43,7 +43,7 @@ class DdmController @Autowired constructor(
         val name: String,
         val file: String,
         val deviceType: String,
-        val updateAt: LocalDateTime
+        val uploadAt: LocalDateTime
     ) {
         constructor(
             host: String,
@@ -53,7 +53,7 @@ class DdmController @Autowired constructor(
             name = entity.name,
             file = host.plus(entity.path),
             deviceType = entity.type,
-            updateAt = entity.registerDate
+            uploadAt = entity.registerDate
         )
     }
 
